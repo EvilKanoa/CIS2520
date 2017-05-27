@@ -26,7 +26,7 @@ things you need to change for each project
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "Testing and Code Conventions example"
+PROJECT_NAME           = "Lab 1: LinkedList ADT"
 
 
 # The INPUT tag is used to specify the files and/or directories that contain
