@@ -65,6 +65,9 @@ void insertBack(List *list, void *toBeAdded)
 
 void deleteList(List *list)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *node = list->head;
     while (node != NULL) {
         list->deleteData(node->data);
@@ -77,6 +80,9 @@ void deleteList(List *list)
 
 void insertSorted(List *list, void *toBeAdded)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *node = list->head;
     if (node == NULL) {
         insertFront(list, toBeAdded);
@@ -104,6 +110,9 @@ void insertSorted(List *list, void *toBeAdded)
 
 int deleteDataFromList(List *list, void *toBeDeleted)
 {
+    if (list == NULL) {
+        return EXIT_FAILURE;
+    }
     Node *node = list->head;
     if (node == NULL) {
         return EXIT_FAILURE;
@@ -134,16 +143,19 @@ int deleteDataFromList(List *list, void *toBeDeleted)
 
 void *getFromFront(List *list)
 {
-    return list->head == NULL ? NULL : list->head->data;
+    return list == NULL ? NULL : (list->head == NULL ? NULL : list->head->data);
 }
 
 void *getFromBack(List *list)
 {
-    return list->tail == NULL ? NULL : list->tail->data;
+    return list == NULL ? NULL : (list->tail == NULL ? NULL : list->tail->data);
 }
 
 void printForward(List *list)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *node = list->head;
     while (node != NULL) {
         list->printData(node->data);
@@ -153,6 +165,9 @@ void printForward(List *list)
 
 void printBackwards(List *list)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *node = list->tail;
     while (node != NULL) {
         list->printData(node->data);
