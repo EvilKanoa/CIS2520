@@ -33,6 +33,9 @@ Node *initializeNode(void *data)
 
 void insertFront(List *list, void *toBeAdded)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *newNode = initializeNode(toBeAdded);
     newNode->next = list->head;
     if (list->head != NULL) {
@@ -46,6 +49,9 @@ void insertFront(List *list, void *toBeAdded)
 
 void insertBack(List *list, void *toBeAdded)
 {
+    if (list == NULL) {
+        return;
+    }
     Node *newNode = initializeNode(toBeAdded);
     newNode->previous = list->tail;
     if (list->tail != NULL) {
