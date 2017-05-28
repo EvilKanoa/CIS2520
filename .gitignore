@@ -53,3 +53,6 @@ dkms.conf
 
 # OS Files
 .DS_Store
+
+# Other Stuff
+*/docs/
