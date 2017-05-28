@@ -1,0 +1,17 @@
+To use this selfTest program:
+
+1. You must be using a debian system.  It was compiled on the SOcS debian servers.  It WILL NOT WORK on other operating systems.
+
+2. Put your source code for your linked list in the src directory. DO NOT put any code with a main in it in that directory.  Only your linked list functions. The makefile will handle multiple c files if you have spread your list across multiple files.
+
+3. If you have .h files OTHER than LinkedListAPI.h put those in the include directory.  Do not change the LinkedListAPI.h file.
+
+4. Type make
+
+5. Type bin/runTests
+
+The results from the testing will display on the screen.  This is the same test harness we will use to grade your lab.  If we make changes prior to grading they will only be fixes to errors we might not have found yet in the test harness.
+
+How this works:
+
+I have compiled the autograder into a static library which means you can connect to it with the -l flag to gcc.  You can see how I've done that by looking at the target in the makefile.
