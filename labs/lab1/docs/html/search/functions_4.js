@@ -1,8 +1,0 @@
-var searchData=
-[
-  ['initializelist',['initializeList',['../LinkedListAPI_8h.html#a62add6a4e99f0dff291983429bc723ef',1,'initializeList(void(*printFunction)(void *toBePrinted), void(*deleteFunction)(void *toBeDeleted), int(*compareFunction)(const void *first, const void *second)):&#160;linkedlist.c'],['../linkedlist_8c.html#a62add6a4e99f0dff291983429bc723ef',1,'initializeList(void(*printFunction)(void *toBePrinted), void(*deleteFunction)(void *toBeDeleted), int(*compareFunction)(const void *first, const void *second)):&#160;linkedlist.c']]],
-  ['initializenode',['initializeNode',['../LinkedListAPI_8h.html#a1f97560bb77496690b9bb600c9d793ee',1,'initializeNode(void *data):&#160;linkedlist.c'],['../linkedlist_8c.html#a1f97560bb77496690b9bb600c9d793ee',1,'initializeNode(void *data):&#160;linkedlist.c']]],
-  ['insertback',['insertBack',['../LinkedListAPI_8h.html#afd96360bb8bc96b5be7e2c5bf00d6bee',1,'insertBack(List *list, void *toBeAdded):&#160;linkedlist.c'],['../linkedlist_8c.html#afd96360bb8bc96b5be7e2c5bf00d6bee',1,'insertBack(List *list, void *toBeAdded):&#160;linkedlist.c']]],
-  ['insertfront',['insertFront',['../LinkedListAPI_8h.html#a2ee6d31ae2c69ed0c7952be1f5633ba8',1,'insertFront(List *list, void *toBeAdded):&#160;linkedlist.c'],['../linkedlist_8c.html#a2ee6d31ae2c69ed0c7952be1f5633ba8',1,'insertFront(List *list, void *toBeAdded):&#160;linkedlist.c']]],
-  ['insertsorted',['insertSorted',['../LinkedListAPI_8h.html#a34497de4d0db0b37b4e8683256f41b75',1,'insertSorted(List *list, void *toBeAdded):&#160;linkedlist.c'],['../linkedlist_8c.html#a34497de4d0db0b37b4e8683256f41b75',1,'insertSorted(List *list, void *toBeAdded):&#160;linkedlist.c']]]
-];
