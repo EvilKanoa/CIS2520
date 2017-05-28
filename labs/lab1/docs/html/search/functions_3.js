@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['printbackwards',['printBackwards',['../LinkedListAPI_8h.html#ae31c341dbee4ea0ecf307476304a8750',1,'printBackwards(List *list):&#160;linkedlist.c'],['../linkedlist_8c.html#ae31c341dbee4ea0ecf307476304a8750',1,'printBackwards(List *list):&#160;linkedlist.c']]],
-  ['printforward',['printForward',['../LinkedListAPI_8h.html#a3f8bda02985d59886112a079d7778a04',1,'printForward(List *list):&#160;linkedlist.c'],['../linkedlist_8c.html#a3f8bda02985d59886112a079d7778a04',1,'printForward(List *list):&#160;linkedlist.c']]]
+  ['getfromback',['getFromBack',['../LinkedListAPI_8h.html#ae9e342a1ac0eaf0412c69292c684e6c3',1,'getFromBack(List *list):&#160;linkedlist.c'],['../linkedlist_8c.html#ae9e342a1ac0eaf0412c69292c684e6c3',1,'getFromBack(List *list):&#160;linkedlist.c']]],
+  ['getfromfront',['getFromFront',['../LinkedListAPI_8h.html#aed6180e91efc5e85ad98095b0e561d39',1,'getFromFront(List *list):&#160;linkedlist.c'],['../linkedlist_8c.html#aed6180e91efc5e85ad98095b0e561d39',1,'getFromFront(List *list):&#160;linkedlist.c']]]
 ];

@@ -63,7 +63,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">testing.c File Reference</div>  </div>
 </div><!--header-->
@@ -73,13 +75,42 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="LinkedListAPI_8h_source.html">../include/LinkedListAPI.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="KTest_8h_source.html">../include/KTest.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a3b6a35b8be8405a9db72cc5dea97954b"><td class="memItemLeft" align="right" valign="top"><a id="a3b6a35b8be8405a9db72cc5dea97954b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PROGRAM_NAME</b>&#160;&#160;&#160;&quot;LinkedList Library&quot;</td></tr>
+<tr class="separator:a3b6a35b8be8405a9db72cc5dea97954b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ab47c870e2cbd0fd741c9d9a3db76ab4d"><td class="memItemLeft" align="right" valign="top"><a id="ab47c870e2cbd0fd741c9d9a3db76ab4d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>printFunction</b> (void *data)</td></tr>
+<tr class="separator:ab47c870e2cbd0fd741c9d9a3db76ab4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a56aceaa9969abaf7645599505e70b"><td class="memItemLeft" align="right" valign="top"><a id="a87a56aceaa9969abaf7645599505e70b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>deleteFunction</b> (void *data)</td></tr>
+<tr class="separator:a87a56aceaa9969abaf7645599505e70b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5040f8d8d3c539c926453b84e00a25b7"><td class="memItemLeft" align="right" valign="top"><a id="a5040f8d8d3c539c926453b84e00a25b7"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>compareFunction</b> (const void *first, const void *second)</td></tr>
+<tr class="separator:a5040f8d8d3c539c926453b84e00a25b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top"><a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> ()</td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a67111b3433ba2cc288691a7bbef6126d"><td class="memItemLeft" align="right" valign="top"><a id="a67111b3433ba2cc288691a7bbef6126d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>deleteCount</b> = 0</td></tr>
+<tr class="separator:a67111b3433ba2cc288691a7bbef6126d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60d4505128b79f0f2447965b38fce002"><td class="memItemLeft" align="right" valign="top"><a id="a60d4505128b79f0f2447965b38fce002"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>printCount</b> = 0</td></tr>
+<tr class="separator:a60d4505128b79f0f2447965b38fce002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7b0ef73a7204233e1c29e05971862d2"><td class="memItemLeft" align="right" valign="top"><a id="ad7b0ef73a7204233e1c29e05971862d2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>shouldPrintDelete</b></td></tr>
+<tr class="separator:ad7b0ef73a7204233e1c29e05971862d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing tests for a doubly linked list. </p>

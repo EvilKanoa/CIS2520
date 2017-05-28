@@ -12,8 +12,8 @@ cppcheck:
 	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
 
 #this is the target for building one main with a library  
-test: src/testing.c src/linkedlist.c
-	$(CC) $(CFLAGS) src/testing.c src/linkedlist.c  -Iinclude -o bin/test
+test: src/testing.c src/linkedlist.c src/KTest.c
+	$(CC) $(CFLAGS) src/testing.c src/linkedlist.c src/KTest.c  -Iinclude -o bin/test
 
 doxy: Doxyfile
 	doxygen
