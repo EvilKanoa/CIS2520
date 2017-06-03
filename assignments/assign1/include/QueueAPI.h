@@ -11,6 +11,11 @@
 
 #include "LinkedListAPI.h"
 
+typedef struct QueueStruct {
+    List *list;
+    Node *front;
+    Node *back;
+    int length;
+} Queue;
 
-
- #endif _QUEUE_API_
+ #endif
