@@ -1,0 +1,21 @@
+****************************************************
+Kanoa Haley                             0956712
+CIS*2520                                Lab Project 1
+khaley@mail.uoguelph.ca                 May 27, 2017
+****************************************************
+
+************************
+Program Description
+************************
+This project implements a simple doubly linked list of any data type in C.
+
+************
+Compilation
+************
+To compile, simply include "LinkedListAPI.h" in your source files and compile with the "linkedlist.c" file.
+
+****************************
+Known Limitations, Issues and Errors
+****************************
+At the moment there are no known issues with this project.
+
