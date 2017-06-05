@@ -74,4 +74,11 @@ void begin(TestingContext *context);
  */
 void done(TestingContext *context);
 
+/**
+ * Prints a line of information related to the current tests
+ * @pre context should have already been created with newContext
+ * @param string the line of info to be printed
+ */
+void tprint(TestingContext *context, char *string);
+
 #endif

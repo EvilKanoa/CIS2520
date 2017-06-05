@@ -5,6 +5,7 @@ CFLAGS      =	-Wall -std=c99 -pedantic -g
 
 # List of source files to be included in compilation
 SRC = linkedlist.c	\
+      queue.c		\
       KTest.c
 
 #compiles the main program
