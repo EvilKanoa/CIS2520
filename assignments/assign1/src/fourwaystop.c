@@ -137,10 +137,9 @@ int main(int argc, char *argv[])
     Queue *intersection = queueCreate(printArrival, deleteArrival);
     while (queueLength(roads[0]) + queueLength(roads[1]) + queueLength(roads[2]) +
             queueLength(roads[3]) > 0) {
-        printf("");
         Queue *activeRoad = rightOfWay(roads);
         Arrival *activeCar = (Arrival *) queuePeak(activeRoad);
-        if (activeCar->stopTime <= time + FLOAT_CMP) {
+        if (activeCar != NULL && activeCar->stopTime <= time + FLOAT_CMP) {
             dequeue(activeRoad);
             activeCar->departureTime = time;
             enqueue(intersection, activeCar);
@@ -159,11 +158,11 @@ int main(int argc, char *argv[])
 
     // output the report and finish up
     report(intersection);
-    free(intersection);
-    free(roads[0]);
-    free(roads[1]);
-    free(roads[2]);
-    free(roads[3]);
+    queueDestroy(intersection);
+    queueDestroy(roads[0]);
+    queueDestroy(roads[1]);
+    queueDestroy(roads[2]);
+    queueDestroy(roads[3]);
 
     return 0;
 }
@@ -171,7 +170,7 @@ int main(int argc, char *argv[])
 Queue *rightOfWay(Queue **roads)
 {
     // determine if there was a car that arrived first
-    Queue *earlist;
+    Queue *earlist = NULL;
     float earlyTime = 0;
     int i;
     for (i = 0; i < 4; i++) {
