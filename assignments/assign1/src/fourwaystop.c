@@ -13,16 +13,25 @@
 #include "../include/QueueAPI.h"
 #include "../include/LinkedListAPI.h"
 
+#define FLOAT_CMP 0.01
+
 /**
  * Contains all the information for a car arriving at an intersection.
  */
 typedef struct arrivalData {
     char road;
     char turn;
-    int intersectionTime;
-    float stopTime;
-    float departureTime;
+    int intersectionTime; /* the time that is listed in the data file */
+    float stopTime;       /* the time in which the car reaches the front of the queue */
+    float departureTime;  /* the time when the car begins crossing the intersection */
 } Arrival;
+
+/**
+ * Calculates which road has the car with the right of way
+ * @param roads an array of four queues for each road which may have the right of way
+ * @return the queue with the car that has the right of way
+ */
+Queue *rightOfWay(Queue **roads);
 
 /**
  * Checks the ability of a queue's front car to turn relative to the car on it's
@@ -102,17 +111,23 @@ int main(int argc, char *argv[])
 
     // read file and sort input
     Queue *input = queueFromList(readFile(argv[1]));
-    Queue *north = queueCreate(printArrival, deleteArrival);
-    Queue *east = queueCreate(printArrival, deleteArrival);
-    Queue *south = queueCreate(printArrival, deleteArrival);
-    Queue *west = queueCreate(printArrival, deleteArrival);
+    Queue *roads[4];
+    roads[0] = queueCreate(printArrival, deleteArrival);
+    roads[1] = queueCreate(printArrival, deleteArrival);
+    roads[2] = queueCreate(printArrival, deleteArrival);
+    roads[3] = queueCreate(printArrival, deleteArrival);
     while (queueLength(input) > 0) {
         Arrival *curr = (Arrival *) dequeue(input);
+        Queue *road;
         switch (curr->road) {
-            case 'N': enqueue(north, curr); break;
-            case 'E': enqueue(east, curr); break;
-            case 'S': enqueue(south, curr); break;
-            case 'W': enqueue(west, curr); break;
+            case 'N': road = roads[0]; break;
+            case 'E': road = roads[1]; break;
+            case 'S': road = roads[2]; break;
+            case 'W': road = roads[3]; break;
+        }
+        enqueue(road, curr);
+        if (queueLength(road) == 1) {
+            curr->stopTime = curr->intersectionTime;
         }
     }
     queueDestroy(input);
@@ -120,63 +135,63 @@ int main(int argc, char *argv[])
     // begin the simulation
     float time = 1;
     Queue *intersection = queueCreate(printArrival, deleteArrival);
-    Arrival *arrival;
-    while (queueLength(north) + queueLength(east) + queueLength(south) +
-            queueLength(west) > 0) {
-        if (turnStatus(north, east, time) == 0) {
-            arrival = dequeue(north);
-            arrival->stopTime = arrival->stopTime == -1 ? time : arrival->stopTime;
-            arrival->departureTime = time;
-            time += timeForTurn(arrival->turn);
-            enqueue(intersection, arrival);
-        } else if (turnStatus(east, south, time) == 0) {
-            arrival = dequeue(east);
-            arrival->stopTime = arrival->stopTime == -1 ? time : arrival->stopTime;
-            arrival->departureTime = time;
-            time += timeForTurn(arrival->turn);
-            enqueue(intersection, arrival);
-        } else if (turnStatus(south, west, time) == 0) {
-            arrival = dequeue(south);
-            arrival->stopTime = arrival->stopTime == -1 ? time : arrival->stopTime;
-            arrival->departureTime = time;
-            time += timeForTurn(arrival->turn);
-            enqueue(intersection, arrival);
-        } else if (turnStatus(west, north, time) == 0) {
-            arrival = dequeue(west);
-            arrival->stopTime = arrival->stopTime == -1 ? time : arrival->stopTime;
-            arrival->departureTime = time;
-            time += timeForTurn(arrival->turn);
-            enqueue(intersection, arrival);
+    while (queueLength(roads[0]) + queueLength(roads[1]) + queueLength(roads[2]) +
+            queueLength(roads[3]) > 0) {
+        printf("");
+        Queue *activeRoad = rightOfWay(roads);
+        Arrival *activeCar = (Arrival *) queuePeak(activeRoad);
+        if (activeCar->stopTime <= time + FLOAT_CMP) {
+            dequeue(activeRoad);
+            activeCar->departureTime = time;
+            enqueue(intersection, activeCar);
+            if (queuePeak(activeRoad) != NULL) {
+                if (((Arrival *) queuePeak(activeRoad))->intersectionTime <= time) {
+                    ((Arrival *) queuePeak(activeRoad))->stopTime = time;
+                } else {
+                    ((Arrival *) queuePeak(activeRoad))->stopTime = ((Arrival *) queuePeak(activeRoad))->intersectionTime;
+                }
+            }
+            time += timeForTurn(activeCar->turn);
+        } else {
+            time += 1;
         }
     }
 
     // output the report and finish up
     report(intersection);
     free(intersection);
-    free(north);
-    free(east);
-    free(south);
-    free(west);
+    free(roads[0]);
+    free(roads[1]);
+    free(roads[2]);
+    free(roads[3]);
 
     return 0;
 }
 
-// 0 is free to turn, 1 is not arrived, 2 is not have right of way, 3 is not exists
-int turnStatus(Queue *check, Queue *right, float time)
+Queue *rightOfWay(Queue **roads)
 {
-    Arrival *checkArrival = (Arrival *) queuePeak(check);
-    Arrival *blockArrival = (Arrival *) queuePeak(right);
-    if (checkArrival == NULL) {
-        return 3;
-    } else if (checkArrival->intersectionTime > time) {
-        return 1;
-    } else if (blockArrival != NULL &&
-            blockArrival->intersectionTime <= checkArrival->intersectionTime) {
-        checkArrival->stopTime = time;
-        return 2;
-    } else {
-        return 0;
+    // determine if there was a car that arrived first
+    Queue *earlist;
+    float earlyTime = 0;
+    int i;
+    for (i = 0; i < 4; i++) {
+        if (queuePeak(roads[i]) == NULL) {
+            continue;
+        } else if (((Arrival *) queuePeak(roads[i]))->stopTime < earlyTime) {
+            earlist = roads[i];
+            earlyTime = ((Arrival *) queuePeak(earlist))->stopTime;
+        } else if ((((Arrival *) queuePeak(roads[i]))->stopTime - earlyTime) < FLOAT_CMP) {
+            earlist = NULL;
+        }
     }
+    if (earlist != NULL) {
+        return earlist;
+    } else {
+        for (int i = 0; i < 4; i++) {
+            if (queuePeak(roads[i]) != NULL) return roads[i];
+        }
+    }
+    return NULL;
 }
 
 float timeForTurn(char turn)
