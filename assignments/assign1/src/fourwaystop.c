@@ -252,7 +252,7 @@ List *readFile(char *filename)
 
     while (!feof(in))
     {
-        if (fscanf(in, "%c %c %d\n", &road, &turn, &time) != 3) {
+        if (fscanf(in, "%c %c %8d\n", &road, &turn, &time) != 3) {
             break;
         }
         Arrival *tempArrival = malloc(sizeof(Arrival));
