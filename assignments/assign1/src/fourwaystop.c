@@ -56,11 +56,11 @@ List *readFile(char *filename);
 void report(Queue *intersection);
 
 /**
- * Generates a string representing the data within the arrival
+ * Generates a string representing the data within the arrival and outputs it to a gven stream
  * @param arrival the data to use to generate from
- * @return string representation of the arrival struct
+ * @param stream the output stream to send the arrival text too
  */
-char *serializeArrival(Arrival *arrival);
+void serializeArrival(FILE *stream, Arrival *arrival);
 
 /**
  * Displays the data contained in an arrival struct
@@ -106,9 +106,8 @@ int main(int argc, char *argv[])
     Queue *east = queueCreate(printArrival, deleteArrival);
     Queue *south = queueCreate(printArrival, deleteArrival);
     Queue *west = queueCreate(printArrival, deleteArrival);
-    Arrival *curr;
     while (queueLength(input) > 0) {
-        curr = (Arrival *) dequeue(input);
+        Arrival *curr = (Arrival *) dequeue(input);
         switch (curr->road) {
             case 'N': enqueue(north, curr); break;
             case 'E': enqueue(east, curr); break;
@@ -201,14 +200,13 @@ List *readFile(char *filename)
     char road;
     char turn;
     int time;
-    Arrival *tempArrival;
 
     while (!feof(in))
     {
         if (fscanf(in, "%c %c %d\n", &road, &turn, &time) != 3) {
             break;
         }
-        tempArrival = malloc(sizeof(Arrival));
+        Arrival *tempArrival = malloc(sizeof(Arrival));
         tempArrival->road = road;
         tempArrival->turn = turn;
         tempArrival->intersectionTime = time;
@@ -231,12 +229,12 @@ void report(Queue *intersection)
     int nCount = 0, eCount = 0, sCount = 0, wCount = 0;
 
     Node *node = intersection->list->head;
-    float wait;
     Arrival *arrival;
     while (node != NULL) {
         arrival = (Arrival *) node->data;
-        duelPrint(out, "%s", serializeArrival(arrival));
-        wait = arrival->departureTime - arrival->intersectionTime;
+        serializeArrival(out, arrival);
+        serializeArrival(stdout, arrival);
+        float wait = arrival->departureTime - arrival->intersectionTime;
         if (wait > maxWait) {
             maxWait = wait;
         }
@@ -274,20 +272,18 @@ void report(Queue *intersection)
     fclose(out);
 }
 
-char *serializeArrival(Arrival *arrival)
+void serializeArrival(FILE *stream, Arrival *arrival)
 {
-    char *string = malloc(sizeof(char) * 101);
-    sprintf(string,
+    fprintf(stream,
         "%c %c %d (Car on road %c arrived at %d and stopped at %.1f then turned %c at %.1f)\n",
         arrival->road, arrival->turn, arrival->intersectionTime, arrival->road,
         arrival->intersectionTime, arrival->stopTime, arrival->turn,
         arrival->departureTime);
-    return string;
 }
 
 void printArrival(void *arrival)
 {
-    printf("%s", serializeArrival((Arrival *) arrival));
+    serializeArrival(stdout, (Arrival *) arrival);
 }
 
 void deleteArrival(void *arrival)
