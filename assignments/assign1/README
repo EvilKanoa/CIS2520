@@ -1,21 +1,36 @@
 ****************************************************
 Kanoa Haley                             0956712
-CIS*2520                                Lab Project 1
-khaley@mail.uoguelph.ca                 May 27, 2017
+CIS*2520                                Assignment 1
+khaley@mail.uoguelph.ca                 June 5, 2017
 ****************************************************
 
-************************
+*******************
 Program Description
-************************
-This project implements a simple doubly linked list of any data type in C.
+*******************
+Provides a simulation of a four way stop intersection using a queue based ADT.
 
-************
+***********
 Compilation
-************
-To compile, simply include "LinkedListAPI.h" in your source files and compile with the "linkedlist.c" file.
+***********
+To compile you will need the LinkedList and Queue API headers as well as the
+implementations. Then you can compile using fourwaystop.c as the main.
 
-****************************
+************************************
 Known Limitations, Issues and Errors
-****************************
-At the moment there are no known issues with this project.
+************************************
+- The simulation does not account for cars being able to go at once when in
+opposite directions and both going forward.
+- The right of way formula is not always correct and sometimes allows cars to
+go in an unrealistic order.
 
+**********
+Complexity
+**********
+The Big O notation for each QueueAPI function.
+- queueCreate: O(1)
+- queueFromList: O(1)
+- queueDestroy: O(n)
+- enqueue: O(1)
+- dequeue: O(1)
+- queuePeak: O(1)
+- queueLength: O(n)

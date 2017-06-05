@@ -18,6 +18,15 @@ Queue *queueCreate(void (*printFunction)(void *toBePrinted), void (*deleteFuncti
     return queue;
 }
 
+Queue *queueFromList(List *data)
+{
+    Queue *queue = malloc(sizeof(Queue));
+    queue->list = data;
+    queue->front = getFromFront(data);
+    queue->length = -1;
+    return queue;
+}
+
 void queueDestroy(Queue *queue)
 {
     deleteList(queue->list);
@@ -37,14 +46,19 @@ void enqueue(Queue *queue, void *data)
 
 void *dequeue(Queue *queue)
 {
-    if (queue->length == 0) {
+    if (queueLength(queue) == 0) {
         return NULL;
     }
     void *data = getFromFront(queue->list);
-    queue->list->head = queue->list->head->next;
-    queue->list->head->previous = NULL;
+    if (queueLength(queue) > 1) {
+        queue->list->head = queue->list->head->next;
+        queue->list->head->previous = NULL;
+        queue->front = getFromFront(queue->list);
+    } else {
+        queue->list->head = NULL;
+        queue->front = NULL;
+    }
     queue->length--;
-    queue->front = getFromFront(queue->list);
     return data;
 }
 
@@ -59,5 +73,15 @@ void *queuePeak(Queue *queue)
 
 int queueLength(Queue *queue)
 {
+    if (queue->length < 0) {
+        // need to calculate size of queue
+        Node *node = queue->list->head;
+        int length = 0;
+        while (node != NULL) {
+            length++;
+            node = node->next;
+        }
+        queue->length = length;
+    }
     return queue->length;
 }

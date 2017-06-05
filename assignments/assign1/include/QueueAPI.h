@@ -31,6 +31,14 @@ typedef struct queueContainer {
 Queue *queueCreate(void (*printFunction)(void *toBePrinted), void (*deleteFunction)(void *toBeDeleted));
 
 /**
+ * Function to create a new queue backed by a supplied linked list
+ * @pre data must be an already initialized list
+ * @post a queue is created with data from the list
+ * @return newly created queue
+ */
+Queue *queueFromList(List *data);
+
+/**
  * Function to destory and free a previously created queue
  * @pre queue must be a created queue
  * @post queue is destoryed and all associated memory is freed
