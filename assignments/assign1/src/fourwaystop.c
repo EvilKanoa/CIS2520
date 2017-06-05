@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // read file and sort input
+    /* read file and sort input */
     Queue *input = queueFromList(readFile(argv[1]));
     Queue *roads[4];
     roads[0] = queueCreate(printArrival, deleteArrival);
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     }
     queueDestroy(input);
 
-    // begin the simulation
+    /* begin the simulation */
     float time = 1;
     Queue *intersection = queueCreate(printArrival, deleteArrival);
     while (queueLength(roads[0]) + queueLength(roads[1]) + queueLength(roads[2]) +
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    // output the report and finish up
+    /* output the report and finish up */
     report(intersection);
     queueDestroy(intersection);
     queueDestroy(roads[0]);
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 
 Queue *rightOfWay(Queue **roads)
 {
-    // determine if there was a car that arrived first
+    /* determine if there was a car that arrived first */
     Queue *ready;
     int carsReady[4];
     carsReady[0] = 0; carsReady[1] = 0; carsReady[2] = 0; carsReady[3] = 0;
@@ -219,7 +219,7 @@ Queue *rightOfWay(Queue **roads)
         return roads[0];
     }
 
-    // if the right of way algorithm somehow fails this will choose some road which works
+    /* if the right of way algorithm somehow fails this will choose some road which works */
     for (int i = 0; i < 4; i++) {
         if (queuePeak(roads[i]) != NULL) {
             return roads[i];
