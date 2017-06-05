@@ -170,24 +170,59 @@ int main(int argc, char *argv[])
 Queue *rightOfWay(Queue **roads)
 {
     // determine if there was a car that arrived first
-    Queue *earlist = NULL;
-    float earlyTime = 0;
+    Queue *ready;
+    int carsReady[4];
+    carsReady[0] = 0; carsReady[1] = 0; carsReady[2] = 0; carsReady[3] = 0;
+    int carsReadyCount = 0;
     int i;
     for (i = 0; i < 4; i++) {
         if (queuePeak(roads[i]) == NULL) {
             continue;
-        } else if (((Arrival *) queuePeak(roads[i]))->stopTime < earlyTime) {
-            earlist = roads[i];
-            earlyTime = ((Arrival *) queuePeak(earlist))->stopTime;
-        } else if ((((Arrival *) queuePeak(roads[i]))->stopTime - earlyTime) < FLOAT_CMP) {
-            earlist = NULL;
+        } else if (carsReadyCount == 0 ||
+                ((Arrival *) queuePeak(roads[i]))->stopTime < ((Arrival *) queuePeak(ready))->stopTime) {
+            carsReady[0] = 0; carsReady[1] = 0; carsReady[2] = 0; carsReady[3] = 0;
+            carsReadyCount = 1;
+            carsReady[i] = 1;
+            ready = roads[i];
+        } else if ((((Arrival *) queuePeak(roads[i]))->stopTime - ((Arrival *) queuePeak(ready))->stopTime) < FLOAT_CMP) {
+            carsReady[i] = 1;
+            carsReadyCount++;
         }
     }
-    if (earlist != NULL) {
-        return earlist;
-    } else {
-        for (int i = 0; i < 4; i++) {
-            if (queuePeak(roads[i]) != NULL) return roads[i];
+
+    /* describes the location of the cars that are equal in arrival to the front of their queue time.
+     * considers each car ready or not as a binary digit. */
+    int carsReadyDescriptor = (carsReady[0] * 1) +
+                              (carsReady[1] * 2) +
+                              (carsReady[2] * 4) +
+                              (carsReady[3] * 8);
+
+    if (carsReadyCount == 1) {
+        return ready;
+    } else if (carsReadyCount == 2) {
+        switch (carsReadyDescriptor) {
+            case (1 * 1) + (1 * 2) + (0 * 4) + (0 * 8):
+            case (1 * 1) + (0 * 2) + (1 * 4) + (0 * 8): return roads[0];
+            case (1 * 1) + (0 * 2) + (0 * 4) + (1 * 8): return roads[3];
+            case (0 * 1) + (1 * 2) + (1 * 4) + (0 * 8):
+            case (0 * 1) + (1 * 2) + (0 * 4) + (1 * 8): return roads[1];
+            case (0 * 1) + (0 * 2) + (1 * 4) + (1 * 8): return roads[2];
+        }
+    } else if (carsReadyCount == 3) {
+        switch (carsReadyDescriptor) {
+            case (1 * 1) + (1 * 2) + (1 * 4) + (0 * 8): return roads[0];
+            case (1 * 1) + (1 * 2) + (0 * 4) + (1 * 8): return roads[3];
+            case (1 * 1) + (0 * 2) + (1 * 4) + (1 * 8): return roads[2];
+            case (0 * 1) + (1 * 2) + (1 * 4) + (1 * 8): return roads[1];
+        }
+    } else if (carsReadyCount == 4) {
+        return roads[0];
+    }
+
+    // if the right of way algorithm somehow fails this will choose some road which works
+    for (int i = 0; i < 4; i++) {
+        if (queuePeak(roads[i]) != NULL) {
+            return roads[i];
         }
     }
     return NULL;

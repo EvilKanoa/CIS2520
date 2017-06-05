@@ -1,0 +1,30 @@
+********
+Timeline
+********
+N F 1 (Car on road N arrived at 1 and stopped at 1.0 then turned F at 1.0)
+E R 2 (Car on road E arrived at 2 and stopped at 2.0 then turned R at 3.0)
+S F 2 (Car on road S arrived at 2 and stopped at 2.0 then turned F at 4.5)
+W R 2 (Car on road W arrived at 2 and stopped at 2.0 then turned R at 6.5)
+N F 3 (Car on road N arrived at 3 and stopped at 3.0 then turned F at 8.0)
+W F 3 (Car on road W arrived at 3 and stopped at 6.5 then turned F at 10.0)
+N L 9 (Car on road N arrived at 9 and stopped at 9.0 then turned L at 12.0)
+W L 5 (Car on road W arrived at 5 and stopped at 10.0 then turned L at 15.5)
+N R 11 (Car on road N arrived at 11 and stopped at 12.0 then turned R at 19.0)
+W R 8 (Car on road W arrived at 8 and stopped at 15.5 then turned R at 20.5)
+W F 15 (Car on road W arrived at 15 and stopped at 20.5 then turned F at 22.0)
+
+***********************
+Maximum Wait Time: 12.50
+***********************
+
+***********************
+Average Wait Time: 1.14
+***********************
+
+******************
+Average Wait Times
+******************
+North: 4.00
+East: 1.00
+South: 2.50
+West: 8.30
