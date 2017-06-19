@@ -1,0 +1,2 @@
+make test
+./bin/test

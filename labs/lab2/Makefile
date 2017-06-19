@@ -1,7 +1,7 @@
 CC          =	gcc
 # Flags that are sent to the compiler  change the std if you wish
 
-CFLAGS      =	-Wall -std=c99 -pedantic -g
+CFLAGS      =	-Wall -ansi -pedantic -g
 
 # List of source files to be included in compilation
 SRC = KTest.c \
