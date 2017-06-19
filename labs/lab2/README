@@ -1,48 +1,21 @@
 ****************************************************
 Kanoa Haley                             0956712
-CIS*2520                                Assignment 1
-khaley@mail.uoguelph.ca                 June 5, 2017
+CIS*2520                                Lab 2
+khaley@mail.uoguelph.ca                 June 18, 2017
 ****************************************************
 
 *******************
 Program Description
 *******************
-Provides a simulation of a four way stop intersection using a queue based ADT.
-To run the simulation, you must supply a file containing the time of arrival
-for each car at an intersection as well as the road they are traveling on and
-the direction they want to turn. This data must be supplied in a format where
-the direction of the road they are traveling on comes first, represented by
-either 'N' (for north), 'E' (for east), 'S' (for south), or 'W' (for west).
-Followed by the direction they want to turn which is represented by either 'L'
-(for left), 'R' (for right), or 'F' (forward). Finally, a time is given as an
-integer in seconds indicting when the driver arrives at the intersection. This
-data will tend to look like the following:
-N F 1
-S F 2
-E R 2
-W R 2
-W F 3
-N F 3
-N L 9
-N R 11
-W L 5
-W R 8
-W F 15
-
-This simulation assumes that it takes 2 seconds to go forward through the
-intersection, 1.5 seconds to turn right and 3.5 seconds to turn left.
+This program provides an implementation of a basic hash table as well
+as the programs to test the implementation.
 
 ***********
 Compilation
 ***********
-For compilation, you will need the LinkedList and Queue API headers as well as
-the implementations which are supplied in this package.
-Use `make` to compile the simulation program. It will create an executable in
-the bin/ directory called `fourwaystop` which can then be ran using
-`fourwaystop <data file>`.
-Use `make test` to compile the tests for the Queue API. It will create an
-executable in the bin/ directory called `test` which can be ran without any
-arguments. This file will run unit tests for the queue and display the results.
+Use `make` or `make test` to compile the testing program and the hash table API. 
+It will create an executable in the bin/ directory called `test` which can then 
+be ran without any arguments to run unit tests on the API and display the results.
 Use `make cppcheck` to run the C style checker over every .c file in the
 project.
 Use `make doxy` to run doxygen based on the Doxyfile and generate documentation
@@ -53,40 +26,3 @@ from the project.
 ************************************
 Known Limitations, Issues and Errors
 ************************************
-- The simulation does not account for cars being able to go at once when in
-  opposite directions and both going forward.
-- The right of way formula is not always correct and sometimes allows cars to
-  go in an unrealistic order.
-
-**********
-Complexity
-**********
-The Big O notation for each QueueAPI function.
-
-queueCreate: O(1)
-- No matter what size queue you want, the creation always does the same thing
-  since it only needs to initialize the list.
-
-queueFromList: O(1)
-- The size of the list of data does not matter since the queue assigns the list
-  as it's underlaying data and doesn't iterate over it at all.
-
-queueDestroy: O(n)
-- Must iterate over every node to run the destroy operation.
-
-enqueue: O(1)
-- Takes advantage of the LinkedListAPI's insertBack function which directly
-  uses the tail node. Therefore no iteration occurs.
-
-dequeue: O(1)
-- Simply removes the current item at the front of the list. No iteration is
-  required.
-
-queuePeak: O(1)
-- Performs similarly to dequeue without actually removing the item. Same O(1)
-  time as dequeue.
-
-queueLength: O(n)
-- Typically only returns the length variable of a queue but if the queue was
-  from a list it will need to calculate the size which requires iterating over
-  the entire list.
