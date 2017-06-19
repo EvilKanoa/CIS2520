@@ -31,9 +31,9 @@ void test(TestingContext *context, char *description, int result)
 
 void section(TestingContext *context, char *section)
 {
+    int i;
     context->section = section;
     printf("\n");
-    int i;
     for (i = 0; i < (strlen(section) * 2); i++) {
         printf("*");
     }

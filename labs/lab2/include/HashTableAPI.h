@@ -16,9 +16,9 @@
 **/
 typedef struct Node
 {
-	int key; ///< integer that represents a piece of data in the table (eg 35->"hello")
-	void *data; ///< pointer to generic data that is to be stored in the hash table
-	struct Node *next; ///< pointer to the next Node if a collision is detected
+	int key; /* integer that represents a piece of data in the table (eg 35->"hello") */
+	void *data; /* pointer to generic data that is to be stored in the hash table */
+	struct Node *next; /* pointer to the next Node if a collision is detected */
 } Node;
 
 /**
@@ -26,11 +26,11 @@ typedef struct Node
 **/
 typedef struct HTable
 {
-	size_t size; ///< number that represents the size of the hash table
-	Node **table; ///< array that contains all of the table nodes
-	void (*destroyData)(void *data); ///< function pointer to a function to delete a single piece of data from the hash table
-	int (*hashFunction)(size_t tableSize, int key); ///< function pointer to a function to hash the data 
-    void (*printData)(void *toBePrinted); ///< function pointer to a function that prints out a data element of the table
+	size_t size; /* number that represents the size of the hash table */
+	Node **table; /* array that contains all of the table nodes */
+	void (*destroyData)(void *data); /* function pointer to a function to delete a single piece of data from the hash table */
+	int (*hashFunction)(size_t tableSize, int key); /* function pointer to a function to hash the data */
+    void (*printData)(void *toBePrinted); /* function pointer to a function that prints out a data element of the table */
 }HTable;
 
 

@@ -30,16 +30,19 @@ Node *createNode(int key, void *data)
 
 void destroyTable(HTable *hashTable)
 {
+    int i;
+    Node *tmp;
+    Node *deleteNode;
+
     if (hashTable == NULL) {
         return;
     }
 
-    int i;
     for (i = 0; i < hashTable->size; i++) {
-        Node *tmp = hashTable->table[i];
+        tmp = hashTable->table[i];
 
         while (tmp != NULL) {
-            Node *deleteNode = tmp;
+            deleteNode = tmp;
             tmp = tmp->next;
             hashTable->destroyData(deleteNode->data);
             free(deleteNode);
@@ -52,17 +55,21 @@ void destroyTable(HTable *hashTable)
 
 void insertData(HTable *hashTable, int key, void *data)
 {
+    Node *node;
+    Node *tmp;
+    int index;
+
     if (hashTable == NULL) {
         return;
     }
 
-    Node *node = createNode(key, data);
-    int index = hashTable->hashFunction(hashTable->size, key);
+    node = createNode(key, data);
+    index = hashTable->hashFunction(hashTable->size, key);
 
     if (hashTable->table[index] == NULL || hashTable->table[index]->key == key) {
         hashTable->table[index] = node;
     } else {
-        Node *tmp = hashTable->table[index];
+        tmp = hashTable->table[index];
         while (tmp->next != NULL) {
             tmp = tmp->next;
         }
@@ -72,18 +79,22 @@ void insertData(HTable *hashTable, int key, void *data)
 
 void removeData(HTable *hashTable, int key)
 {
+    Node *node;
+    Node *previous;
+    int index;
+
     if (hashTable == NULL) {
         return;
     }
 
-    int index = hashTable->hashFunction(hashTable->size, key);
-    Node *node = hashTable->table[index];
+    index = hashTable->hashFunction(hashTable->size, key);
+    node = hashTable->table[index];
 
     if (node == NULL) {
         return;
     }
 
-    Node *previous = NULL;
+    previous = NULL;
     while (node->key != key) {
         if (node->next == NULL) {
             return;
@@ -104,12 +115,15 @@ void removeData(HTable *hashTable, int key)
 
 void *lookupData(HTable *hashTable, int key)
 {
+    Node *node;
+    int index;
+
     if (hashTable == NULL) {
         return NULL;
     }
 
-    int index = hashTable->hashFunction(hashTable->size, key);
-    Node *node = hashTable->table[index];
+    index = hashTable->hashFunction(hashTable->size, key);
+    node = hashTable->table[index];
 
     if (node == NULL) {
         return NULL;
@@ -121,4 +135,6 @@ void *lookupData(HTable *hashTable, int key)
         }
         node = node->next;
     }
+
+    return NULL;
 }

@@ -19,24 +19,24 @@ void printData(void *data);
 
 int main()
 {
-    TestingContext *context = newContext(PROGRAM_NAME);
-    begin(context);
-
-    size_t size = 10;
+    int size = 10;
     char *data1 = "myData 1";
     char *data2 = "myData 2";
     char *data3 = "myData 3";
     void *ptr1 = (void *) data1;
     void *ptr2 = (void *) data2;
     void *ptr3 = (void *) data3;
-
-    /* Testing: hashtable#createNode */
-    section(context, "createNode");
-
     Node *node1 = createNode(1, ptr1);
     Node *node2 = createNode(-100, ptr2);
     Node *node3 = createNode(INT_MAX, ptr3);
     Node *node4 = createNode(INT_MIN, NULL);
+    HTable *table = createTable(size, hashFunction, destroyData, printData);
+
+    TestingContext *context = newContext(PROGRAM_NAME);
+    begin(context);
+
+    /* Testing: hashtable#createNode */
+    section(context, "createNode");
 
     test(context, "should have correct key", node1->key == 1);
     test(context, "should have correct data", node1->data == ptr1);
@@ -54,8 +54,6 @@ int main()
 
     /* Testing: hashtable#createTable */
     section(context, "createTable");
-
-    HTable *table = createTable(size, hashFunction, destroyData, printData);
 
     test(context, "should have correct size", table->size == size);
     test(context, "should have non null table array", table->table != NULL);

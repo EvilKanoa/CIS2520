@@ -15,9 +15,7 @@ as the programs to test the implementation.
 ***********
 Compilation
 ***********
-Use `make` or `make test` to compile the testing program and the hash table API.
-
-It will create an executable in the bin/ directory called `test` which can then be ran without any arguments to run unit tests on the API and display the results.
+Use `make` or `make test` to compile the testing program and the hash table API. It will create an executable in the bin/ directory called `test` which can then be ran without any arguments to run unit tests on the API and display the results.
 
 Use `make cppcheck` to run the C style checker over every .c file in the project.
 
