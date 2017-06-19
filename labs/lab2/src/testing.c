@@ -66,6 +66,7 @@ int main()
 
     insertData(table, 1, ptr1);
     insertData(table, 2, ptr2);
+    insertData(table, 2, ptr2);
     insertData(table, 3, ptr3);
 
     test(context, "should have inserted data in the correct position 1", table->table[0]->data == ptr1);
@@ -86,8 +87,18 @@ int main()
     /* Testing: hashtable#removeData */
     section(context, "removeData");
 
+    removeData(table, 1);
+
+    printf("\n");
+    test(context, "should have removed data with key 1", lookupData(table, 1) == NULL);
+    tprint(context, "should have printed \"myData 1\"");
+
     /* Testing: hashtable#destroyTable */
     section(context, "destroyTable");
+
+    destroyTable(table);
+    printf("\n");
+    tprint(context, "should have printed \"myData 2 myData 3\"");
 
     done(context);
     return context->failCount;
@@ -100,10 +111,10 @@ int hashFunction(size_t tableSize, int key)
 
 void destroyData(void *data)
 {
-    free((char *) data);
+    printf("%s ", (char *) data);
 }
 
 void printData(void *data)
 {
-    printf("%s", (char *) data);
+    printf("%s ", (char *) data);
 }

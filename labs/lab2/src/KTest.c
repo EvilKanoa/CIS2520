@@ -72,5 +72,5 @@ void done(TestingContext *context)
 
 void tprint(TestingContext *context, char *string)
 {
-    printf("%s %s\n", context->section, string);
+    printf("INFO: (%s) %s\n", context->section, string);
 }
