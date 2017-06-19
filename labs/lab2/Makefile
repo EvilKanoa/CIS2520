@@ -5,7 +5,7 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 
 # List of source files to be included in compilation
 SRC = KTest.c \
-	  hashtable.c
+	  hashTable.c
 
 #this is the target for building one main with a library
 test: $(addprefix src/,$(SRC)) src/testing.c
