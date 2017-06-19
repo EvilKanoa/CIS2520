@@ -10,9 +10,13 @@
 
 HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
 {
+    int i;
     HTable *table = malloc(sizeof(HTable));
     table->size = size;
     table->table = malloc(sizeof(Node *) * size);
+    for (i = 0; i < size; i++) {
+        table->table[i] = NULL;
+    }
     table->destroyData = destroyData;
     table->hashFunction = hashFunction;
     table->printData = printData;
