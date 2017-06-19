@@ -57,3 +57,5 @@ dkms.conf
 # Other Stuff
 **/docs/
 **/bin/
+.vscode/
+.vscode
