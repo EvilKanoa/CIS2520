@@ -1,6 +1,6 @@
 /**
  * @file hashtable.c
- * @author Kanoa Haley
+ * @author Kanoa Haley - 0956712 - khaley@mail.uoguelph.ca
  * @date June 18, 2017
  * @brief File containing the function implementations of a hash table
  */

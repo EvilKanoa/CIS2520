@@ -1,6 +1,6 @@
 /**
  * @file KTest.c
- * @author Kanoa Haley
+ * @author Kanoa Haley - 0956712 - khaley@mail.uoguelph.ca
  * @date May 27, 2017
  * @brief File containing the implementations for an extermly basic testing suite for unit testing code
  */
