@@ -4,7 +4,8 @@ CC          =	gcc
 CFLAGS      =	-Wall -std=c99 -pedantic -g
 
 # List of source files to be included in compilation
-SRC = KTest.c
+SRC = KTest.c \
+	  hashtable.c
 
 #this is the target for building one main with a library
 test: $(addprefix src/,$(SRC)) src/testing.c

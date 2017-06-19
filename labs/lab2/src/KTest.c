@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/KTest.h"
+#include "KTest.h"
 
 TestingContext *newContext(char *programName)
 {
