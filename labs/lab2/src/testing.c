@@ -64,15 +64,15 @@ int main()
     /* Testing: hashtable#insertData */
     section(context, "insertData");
 
-    /*insertData(table, 1, ptr1);
+    insertData(table, 1, ptr1);
     insertData(table, 2, ptr2);
-    insertData(table, 3, ptr3);*/
+    insertData(table, 3, ptr3);
 
-   /* test(context, "should have inserted data in the correct position 1", table->table[0]->data == ptr1);
+    test(context, "should have inserted data in the correct position 1", table->table[0]->data == ptr1);
     test(context, "should have inserted data in the correct position 2", table->table[1]->data == ptr2);
     test(context, "should have inserted data in the correct position 3", table->table[2]->data == ptr3);
     insertData(NULL, 0, NULL);
-    test(context, "should do nothing if table is null", 1);*/
+    test(context, "should do nothing if table is null", 1);
 
     /* Testing: hashtable#lookupData */
     section(context, "lookupData");

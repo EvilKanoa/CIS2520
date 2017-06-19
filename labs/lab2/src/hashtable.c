@@ -31,8 +31,8 @@ Node *createNode(int key, void *data)
 void destroyTable(HTable *hashTable)
 {
     int i;
-    Node *tmp;
-    Node *deleteNode;
+    Node *tmp = NULL;
+    Node *deleteNode = NULL;
 
     if (hashTable == NULL) {
         return;
@@ -55,9 +55,9 @@ void destroyTable(HTable *hashTable)
 
 void insertData(HTable *hashTable, int key, void *data)
 {
-    Node *node;
-    Node *tmp;
-    int index;
+    Node *node = NULL;
+    Node *tmp = NULL;
+    int index = -1;
 
     if (hashTable == NULL) {
         return;
@@ -82,9 +82,9 @@ void insertData(HTable *hashTable, int key, void *data)
 
 void removeData(HTable *hashTable, int key)
 {
-    Node *node;
-    Node *previous;
-    int index;
+    Node *node = NULL;
+    Node *previous = NULL;
+    int index = -1;
 
     if (hashTable == NULL) {
         return;
@@ -121,8 +121,8 @@ void removeData(HTable *hashTable, int key)
 
 void *lookupData(HTable *hashTable, int key)
 {
-    Node *node;
-    int index;
+    Node *node = NULL;
+    int index = -1;
 
     if (hashTable == NULL) {
         return NULL;
