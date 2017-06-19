@@ -63,12 +63,11 @@ void insertData(HTable *hashTable, int key, void *data)
         return;
     }
 
-    node = createNode(key, data);
     index = hashTable->hashFunction(hashTable->size, key);
-
     if (index < 0 || index >= hashTable->size) {
         return;
     }
+    node = createNode(key, data);
 
     if (hashTable->table[index] == NULL || hashTable->table[index]->key == key) {
         hashTable->table[index] = node;
@@ -92,6 +91,9 @@ void removeData(HTable *hashTable, int key)
     }
 
     index = hashTable->hashFunction(hashTable->size, key);
+    if (index < 0 || index >= hashTable->size) {
+        return;
+    }
     node = hashTable->table[index];
 
     if (node == NULL) {
@@ -127,6 +129,9 @@ void *lookupData(HTable *hashTable, int key)
     }
 
     index = hashTable->hashFunction(hashTable->size, key);
+    if (index < 0 || index >= hashTable->size) {
+        return NULL;
+    }
     node = hashTable->table[index];
 
     if (node == NULL) {
