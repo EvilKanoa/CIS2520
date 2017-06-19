@@ -66,6 +66,10 @@ void insertData(HTable *hashTable, int key, void *data)
     node = createNode(key, data);
     index = hashTable->hashFunction(hashTable->size, key);
 
+    if (index < 0 || index >= hashTable->size) {
+        return;
+    }
+
     if (hashTable->table[index] == NULL || hashTable->table[index]->key == key) {
         hashTable->table[index] = node;
     } else {
