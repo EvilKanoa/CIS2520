@@ -8,68 +8,117 @@
 #include <stdlib.h>
 #include "HashTableAPI.h"
 
-/**Function to point the hash table to the appropriate functions. Allocates memory to the struct and table based on the size given.
-*@return pointer to the hash table
-*@param size size of the hash table
-*@param hashFunction function pointer to a function to hash the data
-*@param destroyData function pointer to a function to delete a single piece of data from the hash table
-*@param printNode function pointer to a function that prints out a data element of the table
-**/
 HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
 {
-    return NULL;
+    HTable *table = malloc(sizeof(HTable));
+    table->size = size;
+    table->table = malloc(sizeof(Node *) * size);
+    table->destroyData = destroyData;
+    table->hashFunction = hashFunction;
+    table->printData = printData;
+    return table;
 }
 
-/**Function for creating a node for the hash table.
-*@pre Node must be cast to void pointer before being added.
-*@post Node is valid and able to be added to the hash table
-*@param key integer that represents the data (eg 35->"hello")
-*@param data is a generic pointer to any data type.
-*@return returns a node for the hash table
-**/
 Node *createNode(int key, void *data)
 {
-    return NULL;
+    Node *node = malloc(sizeof(Node));
+    node->next = NULL;
+    node->key = key;
+    node->data = data;
+    return node;
 }
 
-/** Deletes the entire hash table and frees memory of every element.
-*@pre Hash Table must exist.
-*@param hashTable pointer to hash table containing elements of data
-**/
 void destroyTable(HTable *hashTable)
 {
+    if (hashTable == NULL) {
+        return;
+    }
 
+    int i;
+    for (i = 0; i < hashTable->size; i++) {
+        Node *tmp = hashTable->table[i];
+
+        while (tmp != NULL) {
+            Node *deleteNode = tmp;
+            tmp = tmp->next;
+            hashTable->destroyData(deleteNode->data);
+            free(deleteNode);
+        }
+    }
+
+    free(hashTable->table);
+    free(hashTable);
 }
 
-/**Inserts a Node in the hash table.
-*@pre hashTable type must exist and have data allocated to it
-*@param hashTable pointer to the hash table
-*@param key integer that represents the data (eg 35->"hello")
-*@param data pointer to generic data that is to be inserted into the list
-**/
 void insertData(HTable *hashTable, int key, void *data)
 {
+    if (hashTable == NULL) {
+        return;
+    }
 
+    Node *node = createNode(key, data);
+    int index = hashTable->hashFunction(hashTable->size, key);
+
+    if (hashTable->table[index] == NULL || hashTable->table[index]->key == key) {
+        hashTable->table[index] = node;
+    } else {
+        Node *tmp = hashTable->table[index];
+        while (tmp->next != NULL) {
+            tmp = tmp->next;
+        }
+        tmp->next = node;
+    }
 }
 
-/**Function to remove a node from the hash table 
- *@pre Hash table must exist and have memory allocated to it
- *@post Node at key will be removed from the hash table if it exists.
- *@param hashTable pointer to the hash table struct
- *@param key integer that represents a piece of data in the table (eg 35->"hello")
- **/
 void removeData(HTable *hashTable, int key)
 {
+    if (hashTable == NULL) {
+        return;
+    }
 
+    int index = hashTable->hashFunction(hashTable->size, key);
+    Node *node = hashTable->table[index];
+
+    if (node == NULL) {
+        return;
+    }
+
+    Node *previous = NULL;
+    while (node->key != key) {
+        if (node->next == NULL) {
+            return;
+        }
+        previous = node;
+        node = node->next;
+    }
+
+    if (previous == NULL) {
+        hashTable->table[index] = node->next;
+    } else {
+        previous->next = node->next;
+    }
+
+    hashTable->destroyData(node->data);
+    free(node);
 }
 
-/**Function to return the data from the key given.
- *@pre The hash table exists and has memory allocated to it
- *@param hashTable pointer to the hash table containing data nodes
- *@param key integer that represents a piece of data in the table (eg 35->"hello")
- *@return returns a pointer to the data in the hash table. Returns NULL if no match is found.
- **/
 void *lookupData(HTable *hashTable, int key)
 {
-    return NULL;
+    if (hashTable == NULL) {
+        return NULL;
+    }
+
+    int index = hashTable->hashFunction(hashTable->size, key);
+    Node *node = hashTable->table[index];
+
+    if (node == NULL) {
+        return NULL;
+    }
+
+    while (node != NULL) {
+        if (node->key == key) {
+            return node->data;
+        }
+        node = node->next;
+    }
 }
