@@ -16,7 +16,7 @@ Compilation
 ***********
 Use `make` or `make program` to compile the main password vault application. It will create an executable in the `bin/` directory called program which can be ran without any arguments to start the password vault UI.
 
-Use `make test` to compile the testing program and the hash table API. It will create an executable in the `bin/` directory called `test` which can then be ran without any arguments to run unit tests on the API and display the results.
+Use `make test` to compile the testing program for the hashing function. It will create an executable in the `bin/` directory called `test` which can then be ran without any arguments to generate collision and hash information for ~60 top 100 sites to verify performance of the hashing function.
 
 Use `make cppcheck` to run the C style checker over every `.c` file in the project.
 
@@ -27,3 +27,11 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
+
+****************************
+Hashing Function Performance
+****************************
+
+**********
+Complexity
+**********

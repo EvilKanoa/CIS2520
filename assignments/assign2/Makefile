@@ -3,8 +3,7 @@ CC          =	gcc
 CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
-SRC = KTest.c \
-	  hashTable.c \
+SRC = hashTable.c \
 	  vaultFile.c \
 	  vaultUtilities.c
 
