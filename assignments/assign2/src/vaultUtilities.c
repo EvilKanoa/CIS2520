@@ -5,10 +5,22 @@
  * @brief File containing various utilities and hashing functions for the password vault application
  */
 
-#include <stdlib.h>
-#include "HashTableAPI.h"
+#include "VaultUtilities.h"
 
-int hashDescriptor(char *descriptor)
+int hashDescriptor(size_t tableSize, char *descriptor)
 {
-    return -1;
+    int bigHash = 1;
+    long testHash;
+    int i;
+
+    for (i = 0; i < strlen(descriptor); i++) {
+        testHash = bigHash * descriptor[i];
+        if (testHash < INT_MAX) {
+            bigHash = testHash;
+        } else {
+            bigHash = descriptor[i];
+        }
+    }
+
+    return bigHash % tableSize;
 }

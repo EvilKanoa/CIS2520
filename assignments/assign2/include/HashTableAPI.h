@@ -41,7 +41,7 @@ typedef struct HTable
 *@param destroyData function pointer to a function to delete a single piece of data from the hash table
 *@param printNode function pointer to a function that prints out a data element of the table
 **/
-HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted));
+HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char *key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted));
 
 /**Function for creating a node for the hash table.
 *@pre Node must be cast to void pointer before being added.

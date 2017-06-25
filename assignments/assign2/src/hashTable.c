@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "HashTableAPI.h"
 
 HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char *key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
@@ -73,7 +74,7 @@ void insertData(HTable *hashTable, char *key, void *data)
     }
     node = createNode(key, data);
 
-    if (hashTable->table[index] == NULL || strcmp(hashTable->table[index]->key, key) == 0 {
+    if (hashTable->table[index] == NULL || strcmp(hashTable->table[index]->key, key) == 0) {
         hashTable->table[index] = node;
     } else {
         tmp = hashTable->table[index];

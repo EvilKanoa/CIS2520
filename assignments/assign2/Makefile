@@ -4,7 +4,9 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
 SRC = KTest.c \
-	  hashTable.c
+	  hashTable.c \
+	  vaultFile.c \
+	  vaultUtilities.c
 
 # this is the target for building the main program
 program: $(addprefix src/,$(SRC)) src/vault.c
