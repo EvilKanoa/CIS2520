@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "HashTableAPI.h"
 
-HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
+HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char *key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
 {
     int i;
     HTable *table = malloc(sizeof(HTable));
@@ -23,7 +23,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),
     return table;
 }
 
-Node *createNode(int key, void *data)
+Node *createNode(char *key, void *data)
 {
     Node *node = malloc(sizeof(Node));
     node->next = NULL;
@@ -57,7 +57,7 @@ void destroyTable(HTable *hashTable)
     free(hashTable);
 }
 
-void insertData(HTable *hashTable, int key, void *data)
+void insertData(HTable *hashTable, char *key, void *data)
 {
     Node *node = NULL;
     Node *tmp = NULL;
@@ -73,7 +73,7 @@ void insertData(HTable *hashTable, int key, void *data)
     }
     node = createNode(key, data);
 
-    if (hashTable->table[index] == NULL || hashTable->table[index]->key == key) {
+    if (hashTable->table[index] == NULL || strcmp(hashTable->table[index]->key, key) == 0 {
         hashTable->table[index] = node;
     } else {
         tmp = hashTable->table[index];
@@ -84,7 +84,7 @@ void insertData(HTable *hashTable, int key, void *data)
     }
 }
 
-void removeData(HTable *hashTable, int key)
+void removeData(HTable *hashTable, char *key)
 {
     Node *node = NULL;
     Node *previous = NULL;
@@ -105,7 +105,7 @@ void removeData(HTable *hashTable, int key)
     }
 
     previous = NULL;
-    while (node->key != key) {
+    while (strcmp(node->key, key) != 0) {
         if (node->next == NULL) {
             return;
         }
@@ -123,7 +123,7 @@ void removeData(HTable *hashTable, int key)
     free(node);
 }
 
-void *lookupData(HTable *hashTable, int key)
+void *lookupData(HTable *hashTable, char *key)
 {
     Node *node = NULL;
     int index = -1;
@@ -143,7 +143,7 @@ void *lookupData(HTable *hashTable, int key)
     }
 
     while (node != NULL) {
-        if (node->key == key) {
+        if (strcmp(node->key, key) == 0) {
             return node->data;
         }
         node = node->next;
