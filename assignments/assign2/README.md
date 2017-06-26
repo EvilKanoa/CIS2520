@@ -46,6 +46,7 @@ If you are unaware of the JSON format, the only portions being used here is a si
 ****************************
 Hashing Function Performance
 ****************************
+The provided testing program will create some sample data to view how well the hashing function performs. The data used for the testing program is a ~60 of the top 100 web sites world-wide. Given that the hashing function is designed for a password manager, this was deemed reletively approriate data.
 
 **********
 Complexity
