@@ -39,6 +39,8 @@ Hashing Function Performance
 ****************************
 The provided testing program will create some sample data to view how well the hashing function performs. The data used for the testing program is ~60 of the top 100 web sites world-wide. Given that the hashing function is designed for a password manager, this was deemed reletively appropriate data.
 
+Histograms highlighting the functions performance can be seen within the `assets/` folder given a variaty of table sizes.
+
 **********
 Complexity
 **********
