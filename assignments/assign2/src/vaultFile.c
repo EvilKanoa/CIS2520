@@ -15,7 +15,9 @@ char *getPassword(char *configFile)
     char *password;
     char input[BUFFER_SIZE];
     
-    if (fp == NULL || fgets(input, BUFFER_SIZE - 1, fp) == NULL) {
+    if (fp == NULL) {
+        return NULL;
+    } else if (fgets(input, BUFFER_SIZE - 1, fp) == NULL) {
         fclose(fp);
         return NULL;
     } else {
