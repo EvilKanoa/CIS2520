@@ -19,14 +19,6 @@ typedef struct Entry {
     char *password;
 } Entry;
 
-/*
- * A struct used to store entries into a file
- */
-typedef struct EntryData {
-    long descriptorPos;
-    long passwordPos;
-} EntryData;
-
 /**
  * The struct containing the information for a vault file
  */

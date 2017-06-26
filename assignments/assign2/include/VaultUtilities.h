@@ -32,4 +32,10 @@ int hashDescriptor(size_t tableSize, char *descriptor);
  */
 void stripNewline(char *str);
 
+/**
+ * Frees an entry from a hash table
+ *@param data The Entry to free
+ */
+void freeEntry(void *data);
+
 #endif

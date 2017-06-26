@@ -9,11 +9,6 @@
 #include "VaultFile.h"
 #include "VaultUtilities.h"
 
-/**
- * Retrieves the password from the applications configuration file or NULL if no file has been made
- *@returns The applications password or NULL if no file exists
- *@param configFile The name of the configuration file for this application
- */
 char *getPassword(char *configFile)
 {
     FILE *fp = fopen(configFile, "r");
@@ -33,11 +28,6 @@ char *getPassword(char *configFile)
     }
 }
 
-/**
- * Saves a password for the application configuration
- *@param configFile The name of the configuration file for this application
- *@password The new password
- */
 void savePassword(char *configFile, char *password)
 {
     FILE *fp = fopen(configFile, "w");
@@ -50,12 +40,33 @@ void savePassword(char *configFile, char *password)
 
 /**
  * Loads a vault file given a file name
- *@returns Hash table containing data in the vault with the data in nodes being Entry structs or NULL of no file exists
+ *@returns Hash table containing data in the vault with the data in nodes being Entry structs
  *@param vaultFile The file name for a password vault file
  */
 HTable *loadVault(char *vaultFile)
 {
-    return NULL;
+    FILE *fp = fopen(vaultFile, "r");
+    HTable *table = createTable(1000, hashDescriptor, freeEntry, NULL);
+    Entry *entry;
+    char descriptor[BUFFER_SIZE];
+    char password[BUFFER_SIZE];
+
+    if (fp == NULL) {
+        return table;
+    }
+
+    while (fscanf(fp, "\"%s\": \"%s\"\n", descriptor, password) == 2) {
+        entry = malloc(sizeof(Entry));
+        entry->descriptor = malloc(sizeof(char) * (strlen(descriptor) + 1));
+        entry->password = malloc(sizeof(char) * (strlen(password) + 1));
+        strcpy(entry->descriptor, descriptor);
+        strcpy(entry->password, password);
+        insertData(table, entry->descriptor, (void *) entry);
+    }
+
+    fclose(fp);
+
+    return table;
 }
 
 /**
@@ -65,5 +76,25 @@ HTable *loadVault(char *vaultFile)
  */
 void saveVault(HTable *table, char *vaultFile)
 {
+    FILE *fp;
+    Node *node;
+    Entry *entry;
+    int i;
 
+    if (table == NULL || vaultFile == NULL) {
+        return;
+    }
+
+    fp = fopen(vaultFile, "w");
+
+    for (i = 0; i < table->size; i++) {
+        node = table->table[i];
+        while (node != NULL) {
+            entry = (Entry *) node->data;
+            fprintf(fp, "\"%s\": \"%s\"\n", entry->descriptor, entry->password);
+            node = node->next;
+        }
+    }
+
+    fclose(fp);
 }

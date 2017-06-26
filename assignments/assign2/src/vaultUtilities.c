@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include "VaultUtilities.h"
+#include "VaultFile.h"
 
 int hashDescriptor(size_t tableSize, char *descriptor)
 {
@@ -31,4 +32,16 @@ void stripNewline(char *str)
     if (str[strlen(str) - 1] == '\n') {
         str[strlen(str) - 1] = 0;
     }
+}
+
+void freeEntry(void *data)
+{
+    Entry *entry = (Entry *) data;
+    if (entry->descriptor != NULL) {
+        free(entry->descriptor);
+    }
+    if (entry->password != NULL) {
+        free(entry->password);
+    }
+    free(entry);
 }

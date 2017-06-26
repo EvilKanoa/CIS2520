@@ -87,6 +87,9 @@ void displayMainMenu()
     int input;
     int listPos = 0;
 
+    vault->data = NULL;
+    vault->fileName = NULL;
+
     while (1) {
         /* print the menu */
         noecho();
@@ -94,7 +97,7 @@ void displayMainMenu()
         printw("Password Vault (Q to save and exit)");
         mvprintw(1, 0, "Selected File: %s", vault == NULL ? "None" : vault->data == NULL ? "Could not load" : vault->fileName);
         mvprintw(3, 0, "Main Menu (Use Up/Down & Enter): ");
-        mvprintw(4, 0, "%s\tOpen vault file", arrow(listPos == 0));
+        mvprintw(4, 0, "%s\tOpen vault file (or create new)", arrow(listPos == 0));
         mvprintw(5, 0, "%s\tUpdate master password", arrow(listPos == 1));
         mvprintw(6, 0, "%s\tGet password", arrow(listPos == 2));
         mvprintw(7, 0, "%s\tAdd password", arrow(listPos == 3));
