@@ -15,7 +15,7 @@ int hashDescriptor(size_t tableSize, char *descriptor)
     int i;
 
     for (i = 0; i < strlen(descriptor); i++) {
-        testHash = bigHash + descriptor[i] * pow(31, strlen(descriptor) - 1 - i);
+        testHash = bigHash + (descriptor[i] + 1) * pow(31, strlen(descriptor) - 1 - i);
         if (testHash < INT_MAX) {
             bigHash = testHash;
         } else {
