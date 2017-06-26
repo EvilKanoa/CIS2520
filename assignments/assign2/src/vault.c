@@ -208,9 +208,9 @@ void displayGetPassword(Vault *vault)
     echo();
     printw("Enter password descriptor: ");
     refresh();
-    noecho();
     getnstr(input, BUFFER_SIZE - 1);
     stripNewline(input);
+    noecho();
 
     password = lookupData(vault->data, input);
     move(1, 0);
@@ -255,10 +255,11 @@ void displayAddPassword(Vault *vault)
         entry->descriptor = descriptor;
         entry->password = password;
         insertData(vault->data, descriptor, entry);
+        mvprintw(2, 0, "Password added");
     }
 
     noecho();
-    mvprintw(2, 0, "Press any key to return");
+    mvprintw(password == NULL ? 4 : 3, 0, "Press any key to return");
     refresh();
     getch();
 }

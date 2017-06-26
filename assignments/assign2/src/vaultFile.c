@@ -96,5 +96,6 @@ void saveVault(HTable *table, char *vaultFile)
         }
     }
 
+    destroyTable(table);
     fclose(fp);
 }
