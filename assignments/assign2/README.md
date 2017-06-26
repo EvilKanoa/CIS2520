@@ -27,6 +27,7 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
+Since this is only a prototype, it is quite unsecure. Neither the configuration file (`config.txt`) holding the master password, nor any of the password vault files are encrypted in any way. On the contrary, they are actually quite readily readable by prying eyes. I recommend that this is never used in a real-world situation in its current form and is instead used as an educational aid.
 
 ***************************
 Data Storage Specifications
