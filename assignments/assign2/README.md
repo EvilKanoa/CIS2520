@@ -31,6 +31,16 @@ Known Limitations, Issues and Errors
 ***************************
 Data Storage Specifications
 ***************************
+Each indivdual password vault file is stored in a JSON format. This may seem abnormal for a secruity application like a password manager, but given that this is a prototype and only an assignment for school, this method is ideal since it is easy to read in plain-text format while also being easy to extract for testing purposes.
+
+If you are unaware of the JSON format, the only portions being used here is a single object of key-value pairs.
+
+```JSON
+{
+    "descriptor1": "password1",
+    "myDescriptor": "myPassword"
+}
+```
 
 ****************************
 Hashing Function Performance

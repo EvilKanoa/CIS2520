@@ -55,7 +55,9 @@ HTable *loadVault(char *vaultFile)
         return table;
     }
 
-    while (fscanf(fp, "\"%s\": \"%s\"\n", descriptor, password) == 2) {
+    fscanf(fp, "%s\n", descriptor);
+
+    while (fscanf(fp, "\"%s\": \"%s\"%*s\n", descriptor, password, NULL) == 2) {
         entry = malloc(sizeof(Entry));
         entry->descriptor = malloc(sizeof(char) * (strlen(descriptor) + 1));
         entry->password = malloc(sizeof(char) * (strlen(password) + 1));
@@ -63,6 +65,8 @@ HTable *loadVault(char *vaultFile)
         strcpy(entry->password, password);
         insertData(table, entry->descriptor, (void *) entry);
     }
+
+    fscanf(fp, "%s\n", descriptor);
 
     fclose(fp);
 
@@ -87,14 +91,19 @@ void saveVault(HTable *table, char *vaultFile)
 
     fp = fopen(vaultFile, "w");
 
+    fprintf(fp, "{\n");
+
     for (i = 0; i < table->size; i++) {
         node = table->table[i];
         while (node != NULL) {
             entry = (Entry *) node->data;
-            fprintf(fp, "\"%s\": \"%s\"\n", entry->descriptor, entry->password);
+            fprintf(fp, "\"%s\": \"%s\",\n", entry->descriptor, entry->password);
             node = node->next;
         }
     }
+
+    fseek(fp, - 2 * sizeof(char), SEEK_CUR);
+    fprintf(fp, "\n}\n");
 
     destroyTable(table);
     free(vaultFile);

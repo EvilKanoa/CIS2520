@@ -205,7 +205,7 @@ Vault *displayOpenVault(Vault *vault)
 void displayGetPassword(Vault *vault)
 {
     char input[BUFFER_SIZE];
-    char *password;
+    Entry *data;
 
     clear();
     echo();
@@ -215,12 +215,12 @@ void displayGetPassword(Vault *vault)
     stripNewline(input);
     noecho();
 
-    password = lookupData(vault->data, input);
+    data = lookupData(vault->data, input);
     move(1, 0);
-    if (password == NULL) {
+    if (data == NULL) {
         printw("No password found for that descriptor!");
     } else {
-        printw("Your password is: %s", password);
+        printw("Your password is: %s", data->password);
     }
 
     move(3, 0);
