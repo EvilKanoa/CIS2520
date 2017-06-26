@@ -9,7 +9,7 @@ khaley@mail.uoguelph.ca                 June 25, 2017
 *******************
 Program Description
 *******************
-This is a simple password vault for a single-user style setup. You may use it to store any passwords you wish and the passwords themselves will be encrypted using MD5. The vault program makes use of a hash table for faster use and more reliable performance.
+This is a simple password vault for a single-user style setup. You may use it to store any passwords you wish. The vault program makes use of a hash table for faster use and more reliable performance.
 
 ***********
 Compilation
@@ -50,3 +50,22 @@ Hashing Function Performance
 **********
 Complexity
 **********
+The Big O notation for each HashTableAPI function.
+
+createTable: O(n)
+- The creation function actually takes time to remove any garbage values from the table array which results in a O(n) creation time.
+
+createNode: O(1)
+- This function only allocates and sets up a node which is a constant time process.
+
+destroyTable: O(n)
+- This function has to traverse the table to free every node.
+
+insertData: O(n)
+- The upper limit is O(n) IF every single other piece of data in the table has collided in the same location, this function can (and normally should) be constant time.
+
+removeData: O(n)
+- The same issue as insertData applies here. Typically it is constant time but it has the possibility of being O(n).
+
+lookupData: O(n)
+- This function may have to iterate over every other node, but that is uncommon in the real world.
