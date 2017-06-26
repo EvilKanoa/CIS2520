@@ -5,6 +5,9 @@
  * @brief File containing the definitions for various utilities and hashing functions for the password vault application
  */
 
+#ifndef _VAULT_UTILITIES_
+#define _VAULT_UTILITIES_
+
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
@@ -16,3 +19,5 @@
  *@param descriptor The descriptor which is used as a key during the vault application process
  */
 int hashDescriptor(size_t tableSize, char *descriptor);
+
+#endif

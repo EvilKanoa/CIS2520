@@ -28,6 +28,10 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 Known Limitations, Issues and Errors
 ************************************
 
+***************************
+Data Storage Specifications
+***************************
+
 ****************************
 Hashing Function Performance
 ****************************
