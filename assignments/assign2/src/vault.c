@@ -128,16 +128,24 @@ void displayMainMenu()
                     savePassword(CONFIG_FILE, buffer);
                     break;
                 case 2:
-                    displayGetPassword();
+                    if (vault->data != NULL) {
+                        displayGetPassword(vault);
+                    }
                     break;
                 case 3:
-                    displayAddPassword();
+                    if (vault->data != NULL) {
+                        displayAddPassword(vault);
+                    }
                     break;
                 case 4:
-                    displayRemovePassword();
+                    if (vault->data != NULL) {
+                        displayRemovePassword(vault);
+                    }
                     break;
                 case 5:
-                    displayUpdatePassword();
+                    if (vault->data != NULL) {
+                        displayUpdatePassword(vault);
+                    }
                     break;
             }
         }
@@ -189,12 +197,66 @@ Vault *displayOpenVault(Vault *vault)
 
 void displayGetPassword(Vault *vault)
 {
+    char input[BUFFER_SIZE];
+    char *password;
 
+    clear();
+    echo();
+    printw("Enter password descriptor: ");
+    refresh();
+    noecho();
+    getnstr(input, BUFFER_SIZE - 1);
+    stripNewline(input);
+
+    password = lookupData(vault->data, input);
+    move(1, 0);
+    if (password == NULL) {
+        printw("No password found for that descriptor!");
+    } else {
+        printw("Your password is: %s", password);
+    }
+
+    move(3, 0);
+    printw("Press any key to return");
+    refresh();
+    getch();
 }
 
 void displayAddPassword(Vault *vault)
 {
+    char input[BUFFER_SIZE];
+    char *descriptor;
+    char *password;
+    Entry *entry;
 
+    clear();
+    echo();
+    printw("Enter password descriptor: ");
+    refresh();
+    getnstr(input, BUFFER_SIZE - 1);
+
+    password = lookupData(vault->data, input);
+    if (password != NULL) {
+        mvprintw(1, 0, "Password already in file, use update password!");
+    } else {
+        descriptor = malloc(sizeof(char) * (strlen(input) + 1));
+        strcpy(descriptor, input);
+        mvprintw(1, 0, "Enter password: ");
+        refresh();
+        getnstr(input, BUFFER_SIZE - 1);
+        password = malloc(sizeof(char) * (strlen(input) + 1));
+        strcpy(password, input);
+
+        entry = malloc(sizeof(Entry));
+        entry->descriptor = descriptor;
+        entry->password = password;
+        insertData(vault->data, descriptor, entry);
+    }
+
+    noecho();
+    mvprintw(2, 0, "Press any key to return");
+    refresh();
+    getch();
 }
 
 void displayRemovePassword(Vault *vault)
