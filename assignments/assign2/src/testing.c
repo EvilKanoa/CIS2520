@@ -77,7 +77,7 @@ int main()
     testValues[58] = "Wikia";
 
     printf("Format: Value for hash, Hash\n");
-    for (size = 10; size <= 100; size += 10) {
+    for (size = 20; size <= 120; size += 20) {
         printf("\nWith table size: %d\n", size);
         for (i = 0; i < numValues; i++) {
             hash = hashDescriptor(size, testValues[i]);
