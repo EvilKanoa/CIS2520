@@ -154,6 +154,8 @@ void displayMainMenu()
             }
         }
     }
+
+    free(vault);
 }
 
 void displayLogin()
@@ -177,6 +179,7 @@ void displayLogin()
     } while (password != NULL && strcmp(password, input) != 0);
 
     savePassword(CONFIG_FILE, input);
+    free(password);
 }
 
 Vault *displayOpenVault(Vault *vault)
