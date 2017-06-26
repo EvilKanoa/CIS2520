@@ -27,14 +27,6 @@ typedef struct EntryData {
     long passwordPos;
 } EntryData;
 
-/*
- * The struct containing all the information for a password/vault file
- */
-typedef struct Vault {
-    int length;
-    Entry *entries;
-} Vault;
-
 /**
  * Retrieves the password from the applications configuration file or NULL if no file has been made
  *@returns The applications password or NULL if no file exists
@@ -47,7 +39,7 @@ char *getPassword(char *configFile);
  *@returns Hash table containing data in the vault with the data in nodes being Entry structs or NULL of no file exists
  *@param vaultFile The file name for a password vault file
  */
-HTable loadVault(char *vaultFile);
+HTable *loadVault(char *vaultFile);
 
 /**
  * Saves a hash table into a specified vault file
