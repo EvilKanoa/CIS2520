@@ -5,6 +5,7 @@
  * @brief File containing various utilities and hashing functions for the password vault application
  */
 
+#include <math.h>
 #include "VaultUtilities.h"
 
 int hashDescriptor(size_t tableSize, char *descriptor)
@@ -14,7 +15,7 @@ int hashDescriptor(size_t tableSize, char *descriptor)
     int i;
 
     for (i = 0; i < strlen(descriptor); i++) {
-        testHash = bigHash * descriptor[i];
+        testHash = bigHash + descriptor[i] * pow(31, strlen(descriptor) - 1 - i);
         if (testHash < INT_MAX) {
             bigHash = testHash;
         } else {
