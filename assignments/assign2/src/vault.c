@@ -77,6 +77,7 @@ int main()
     displayMainMenu();
     
     finish();
+    return 0; /* required to compile on SoCS computers */
 }
 
 void displayMainMenu()
