@@ -25,3 +25,10 @@ int hashDescriptor(size_t tableSize, char *descriptor)
 
     return bigHash % tableSize;
 }
+
+void stripNewline(char *str)
+{
+    if (str[strlen(str) - 1] == '\n') {
+        str[strlen(str) - 1] = 0;
+    }
+}

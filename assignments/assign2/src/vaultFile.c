@@ -5,7 +5,9 @@
  * @brief File containing the implementations for the file storage for the vault application
  */
 
+#include <stdlib.h>
 #include "VaultFile.h"
+#include "VaultUtilities.h"
 
 /**
  * Retrieves the password from the applications configuration file or NULL if no file has been made
@@ -14,7 +16,36 @@
  */
 char *getPassword(char *configFile)
 {
-    return NULL;
+    FILE *fp = fopen(configFile, "r");
+    char *password;
+    char input[BUFFER_SIZE];
+    
+    if (fp == NULL || fgets(input, BUFFER_SIZE - 1, fp) == NULL) {
+        fclose(fp);
+        return NULL;
+    } else {
+        stripNewline(input);
+        password = malloc(sizeof(char) * (strlen(input) + 1));
+        strcpy(password, input);
+        password[strlen(password)] = 0;
+        fclose(fp);
+        return password;
+    }
+}
+
+/**
+ * Saves a password for the application configuration
+ *@param configFile The name of the configuration file for this application
+ *@password The new password
+ */
+void savePassword(char *configFile, char *password)
+{
+    FILE *fp = fopen(configFile, "w");
+    stripNewline(password);
+    if (fp != NULL) {
+        fprintf(fp, "%s\n", password);
+        fclose(fp);
+    }
 }
 
 /**

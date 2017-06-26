@@ -13,11 +13,23 @@
 #include <limits.h>
 #include "HashTableAPI.h"
 
-/** Function to hash a descriptor/key for the vault to a valid index using a multiplicative approach
+/**
+ * The standard input buffer size for the application
+ */
+#define BUFFER_SIZE 2048
+
+/** 
+ * Function to hash a descriptor/key for the vault to a valid index using a multiplicative approach
  *@return The relative index for the descriptor
  *@param tableSize The size of the hashTable
  *@param descriptor The descriptor which is used as a key during the vault application process
  */
 int hashDescriptor(size_t tableSize, char *descriptor);
+
+/** 
+ * Strips a trailing new line character from a string in place
+ *@param str The string to strip the newline from
+ */
+void stripNewline(char *str);
 
 #endif
