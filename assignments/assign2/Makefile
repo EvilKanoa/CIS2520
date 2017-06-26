@@ -9,11 +9,11 @@ SRC = hashTable.c \
 
 # this is the target for building the main program
 program: $(addprefix src/,$(SRC)) src/vault.c
-	$(CC) $(CFLAGS) -Iinclude $(addprefix src/,$(SRC)) src/vault.c -o bin/vault
+	$(CC) $(CFLAGS) -lncurses -Iinclude $(addprefix src/,$(SRC)) src/vault.c -o bin/vault
 
 # this is the target for building the testing binary
 test: $(addprefix src/,$(SRC)) src/testing.c
-	$(CC) $(CFLAGS) -Iinclude $(addprefix src/,$(SRC)) src/testing.c -o bin/test
+	$(CC) $(CFLAGS) -lncurses -Iinclude $(addprefix src/,$(SRC)) src/testing.c -o bin/test
 
 # run cppcheck
 cppcheck:
