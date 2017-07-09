@@ -34,4 +34,6 @@ typedef struct Heap {
     int (*compare)(const void *first, const void *second);
 } Heap;
 
+void heapify(Heap *heap, Node *newNode);
+
 #endif

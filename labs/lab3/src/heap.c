@@ -9,29 +9,24 @@
 
 #include "HeapAPI.h"
 
-/**Function to allocate memory to the heap and point the heap to the appropriate functions. Allocates memory to the heap based on the size given.
- *@return pointer to the heap
- *@param initialSize initial size of the heap
- *@param htype flag to choose whether to start the heap as a min heap or max heap. Takes in values MIN_HEAP and MAX_HEAP
- *@param compareFP function pointer to a function that compares two pieces of data.
- *@param destroyDataFP function pointer to a function to delete a single piece of data from the heap
- *@param printNodeFP function pointer to a function that prints out a data element of the heap
- *@return pointer to the heap
- **/
 Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second))
 {
-    return NULL;
+   Heap *heap = malloc(sizeof(Heap));
+   heap->type = htype;
+   heap->destroyData = destroyDataFP;
+   heap->printNode = printNodeFP;
+   heap->compare = compareFP;
+   return heap;
 }
 
-/**Function for creating a node for a heap.
- *@pre Node must be cast to void pointer before being added.
- *@post Node is valid and able to be added to a heap
- *@param data is a generic pointer to any data type that is to be stored in the heap.
- *@return returns a node for a heap
- **/
 Node *createHeapNode(void *data)
 {
-    return NULL;
+    Node *node = malloc(sizeof(Node));
+    node->left = NULL;
+    node->right = NULL;
+    node->parent = NULL;
+    node->data = data;
+    return node;
 }
 
 /**Inserts a Node into the heap. Uses createHeapNode to place the data in a Node structure, and then puts the newly
@@ -84,4 +79,14 @@ void changeHeapType(Heap *heap)
 void deleteHeap(Heap *heap)
 {
 
+}
+
+void heapify(Heap *heap, Node *newNode)
+{
+    Node *parent = newNode->parent;
+
+    while (heap->compare(newNode->data, parent->data) * heap->type == MAX_HEAP ? 1 : -1 > 0) {
+        // swap new node <-> parent node
+        // parent node = get new parent node from new newnode
+    }
 }
