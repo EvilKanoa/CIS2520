@@ -11,14 +11,23 @@
 
 Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second))
 {
-    Heap *heap = malloc(sizeof(Heap));
+    Heap *heap;
+
+    if (destroyDataFP == NULL || printNodeFP == NULL || compareFP == NULL ||
+            (htype != MIN_HEAP && htype != MAX_HEAP)) {
+        return NULL;
+    }
+
+    heap = malloc(sizeof(Heap));
 
     heap->type = htype;
     heap->destroyData = destroyDataFP;
     heap->printNode = printNodeFP;
     heap->compare = compareFP;
 
-    heap->data = malloc(sizeof(Node) * initialSize);
+    if (initialSize > 0) {
+        heap->data = malloc(sizeof(Node) * initialSize);
+    }
     heap->maxSize = initialSize;
     heap->size = 0;
 
