@@ -19,6 +19,8 @@ int compare(const void *first, const void *second);
 
 int main()
 {
+    int fails;
+
     Heap *emptyHeap;
     Heap *dataHeap;
     Heap *fullHeap;
@@ -161,8 +163,9 @@ int main()
     tprint(context, "shouldn't print anything");
     deleteHeap(NULL);
 
+    fails = context->failCount;
     done(context);
-    return context->failCount;
+    return fails;
 }
 
 void destroyData(void *data)

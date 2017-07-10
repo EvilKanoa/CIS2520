@@ -68,6 +68,7 @@ void done(TestingContext *context)
     printf("%d tests passed.\n", context->passCount);
     printf("%d tests failed.\n", context->failCount);
     printf("%.1f%% passed.\n", (context->passCount * 100.0) / (context->passCount + context->failCount));
+    free(context);
 }
 
 void tprint(TestingContext *context, char *string)
