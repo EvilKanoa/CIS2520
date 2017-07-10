@@ -8,7 +8,7 @@ SRC = KTest.c \
 
 # this is the target for building the testing binary
 test: $(addprefix src/,$(SRC)) src/testing.c
-	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) src/testing.c -o bin/test
+	$(CC) $(CFLAGS) -lm -Iinclude $(addprefix src/,$(SRC)) src/testing.c -o bin/test
 
 # run cppcheck
 cppcheck:

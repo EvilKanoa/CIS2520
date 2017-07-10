@@ -134,7 +134,7 @@ int main()
     insertHeapNode(fullHeap, ptr4);
     insertHeapNode(fullHeap, ptr1);
     insertHeapNode(fullHeap, ptr7);
-    test(context, "should insert 8 pieces of data", fullHeap->size == 8);
+    test(context, "should insert 9 pieces of data", fullHeap->size == 9);
 
     /* Testing deleteMinOrMax */
     section(context, "deleteMinOrMax");

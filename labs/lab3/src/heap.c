@@ -28,7 +28,7 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
     if (initialSize > 0) {
         heap->data = malloc(sizeof(Node) * initialSize);
     }
-    heap->maxSize = initialSize;
+    heap->maxSize = (int) initialSize;
     heap->size = 0;
 
     return heap;
@@ -81,7 +81,7 @@ void deleteHeap(Heap *heap)
     free(heap);
 }
 
-void heapifyUp(Heap *heap, size_t node)
+void heapifyUp(Heap *heap, int node)
 {
     Node temp;
 
@@ -96,7 +96,7 @@ void heapifyUp(Heap *heap, size_t node)
     }
 }
 
-void heapifyDown(Heap *heap, size_t node)
+void heapifyDown(Heap *heap, int node)
 {
     Node temp;
 
@@ -118,9 +118,13 @@ void heapifyDown(Heap *heap, size_t node)
 
 void checkSize(Heap *heap)
 {
-    if (heap->size == heap->maxSize) {
+    if (heap->size >= heap->maxSize) {
         heap->maxSize = heap->maxSize * 2;
-        heap->data = realloc(heap->data, heap->maxSize);
+        if (heap->size == 0) {
+            heap->data = malloc(heap->maxSize * sizeof(Node));
+        } else {
+            heap->data = realloc(heap->data, heap->maxSize * sizeof(Node));
+        }
     }
 }
 

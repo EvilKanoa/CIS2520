@@ -27,8 +27,8 @@ typedef void * Node;
 /** Heap struct for binary tree based implemention of a heap **/
 typedef struct Heap {
     Node *data;
-    size_t size;
-    size_t maxSize;
+    int size;
+    int maxSize;
     HEAP_TYPE type;
     void (*destroyData)(void *data);
     void (*printNode)(void *toBePrinted);
@@ -41,13 +41,13 @@ typedef struct Heap {
  *@param heap The heap to ensure has a correct structure
  *@param node The node to base the correction around
  **/
-void heapifyUp(Heap *heap, size_t node);
+void heapifyUp(Heap *heap, int node);
 
 /**Rearranges a heap recursively downwards
  *@param heap The heap to ensure has a correct structure
  *@param node The node to base the correction around
  **/
-void heapifyDown(Heap *heap, size_t node);
+void heapifyDown(Heap *heap, int node);
 
 /**Checks to make sure that the heap's size is less than it's max size,
  * if it isn't, it doubles the heaps size
