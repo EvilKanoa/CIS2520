@@ -175,6 +175,22 @@ int main()
     deleteMinOrMax(dataHeap);
     test(context, "should return new min for semi-full heap", getMinOrMax(dataHeap) == ptr4);
 
+    deleteMinOrMax(fullHeap);
+    test(context, "should return new min for full heap", getMinOrMax(fullHeap) == ptr2);
+    deleteMinOrMax(fullHeap);
+    test(context, "should return new min for full heap", getMinOrMax(fullHeap) == ptr3);
+    insertHeapNode(fullHeap, ptr1);
+    test(context, "should return new min for full heap", getMinOrMax(fullHeap) == ptr1);
+    changeHeapType(fullHeap);
+    test(context, "should return new max for full heap", getMinOrMax(fullHeap) == ptr9);
+    deleteMinOrMax(fullHeap);
+    test(context, "should return new max for full heap", getMinOrMax(fullHeap) == ptr8);
+    changeHeapType(fullHeap);
+    deleteMinOrMax(fullHeap);
+    test(context, "should return new min for full heap", getMinOrMax(fullHeap) == ptr3);
+    changeHeapType(fullHeap);
+    test(context, "should return new max for full heap", getMinOrMax(fullHeap) == ptr8);
+
     /* Testing deleteHeap */
     section(context, "deleteHeap");
     tprint(context, "should print deleted 1 ... deleted 9");

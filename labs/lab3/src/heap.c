@@ -120,6 +120,7 @@ void heapifyDown(Heap *heap, int node)
 {
     Node temp;
 
+    /*
     if ((2 * node) + 1 < heap->size && 
             isBelow(heap, heap->data[node], heap->data[(2 * node) + 1]) &&
             ((2 * node) + 2 < heap->size || isBelow(heap, heap->data[(2 * node) + 2], heap->data[(2 * node) + 1]))) {
@@ -133,6 +134,48 @@ void heapifyDown(Heap *heap, int node)
         heap->data[node] = heap->data[(2 * node) + 2];
         heap->data[(2 * node) + 2] = temp;
         heapifyDown(heap, (2 * node) + 2);
+    }
+    */
+
+
+
+    if ((2 * node) + 1 >= heap->size) {
+        /* if both children are null */
+        return;
+    } else if ((2 * node) + 2 >= heap->size) {
+        /* if right child is null */
+        if (isBelow(heap, heap->data[node], heap->data[(2 * node) + 1])) {
+            /* if left child is larger */
+            /* TODO: swap left and recurse left */
+            temp = heap->data[node];
+            heap->data[node] = heap->data[(2 * node) + 1];
+            heap->data[(2 * node) + 1] = temp;
+            heapifyDown(heap, (2 * node) + 1);
+        } else {
+            /* left child exists but is smaller */
+            return;
+        }
+    } else {
+        /* if both children exist */
+        if (isBelow(heap, heap->data[(node * 2) + 1], heap->data[node]) && 
+                isBelow(heap,heap->data[(node * 2) + 2], heap->data[node])) {
+            /* if both are smaller */
+            return;
+        } else if (isBelow(heap, heap->data[(node * 2) + 1], heap->data[(node * 2) + 1])) {
+            /* if right is larger and left is smaller */
+            /* TODO: swap right and recurse right */
+            temp = heap->data[node];
+            heap->data[node] = heap->data[(2 * node) + 2];
+            heap->data[(2 * node) + 2] = temp;
+            heapifyDown(heap, (2 * node) + 2);
+        } else if (isBelow(heap, heap->data[(node * 2) + 1], heap->data[(node * 2) + 1])) {
+            /* if left is larger and right is smaller */
+            /* TODO: swap left and recurse left */
+            temp = heap->data[node];
+            heap->data[node] = heap->data[(2 * node) + 1];
+            heap->data[(2 * node) + 1] = temp;
+            heapifyDown(heap, (2 * node) + 1);
+        }
     }
 }
 
