@@ -41,6 +41,10 @@ Node *createHeapNode(void *data)
 
 void insertHeapNode(Heap *heap, void *data)
 {
+    if (heap == NULL || data == NULL) {
+        return;
+    }
+
     checkSize(heap);
     heap->data[heap->size] = data;
 

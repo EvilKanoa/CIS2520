@@ -19,7 +19,6 @@ int compare(const void *first, const void *second);
 
 int main()
 {
-    Heap *nullHeap = NULL;
     Heap *emptyHeap;
     Heap *dataHeap;
     Heap *fullHeap;
@@ -110,6 +109,33 @@ int main()
 
     /* Testing insertHeapNode */
     section(context, "insertHeapNode");
+    emptyHeap = createHeap(1, MAX_HEAP, destroyData, printData, compare);
+    dataHeap = createHeap(1, MAX_HEAP, destroyData, printData, compare);
+    fullHeap = createHeap(1, MAX_HEAP, destroyData, printData, compare);
+
+    insertHeapNode(emptyHeap, NULL);
+    test(context, "should not insert data", emptyHeap->size == 0);
+
+    insertHeapNode(NULL, ptr1);
+    test(context, "should not insert data", emptyHeap->size == 0);
+
+    insertHeapNode(dataHeap, ptr1);
+    insertHeapNode(dataHeap, ptr5);
+    insertHeapNode(dataHeap, ptr2);
+    insertHeapNode(dataHeap, ptr9);
+    test(context, "should insert 4 pieces of data", dataHeap->size == 4);
+
+    insertHeapNode(fullHeap, ptr2);
+    insertHeapNode(fullHeap, ptr9);
+    insertHeapNode(fullHeap, ptr5);
+    insertHeapNode(fullHeap, ptr6);
+    insertHeapNode(fullHeap, ptr8);
+    insertHeapNode(fullHeap, ptr3);
+    insertHeapNode(fullHeap, ptr4);
+    insertHeapNode(fullHeap, ptr1);
+    insertHeapNode(fullHeap, ptr7);
+    test(context, "should insert 8 pieces of data", fullHeap->size == 8);
+    printf("size; %d\n", fullHeap->size);
 
     /* Testing deleteMinOrMax */
     section(context, "deleteMinOrMax");
@@ -122,7 +148,6 @@ int main()
 
     /* Testing deleteHeap */
     section(context, "deleteHeap");
-
 
     done(context);
     return context->failCount;
