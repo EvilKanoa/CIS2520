@@ -53,7 +53,11 @@ void insertHeapNode(Heap *heap, void *data)
 
 void deleteMinOrMax(Heap *heap)
 {
-    free(heap->data[0]);
+    if (heap == NULL || heap->size == 0) {
+        return;
+    }
+
+    heap->destroyData(heap->data[0]);
     heap->data[0] = heap->data[--heap->size];
 
     heapifyDown(heap, 0);
@@ -61,14 +65,25 @@ void deleteMinOrMax(Heap *heap)
 
 void *getMinOrMax(Heap *heap)
 {
+    if (heap == NULL || heap->size == 0) {
+        return NULL;
+    }
+
     heapifyDown(heap, 0);
     return (void *) heap->data[0];
 }
 
 void changeHeapType(Heap *heap)
 {
+    if (heap == NULL) {
+        return;
+    }
+
     heap->type = heap->type == MAX_HEAP ? MIN_HEAP : MAX_HEAP;
-    heapifyDown(heap, 0);
+
+    if (heap->size > 0) {
+        heapifyDown(heap, 0);
+    }
 }
 
 void deleteHeap(Heap *heap)

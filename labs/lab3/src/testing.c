@@ -141,11 +141,39 @@ int main()
     /* Testing deleteMinOrMax */
     section(context, "deleteMinOrMax");
 
-    /* Testing getMinOrMax */
-    section(context, "getMinOrMax");
+    deleteMinOrMax(NULL);
+    test(context, "should do nothing for NULL heap", 1);
+    deleteMinOrMax(emptyHeap);
+    test(context, "shouldn't do anything when empty", emptyHeap->size == 0);
+    tprint(context, "Will be tested alongside getMinOrMax");
 
     /* Testing changeHeapType */
     section(context, "changeHeapType");
+
+    changeHeapType(NULL);
+    test(context, "should do nothing for NULL heap", 1);
+    changeHeapType(emptyHeap);
+    test(context, "should make max heap min heap", emptyHeap->type == MIN_HEAP);
+    changeHeapType(emptyHeap);
+    test(context, "should make min heap max heap", emptyHeap->type == MAX_HEAP);
+    tprint(context, "Will be tested alongside getMinOrMax");
+
+    /* Testing getMinOrMax */
+    section(context, "getMinOrMax");
+
+    test(context, "should return max for full heap", getMinOrMax(fullHeap) == ptr9);
+    test(context, "should return max for semi-full heap", getMinOrMax(dataHeap) == ptr9);
+
+    changeHeapType(fullHeap);
+    test(context, "should return min for full heap", getMinOrMax(fullHeap) == ptr1);
+    changeHeapType(dataHeap);
+    test(context, "should return min for semi-full heap", getMinOrMax(dataHeap) == ptr1);
+
+    deleteMinOrMax(dataHeap);
+    test(context, "should return new min for semi-full heap", getMinOrMax(dataHeap) == ptr2);
+    insertHeapNode(dataHeap, ptr4);
+    deleteMinOrMax(dataHeap);
+    test(context, "should return new min for semi-full heap", getMinOrMax(dataHeap) == ptr4);
 
     /* Testing deleteHeap */
     section(context, "deleteHeap");
@@ -180,5 +208,7 @@ void printData(void *data)
 
 int compare(const void *first, const void *second)
 {
-    return *((int *) first) - *((int *) second);
+    int i1 = *((int *) first);
+    int i2 = *((int *) second);
+    return i2 - i1;
 }
