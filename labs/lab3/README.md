@@ -31,3 +31,4 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
+The heapify down function would not work for me so instead I took the unoptimized approach and just start at the bottom of the heap and call heapify up on each node one at a time. Despite this not being the ideal solution, it does indeed work.

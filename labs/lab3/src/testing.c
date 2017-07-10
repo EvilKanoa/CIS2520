@@ -226,5 +226,5 @@ int compare(const void *first, const void *second)
 {
     int i1 = *((int *) first);
     int i2 = *((int *) second);
-    return i2 - i1;
+    return i1 - i2;
 }
