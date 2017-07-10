@@ -147,6 +147,19 @@ int main()
 
     /* Testing deleteHeap */
     section(context, "deleteHeap");
+    tprint(context, "should print deleted 1 ... deleted 9");
+    deleteHeap(fullHeap);
+
+    printf("\n");
+    tprint(context, "should print deleted 1 ... and 3 more");
+    deleteHeap(dataHeap);
+
+    printf("\n");
+    tprint(context, "shouldn't print anything");
+    deleteHeap(emptyHeap);
+
+    tprint(context, "shouldn't print anything");
+    deleteHeap(NULL);
 
     done(context);
     return context->failCount;
