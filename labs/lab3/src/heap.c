@@ -73,11 +73,12 @@ void changeHeapType(Heap *heap)
 
 void deleteHeap(Heap *heap)
 {
+    int i;
+
     if (heap == NULL) {
         return;
     }
 
-    int i;
     for (i = 0; i < heap->size; i++) {
         heap->destroyData(heap->data[i]);
     }
