@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "HeapAPI.h"
+#include "HeapDefs.h"
 #include "KTest.h"
 
 #define PROGRAM_NAME "Heap Library"

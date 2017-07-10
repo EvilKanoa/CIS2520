@@ -16,17 +16,18 @@ struct that is your main heap,  Node must be the type that is stored in the heap
 
 typedef somestructhere Heap;
 typedef someotherstructhere Node;
-
 */
+#ifndef _HEAPTYPES_
+#define _HEAPTYPES_
 #ifndef _HEAP_API_
-#define _HEAP_API_
-
-#include <stdlib.h>
-#include "HeapDefs.h"
-
 #define MIN_HEAP 0
 #define MAX_HEAP 1
 #define HEAP_TYPE unsigned char
+#endif
+#endif
+
+#ifndef _HEAP_API_
+#define _HEAP_API_
 
 /**Function to allocate memory to the heap and point the heap to the appropriate functions. Allocates memory to the heap based on the size given.
  *@return pointer to the heap

@@ -2,91 +2,122 @@
  * @file heap.c
  * @author Kanoa Haley - 0956712 - khaley@mail.uoguelph.ca
  * @date July 7, 2017
- * @brief File containing the implementions for a binary tree based 
+ * @brief File containing the implementions for an array based 
  * heap library based on the HeapAPI as well as the extra functions 
- * as defined n the HeapDefs.h file
+ * as defined in the HeapDefs.h file
  */
 
-#include "HeapAPI.h"
+#include "HeapDefs.h"
 
 Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second))
 {
-   Heap *heap = malloc(sizeof(Heap));
-   heap->type = htype;
-   heap->destroyData = destroyDataFP;
-   heap->printNode = printNodeFP;
-   heap->compare = compareFP;
-   return heap;
+    Heap *heap = malloc(sizeof(Heap));
+
+    heap->type = htype;
+    heap->destroyData = destroyDataFP;
+    heap->printNode = printNodeFP;
+    heap->compare = compareFP;
+
+    heap->data = malloc(sizeof(Node) * initialSize);
+    heap->maxSize = initialSize;
+    heap->size = 0;
+
+    return heap;
 }
 
 Node *createHeapNode(void *data)
 {
-    Node *node = malloc(sizeof(Node));
-    node->left = NULL;
-    node->right = NULL;
-    node->parent = NULL;
-    node->data = data;
-    return node;
-}
-
-/**Inserts a Node into the heap. Uses createHeapNode to place the data in a Node structure, and then puts the newly
- *created Node in the heap by adding at the bottom and comparing it to each parent node until it fits the Heap structure.
- *If the heap is a min heap, if the Node is lesser than the parent, it is swapped. The opposite is true for a max heap.
- *@pre Heap must exist and have data allocated to it
- *@param heap Pointer to a heap
- *@param data Pointer to generic data that is to be inserted into the heap
-**/
-void insertHeapNode(Heap *heap, void *data)
-{
-
-}
-
-/**Function to remove the maximum or minimum Node of the heap (depending on min heap or max heap).
- *Once the Node has been deleted, the Node at the deepest point in the Heap is placed in the min/max position.
- *Finally, the heap is heapified to maintain heap property.
- *@pre Heap must exist and have memory allocated to it
- *@param heap Pointer to a heap.
- **/
-void deleteMinOrMax(Heap *heap)
-{
-
-}
-
-/**Function to rearrange a heap to maintain heap property. Starting at the min/max, each Node is compared with its
- *two children to determine the smallest/largest of the three. If the parent is smaller/larger than the child,
- *it is swapped. Heapify is then recursively called on the child in order to continue heapifying until it reaches the bottom of the heap.
- *@param heap Pointer to a heap to be heapified
- **/
-void *getMinOrMax(Heap *heap)
-{
     return NULL;
 }
 
-/**Function to switch the type of heap from min-to-max or max-to-min. This changes the htype flag from MIN_HEAP
- *to MAX_HEAP and vice versa. Once the flag has been changed, heapify is called on the heap to rearrange it to 
- *fit the new heap property.
- *@param heap Pointer to a heap to switch from min-to-max or max-to-min.
- **/
+void insertHeapNode(Heap *heap, void *data)
+{
+    checkSize(heap);
+    heap->data[heap->size] = data;
+
+    heapifyUp(heap, heap->size++);
+}
+
+void deleteMinOrMax(Heap *heap)
+{
+    free(heap->data[0]);
+    heap->data[0] = heap->data[--heap->size];
+
+    heapifyDown(heap, 0);
+}
+
+void *getMinOrMax(Heap *heap)
+{
+    heapifyDown(heap, 0);
+    return (void *) heap->data[0];
+}
+
 void changeHeapType(Heap *heap)
 {
-
+    heap->type = heap->type == MAX_HEAP ? MIN_HEAP : MAX_HEAP;
+    heapifyDown(heap, 0);
 }
 
-/**Function delete a heap. This function calls deleteMinOrMax the same amount of times as the size of the
- *heap, which heapifies after each deletion. Finally, it frees the Heap structure.
- *@param heap Pointer of a heap to be deleted.
- **/
 void deleteHeap(Heap *heap)
 {
-
+    int i;
+    for (i = 0; i < heap->size; i++) {
+        heap->destroyData(heap->data[i]);
+    }
+    free(heap->data);
+    free(heap);
 }
 
-void heapify(Heap *heap, Node *newNode)
+void heapifyUp(Heap *heap, size_t node)
 {
-    Node *parent = newNode->parent;
+    Node temp;
 
-    while (heap->compare(newNode->data, parent->data) * heap->type == MAX_HEAP ? 1 : -1 > 0) {
-        // swap new node <-> parent node
-        // parent node = get new parent node from new newnode
+    /* continue bubbling the node up the heap while:
+       - it is not the top node 
+       - it is larger (max) / smaller (min) than its parent */
+    while (node != 0 && isBelow(heap, heap->data[(node - 1) / 2], heap->data[node])) {
+        temp = heap->data[node];
+        heap->data[node] = heap->data[(node - 1) / 2];
+        heap->data[(node - 1) / 2] = temp;
+        node = (node - 1) / 2;
+    }
+}
+
+void heapifyDown(Heap *heap, size_t node)
+{
+    Node temp;
+
+    if ((2 * node) + 1 < heap->size && 
+            isBelow(heap, heap->data[node], heap->data[(2 * node) + 1]) &&
+            ((2 * node) + 2 < heap->size || isBelow(heap, heap->data[(2 * node) + 2], heap->data[(2 * node) + 1]))) {
+        temp = heap->data[node];
+        heap->data[node] = heap->data[(2 * node) + 1];
+        heap->data[(2 * node) + 1] = temp;
+        heapifyDown(heap, (2 * node) + 1);
+    } else if ((2 * node) + 2 < heap->size &&
+            isBelow(heap, heap->data[node], heap->data[(2 * node) + 2])) {
+        temp = heap->data[node];
+        heap->data[node] = heap->data[(2 * node) + 2];
+        heap->data[(2 * node) + 2] = temp;
+        heapifyDown(heap, (2 * node) + 2);
+    }
+}
+
+void checkSize(Heap *heap)
+{
+    if (heap->size == heap->maxSize) {
+        heap->maxSize = heap->maxSize * 2;
+        heap->data = realloc(heap->data, heap->maxSize);
+    }
+}
+
+int isBelow(Heap *heap, Node check, Node against)
+{
+    if (heap->type == MAX_HEAP && heap->compare(check, against) < 0) {
+        return 1;
+    } else if (heap->type == MIN_HEAP && heap->compare(check, against) > 0) {
+        return 1;
+    } else {
+        return 0;
     }
 }

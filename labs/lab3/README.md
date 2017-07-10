@@ -9,7 +9,12 @@ khaley@mail.uoguelph.ca                 June 25, 2017
 *******************
 Program Description
 *******************
-This is an implemention of a heap backed by a binary tree as well as a test suite for the heap
+This is an implemention of a heap backed by an array as well as a test suite for the heap.
+
+The array implemention simply uses an array of the required size and to find a nodes parent, or children, it performs calculations on the nodes index. The calculations are:
+Parent of node      = (index + 1) / 2
+Left child of node  = (2 * index) + 1
+Right child of node = (2 * index) + 2
 
 ***********
 Compilation
