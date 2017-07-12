@@ -1,5 +1,5 @@
 /**
- * @file HeapAPI.h
+ * @file heap.h
  * @author Michael Ellis
  * @date March 2017
  * @brief File containing the function definitions of a heap

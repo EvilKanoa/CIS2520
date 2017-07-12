@@ -3,15 +3,20 @@ CC          =	gcc
 CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
-SRC = heap.c
+SRC = heap.c \
+	  KTest.c \
+	  priorityQueue.c
+PROGRAM = src/triage.c
+TESTING = src/testing.c
+
 
 # this is the target for building the main program
-program: $(addprefix src/,$(SRC)) src/priorityQueue.c
-	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) src/priorityQueue.c -o bin/vault
+program: $(addprefix src/,$(SRC)) $(PROGRAM)
+	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) $(PROGRAM) -o bin/program
 
 # this is the target for building the testing binary
-test: $(addprefix src/,$(SRC)) src/testing.c
-	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) src/testing.c -o bin/test
+test: $(addprefix src/,$(SRC)) $(TESTING)
+	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) $(TESTING) -o bin/test
 
 # run cppcheck
 cppcheck:
