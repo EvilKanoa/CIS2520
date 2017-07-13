@@ -13,7 +13,7 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
 {
     Heap *heap;
 
-    if (destroyDataFP == NULL || printNodeFP == NULL || compareFP == NULL ||
+    if (destroyDataFP == NULL || compareFP == NULL ||
             (htype != MIN_HEAP && htype != MAX_HEAP)) {
         return NULL;
     }

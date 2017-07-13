@@ -45,7 +45,7 @@ int triage(char *inputFileName, char *outputFileName)
     PriorityQueue *queue = readTriageFile(inputFileName);
 
     if (queue == NULL) {
-        printf("Unable to open %s, exiting...\n", inputFileName);
+        printf("Error while opening %s, exiting...\n", inputFileName);
         return -2;
     }
 
@@ -60,7 +60,7 @@ PriorityQueue *readTriageFile(char *fileName)
     char *temp;
     int length = 0;
 
-    if (fp == NULL) {
+    if (fp == NULL || triageData == NULL) {
         return NULL;
     }
 

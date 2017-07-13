@@ -107,7 +107,7 @@ void tickPriorityQueue(PriorityQueue *pQueue)
 
 int isEmptyPriorityQueue(PriorityQueue *pQueue)
 {
-    return pQueue->heap->size == 0 ? 0 : 1;
+    return pQueue->heap->size == 0 ? 1 : 0;
 }
 
 void destroyPriorityQueue(PriorityQueue *pQueue)
