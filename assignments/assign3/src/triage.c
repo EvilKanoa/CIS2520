@@ -97,6 +97,7 @@ PriorityQueue *readTriageFile(char *fileName)
     }
 
     free(input);
+    fclose(fp);
 
     return triageData;
 }
