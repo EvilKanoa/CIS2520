@@ -18,6 +18,9 @@
 #define MIN_PRIORITY_QUEUE 0
 #define MAX_PRIORITY_QUEUE 1
 
+/** Preset initial size for the heap for a priority queue */
+#define INITIAL_HEAP_SIZE 8
+
 /**Priority queue for heap based implementation of a priority queue using the
  * aging anti-starvation algoritm.
  */
@@ -26,8 +29,8 @@ typedef struct PriorityQueue {
     PRIORITY_QUEUE_TYPE type;
     char tickOnPush;
     double agePriorityFactor;
+    long tickCount;
     void (*destroyData)(void *data);
-    void (*printData)(void *data);
 } PriorityQueue;
 
 /** Data node for a priority queue */
@@ -35,7 +38,8 @@ typedef struct PriorityQueueNode {
     void *myData;
     int priority;
     long creationTick; /** The current tick count at insertion of this item */
-}
+    PriorityQueue *myQueue;
+} PriorityQueueNode;
 
 /**Function to allocate memory for the queue and initialize properly
  *@param agePriorityFactor decimal number used to denote the importance of age against priority, [0.0, 1.0]
@@ -46,6 +50,14 @@ typedef struct PriorityQueueNode {
  *@return pointer to the priority queue
  */
 PriorityQueue *createPriorityQueue(double agePriorityFactor, char tickOnPush, PRIORITY_QUEUE_TYPE type, void (*destroyData)(void *data), void (*printData)(void *data));
+
+/**Function to allocate memory for a priority queue node and assign it the correct values
+ *@param pQueue priority queue to use
+ *@param data item to create a node around
+ *@param priority item's priority
+ *@return pointer to the priority queue node
+ */
+PriorityQueueNode *createPriorityQueueNode(PriorityQueue *pQueue, void *data, int priority);
 
 /**Function to insert an item with a given priority into the queue
  *@param pQueue priority queue to use
@@ -71,9 +83,28 @@ void *peekPriorityQueue(PriorityQueue *pQueue);
  */
 void tickPriorityQueue(PriorityQueue *pQueue);
 
+/**Function to check if the priority queue has no items (is empty)
+ *@param pQueue priority queue to use
+ *@return 0 if the queue is empty, 1 if it is not empty
+ */
+int isEmptyPriorityQueue(PriorityQueue *pQueue);
+
 /**Function to free the queue and all its items
  *@param pQueue priority queue to destroy
  */
 void destroyPriorityQueue(PriorityQueue *pQueue);
+
+/**Function to be used by the heap to compare priorities.
+ * This function uses the anti-starvation aging algoritm.
+ *@param first a priority queue node pointer
+ *@param second another priority queue node pointer
+ *@return value representing how much greater the second is than the first
+ */
+int priorityCompare(const void *first, const void *second);
+
+/**Function to be used by the heap to free a node
+ *@param data priority queue node pointer to free
+ */
+void priorityDestroy(void *data);
 
 #endif
