@@ -84,7 +84,12 @@ void *popPriorityQueue(PriorityQueue *pQueue)
 
 void *peekPriorityQueue(PriorityQueue *pQueue)
 {
-    PriorityQueueNode *node = getMinOrMax(pQueue->heap);
+    PriorityQueueNode *node;
+    if (pQueue == NULL || pQueue->heap == NULL || pQueue->heap->size < 1) {
+        return NULL;
+    }
+    
+    node = pQueue->heap->data[0];
 
     if (node != NULL) {
         return node->myData;

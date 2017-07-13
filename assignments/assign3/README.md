@@ -11,7 +11,8 @@ Program Description
 *******************
 This program behaves as a simple triage simulator using a priority queue. It takes in data from a text based file and simulates the triaging of the patients after which it provides a report on the ideal order for the patients to been seen. 
 
-The input data is in the form of `[client ID] [priority] [symtom code]` where the symtom code will be a two upper case letter code based on the symtoms found [here](http://caep.ca/sites/caep.ca/files/caep/files/cedis2008.pdf).
+The input data is in the form of new line seperated entries with the format: `[client ID] [priority] [symtom code]` where the symtom code will be a two upper case letter code based on the symtoms found [here](http://caep.ca/sites/caep.ca/files/caep/files/cedis2008.pdf).
+
 #### Sample of the input data ####
 ```
 sal45  2  EC
@@ -42,44 +43,66 @@ Complexity
 **********
 #### The Big O notation for each PriorityQueueADT function. ####
 
-createTable: O(n)
-- The creation function actually takes time to remove any garbage values from the table array which results in a O(n) creation time.
+createPriorityQueue: O(1)
+- This function allocates a heap and a priority queue.
 
-createNode: O(1)
-- This function only allocates and sets up a node which is a constant time process.
+createPriorityQueueNode: O(1)
+- Only performs allocation.
 
-destroyTable: O(n)
-- This function has to traverse the table to free every node.
+pushPriorityQueue: O(log n)
+- Performs allocation then uses insertHeapNode to add the new item.
 
-insertData: O(n)
-- The upper limit is O(n) IF every single other piece of data in the table has collided in the same location, this function can (and normally should) be constant time.
+popPriorityQueue: O(n log n)
+- Uses the heap's getMinOrMax and deleteMinOrMax functions to grab the top item from the heap.
 
-removeData: O(n)
-- The same issue as insertData applies here. Typically it is constant time but it has the possibility of being O(n).
+peakPriorityQueue: O(1)
+- Would ideally use the heap's getMinOrMax function to retrieve the top item.
+- Since the heap has an error with getMinOrMax and heapifyDown, it would cause this function to have O(n log n), hence why this function manually retrieves the top item of the heap.
 
-lookupData: O(n)
-- This function may have to iterate over every other node, but that is uncommon in the real world.
+tickPriorityQueue: O(1)
+- Increase the queues tick counter.
+
+isEmptyPriorityQueue: O(1)
+- Only checks the heap size.
+
+destroyPriorityQueue: O(n)
+- Uses the heap's deleteHeap function to deallocate the items, the heap, and the queue.
 
 #### The Big O notation for each HeapADT function. ####
 
-createTable: O(n)
-- The creation function actually takes time to remove any garbage values from the table array which results in a O(n) creation time.
+createHeap: O(1)
+- The creation function only allocates space and initlizes variables which is a constant time process.
 
-createNode: O(1)
-- This function only allocates and sets up a node which is a constant time process.
+createHeapNode: O(1)
+- Because I used an array implementation of the heap, the createHeapNode function does not perform any tasks.
 
-destroyTable: O(n)
-- This function has to traverse the table to free every node.
+insertHeapNode: O(log n)
+- Since this function only checks the size, allocates, and finally runs heapifyUp, it has the same O as heapifyUp.
 
-insertData: O(n)
-- The upper limit is O(n) IF every single other piece of data in the table has collided in the same location, this function can (and normally should) be constant time.
+deleteMinOrMax: O(n log n)
+- This function deallocates the data for the min/max then heapifies downwards.
 
-removeData: O(n)
-- The same issue as insertData applies here. Typically it is constant time but it has the possibility of being O(n).
+getMinOrMax: O(n log n)
+- This function will ensure its results are correct by first heapifying downwards, but in nearly all situations will have a constant runtime.
 
-lookupData: O(n)
-- This function may have to iterate over every other node, but that is uncommon in the real world.
+changeHeapType:: O(n log n)
+- This function will nearly always run at a full n log n time since it must rearrange the entire heap for its new type.
 
+deleteHeap: O(n)
+- Since I used an array implementation, this function simply iterates over every heap item and deallocates it.
+
+heapifyUp: O(log n)
+- This function will potentially traverse all levels of the heap but not all items, since the levels contain expoentially more items each, this function performs in logerithmic time.
+
+heapifyDown: O(n log n)
+- This function simply performs heapifyUp on each element in the heap which gives it a max potintial time of n times the time for heapifyUp.
+- Note: This is not an ideal implementation and instead should run in O(log n) time, I was simply unable to get it to function ideally.
+
+checkSize: O(1)
+- This function reallocates space for the array if nesscessary for the entire heap.
+
+isBelow: O(1)
+- This is a utility function to compares a node to another node.
 
 *******
 Testing
