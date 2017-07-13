@@ -9,11 +9,20 @@ khaley@mail.uoguelph.ca                 July 17, 2017
 *******************
 Program Description
 *******************
+This program behaves as a simple triage simulator using a priority queue. It takes in data from a text based file and simulates the triaging of the patients after which it provides a report on the ideal order for the patients to been seen. 
+
+The input data is in the form of `[client ID] [priority] [symtom code]` where the symtom code will be a two upper case letter code based on the symtoms found [here](http://caep.ca/sites/caep.ca/files/caep/files/cedis2008.pdf).
+#### Sample of the input data ####
+```
+sal45  2  EC
+bob52e  1 HN
+23 5 TR
+```
 
 ***********
 Compilation
 ***********
-Use `make` or `make program` to compile the main application. It will create an executable in the `bin/` directory called program.
+Use `make` or `make program` to compile the main application. It will create an executable in the `bin/` directory called `program`. This executable can be ran with a single argument which points to an input data file.
 
 Use `make test` to compile the unit tests for this program. It will create an executable in the `bin/` directory called `test` which can then be ran without any arguments to run unit tests over the code.
 
@@ -26,14 +35,61 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
+For the priority queue ADT, the anti-starvation algorithm isn't fool proof, if you do not pick an appropriate age to priority scale factor, the queue may behave in an unexpected manner to your goals. 
 
 **********
 Complexity
 **********
+#### The Big O notation for each PriorityQueueADT function. ####
 
-*********
-Algorithm
-*********
+createTable: O(n)
+- The creation function actually takes time to remove any garbage values from the table array which results in a O(n) creation time.
+
+createNode: O(1)
+- This function only allocates and sets up a node which is a constant time process.
+
+destroyTable: O(n)
+- This function has to traverse the table to free every node.
+
+insertData: O(n)
+- The upper limit is O(n) IF every single other piece of data in the table has collided in the same location, this function can (and normally should) be constant time.
+
+removeData: O(n)
+- The same issue as insertData applies here. Typically it is constant time but it has the possibility of being O(n).
+
+lookupData: O(n)
+- This function may have to iterate over every other node, but that is uncommon in the real world.
+
+#### The Big O notation for each HeapADT function. ####
+
+createTable: O(n)
+- The creation function actually takes time to remove any garbage values from the table array which results in a O(n) creation time.
+
+createNode: O(1)
+- This function only allocates and sets up a node which is a constant time process.
+
+destroyTable: O(n)
+- This function has to traverse the table to free every node.
+
+insertData: O(n)
+- The upper limit is O(n) IF every single other piece of data in the table has collided in the same location, this function can (and normally should) be constant time.
+
+removeData: O(n)
+- The same issue as insertData applies here. Typically it is constant time but it has the possibility of being O(n).
+
+lookupData: O(n)
+- This function may have to iterate over every other node, but that is uncommon in the real world.
+
+
+*******
+Testing
+*******
+TODO: Create >=4 input data files to test all possibilities for my priority queue
+
+******
+Design
+******
+#### Anti-Starvation Algorithm ####
 When using a priority queue in a real world situation, it is necessary to prevent starvation. Starvation occurs when a low priority item in the queue is ignored constantly in favour of high priority items.
 
 The chosen algorithm for my priority queue is the aging technique. This will allow the queue to take time into account and slowly increase the priority of all items as they "age" or get older. This will ensure that low priority items will eventually rise up to a high priority if they are forced to stay in the queue for a lengthy amount of time.
@@ -46,9 +102,14 @@ Therefore, the cumulative calcuation for the effective priority of an item is:
 ```
 E(item) = P(item) + A(item) * S(queue)
 ```
-When using my chosen formula, I recommend that the age to priority scale factor be somewhere in the range of `[0.0, 1.0]`, with 0 being age has no effect to 1 being that each tick of the system increases an items priority by one level.
+When using my chosen formula, I recommend that the age to priority scale factor be somewhere in the range of `[0.0, 1.0]`, with 0 being age has no effect to 1 being that each tick of the system increases an item's priority by one level.
 
 Sources:
  - https://www.ibm.com/support/knowledgecenter/SSEPGG_9.7.0/com.ibm.db2.luw.admin.wlm.doc/doc/c0051423.html
  - https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.iata700/iata70047.htm
  - https://en.wikipedia.org/wiki/Aging_(scheduling)
+
+******
+Output
+******
+TODO: How to read my report.txt
