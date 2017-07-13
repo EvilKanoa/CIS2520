@@ -23,7 +23,7 @@ typedef struct PatiantData {
 
 int triage(char *inputFileName, char *outputFileName);
 PriorityQueue *readTriageFile(char *fileName);
-void writeTriageReport(char *fileName);
+int writeTriageReport(char *fileName, PriorityQueue *queue);
 void destroyData(void *data);
 void stripNewline(char *str);
 
@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
     } else {
         printf("Running triage simulation using data file: %s\n", argv[1]);
         result = triage(argv[1], OUTPUT_FILE);
-        printf("Results have been saved to: %s\n", OUTPUT_FILE);
         return result;
     }
 }
@@ -43,10 +42,20 @@ int main(int argc, char *argv[]) {
 int triage(char *inputFileName, char *outputFileName)
 {
     PriorityQueue *queue = readTriageFile(inputFileName);
+    int result;
 
     if (queue == NULL) {
         printf("Error while opening %s, exiting...\n", inputFileName);
         return -2;
+    }
+
+    result = writeTriageReport(OUTPUT_FILE, queue);
+    destroyPriorityQueue(queue);
+    if (result == 0) {
+        printf("Results have been saved to: %s\n", OUTPUT_FILE);
+    } else {
+        printf("Error while opening %s, exiting...\n", OUTPUT_FILE);
+        return -3;
     }
 
     return 0;
@@ -87,25 +96,38 @@ PriorityQueue *readTriageFile(char *fileName)
         }
     }
 
-    printf("All data read in\n");
-    while (!isEmptyPriorityQueue(triageData)) {
-        PatiantData *pd = popPriorityQueue(triageData);
-        printf("removed patient: id = %s, priority = %d, symptom = %s\n", pd->id, pd->priority, pd->symptom);
-    }
-
     free(input);
 
     return triageData;
 }
 
-void writeTriageReport(char *fileName)
+int writeTriageReport(char *fileName, PriorityQueue *queue)
 {
+    FILE *fp = fopen(fileName, "w");
+    PatiantData *node;
 
+    if (fp == NULL || queue == NULL) {
+        return -1;
+    }
+
+    fprintf(fp, "Client List (Ordered from top to bottom by first served)\n\n");
+
+    while (!isEmptyPriorityQueue(queue)) {
+        node = popPriorityQueue(queue);
+        fprintf(fp, "%s, %s\n", node->id, node->symptom);
+    }
+
+    fclose(fp);
+
+    return 0;
 }
 
 void destroyData(void *data)
 {
-
+    PatiantData *pd = (PatiantData *) data;
+    free(pd->id);
+    free(pd->symptom);
+    free(pd);
 }
 
 void stripNewline(char *str)
