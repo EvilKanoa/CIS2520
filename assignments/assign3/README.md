@@ -34,7 +34,7 @@ Complexity
 *********
 Algorithm
 *********
-When using a priority queue in a real world situation, it is necessary to prevent starvation. starvation occurs when a low-priority item in the queue is ignored constantly in favour of high priority items.
+When using a priority queue in a real world situation, it is necessary to prevent starvation. Starvation occurs when a low-priority item in the queue is ignored constantly in favour of high priority items.
 
 The chosen algoritm for my priority queue is the aging technique. This will allow the queue to take time into account and slowly increase the priority of all items as they "age" or get older. This will ensure that low-priority items will eventually rise up to a high priority if they are forced to stay in the queue for a lengthy amount of time.
 
