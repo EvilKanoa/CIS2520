@@ -4,7 +4,6 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
 SRC = heap.c \
-	  KTest.c \
 	  priorityQueue.c
 PROGRAM = src/triage.c
 TESTING = src/testing.c
