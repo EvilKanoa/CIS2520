@@ -34,9 +34,9 @@ Complexity
 *********
 Algorithm
 *********
-When using a priority queue in a real world situation, it is necessary to prevent starvation. Starvation occurs when a low-priority item in the queue is ignored constantly in favour of high priority items.
+When using a priority queue in a real world situation, it is necessary to prevent starvation. Starvation occurs when a low priority item in the queue is ignored constantly in favour of high priority items.
 
-The chosen algoritm for my priority queue is the aging technique. This will allow the queue to take time into account and slowly increase the priority of all items as they "age" or get older. This will ensure that low-priority items will eventually rise up to a high priority if they are forced to stay in the queue for a lengthy amount of time.
+The chosen algorithm for my priority queue is the aging technique. This will allow the queue to take time into account and slowly increase the priority of all items as they "age" or get older. This will ensure that low priority items will eventually rise up to a high priority if they are forced to stay in the queue for a lengthy amount of time.
 
 To implement aging in an effective fashion, the priority queue must know the range of the priority for the items in it. Using this, it can calculate an age factor which will get applied during the heap's compare routine to effectively increase the priority of older items in the queue compared to more recent entries. For my implemention, time is considered in "ticks", typically each insertion or set of insertions will cause the queue to tick in turn increasing the age on the items in the queue.
 
