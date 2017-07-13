@@ -7,11 +7,24 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "PriorityQueueAPI.h"
 
 #define OUTPUT_FILE "report.txt"
+#define BUFFER_LENGTH 256
+
+typedef struct PatiantData {
+    char *id;
+    int priority;
+    char *symptom;
+} PatiantData;
 
 void triage(char *inputFileName, char *outputFileName);
+PriorityQueue *readTriageFile(char *fileName);
+void writeTriageReport(char *fileName);
+void destroyData(char *data);
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -26,6 +39,34 @@ int main(int argc, char *argv[]) {
 }
 
 void triage(char *inputFileName, char *outputFileName)
+{
+
+}
+
+PriorityQueue *readTriageFile(char *fileName)
+{
+    FILE *fp = fopen(fileName, "r");
+    PriorityQueue *triageData = createPriorityQueue(0.5, 0, MAX_PRIORITY_QUEUE, destroyData, NULL);
+    char input[BUFFER_LENGTH];
+    int tempLength = 0;
+
+    if (fp == NULL) {
+        return NULL;
+    }
+
+    while (fgets(input, BUFFER_LENGTH, fp) != NULL) {
+        if (strlen(input) > 0) {
+
+        }
+    }
+}
+
+void writeTriageReport(char *fileName)
+{
+
+}
+
+void destroyData(char *data)
 {
 
 }
