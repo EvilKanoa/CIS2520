@@ -41,7 +41,7 @@ For the priority queue ADT, the anti-starvation algorithm isn't fool proof, if y
 **********
 Complexity
 **********
-#### The Big O notation for each PriorityQueueADT function. ####
+### The Big O notation for each PriorityQueueADT function. ###
 
 createPriorityQueue: O(1)
 - This function allocates a heap and a priority queue.
@@ -68,7 +68,7 @@ isEmptyPriorityQueue: O(1)
 destroyPriorityQueue: O(n)
 - Uses the heap's deleteHeap function to deallocate the items, the heap, and the queue.
 
-#### The Big O notation for each HeapADT function. ####
+### The Big O notation for each HeapADT function. ###
 
 createHeap: O(1)
 - The creation function only allocates space and initlizes variables which is a constant time process.
@@ -112,7 +112,7 @@ TODO: Create >=4 input data files to test all possibilities for my priority queu
 ******
 Design
 ******
-### Anti-Starvation Algorithm ###
+## Anti-Starvation Algorithm ##
 When using a priority queue in a real world situation, it is necessary to prevent starvation. Starvation occurs when a low priority item in the queue is ignored constantly in favour of high priority items.
 
 The chosen algorithm for my priority queue is the aging technique. This will allow the queue to take time into account and slowly increase the priority of all items as they "age" or get older. This will ensure that low priority items will eventually rise up to a high priority if they are forced to stay in the queue for a lengthy amount of time.
@@ -132,7 +132,7 @@ Sources:
  - https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.iata700/iata70047.htm
  - https://en.wikipedia.org/wiki/Aging_(scheduling)
 
-### Additions Implemented ###
+## Additions Implemented ##
 I decied to implement the addition to add time to the simulation described below as found on the assignment page:
 > Change the simulation so that each client has an arrival time that is randomly generated as the data is read in from the file. Add a clock to the simulation and add the clients to the priority queue at their arrival time rather than all at once at the beginning of the simulation. The final report will include the total time spent as well as the time/per client and average time/client in addition to the order of processing. Run the simulation on all four of your data files both with and without the arrival time being used. In your README compare the results of the two different simulation approaches.
 
