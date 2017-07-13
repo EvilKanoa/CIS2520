@@ -115,6 +115,7 @@ int writeTriageReport(char *fileName, PriorityQueue *queue)
     while (!isEmptyPriorityQueue(queue)) {
         node = popPriorityQueue(queue);
         fprintf(fp, "%s, %s\n", node->id, node->symptom);
+        destroyData(node);
     }
 
     fclose(fp);
