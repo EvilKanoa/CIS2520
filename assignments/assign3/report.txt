@@ -1,5 +1,0 @@
-Client List (Ordered from top to bottom by first served)
-
-23, TR
-sal45, EC
-bob52e, HN

@@ -143,4 +143,8 @@ I chose this addition since my program is using the aging anti-starvation algori
 ******
 Output
 ******
-TODO: How to read my report.txt
+The output will be saved as a report in a `.txt` file called `report.txt` (unless you ran the testing program, than it'll give you the output file names). This will will be in descending order with the first served patients at the top.
+
+Depending on if the algorithm was run using randomly generated arrival times or assuming arrival all at the same time, the report will look different. 
+
+For both types, each row of the report will start with the same original client data. The format `patient-id, patient-symptom, patient-priority` will be used.

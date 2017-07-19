@@ -85,11 +85,9 @@ int writeTriageReport(char *fileName, PriorityQueue *queue)
         return -1;
     }
 
-    fprintf(fp, "Client List (Ordered from top to bottom by first served)\n\n");
-
     while (!isEmptyPriorityQueue(queue)) {
         node = popPriorityQueue(queue);
-        fprintf(fp, "%s, %s\n", node->id, node->symptom);
+        fprintf(fp, "%s, %s, %d\n", node->id, node->symptom, node->priority);
         destroyData(node);
     }
 
