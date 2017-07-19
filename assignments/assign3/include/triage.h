@@ -13,10 +13,15 @@
 #define OUTPUT_FILE "report.txt"
 #define BUFFER_LENGTH 256
 
+/** Struct to contain patient data while simulating */
 typedef struct PatiantData {
+    /* patient data */
     char *id;
     int priority;
     char *symptom;
+
+    /* time data */
+    int arrivalTime;
 } PatiantData;
 
 /**Function to use a priority queue to run the triage program
