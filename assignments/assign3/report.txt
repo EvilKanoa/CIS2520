@@ -1,0 +1,21 @@
+nh4d, HN, 5, 31, 0
+03d, EC, 2, 2, 30
+n1cb, CV, 5, 31, 0
+1egy3, CV, 4, 25, 7
+hv3i09, RC, 3, 9, 17
+5rl9n, SA, 3, 11, 0
+vcpcg, RC, 5, 41, 0
+hras234v, HN, 2, 21, 21
+ekw4o, SK, 5, 42, 0
+ohh20, MH, 3, 22, 21
+lmsdfvi3, EC, 5, 39, 0
+u4, TR, 1, 2, 38
+b40dlxoex, GI, 4, 43, 0
+xh2, TR, 3, 42, 2
+t9fuc, TR, 4, 47, 0
+km2x6y, MH, 2, 35, 13
+iv5, SK, 1, 22, 14
+vv3s, NV, 1, 35, 0
+3n244uy, CV, 1, 49, 0
+pmkq, TR, 1, 47, 3
+Total Time: 50, Average Wait Time: 8.30

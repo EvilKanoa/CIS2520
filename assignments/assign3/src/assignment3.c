@@ -6,16 +6,30 @@
  */
 
  #include <stdio.h>
+ #include <string.h>
  #include "triage.h"
 
 int main(int argc, char *argv[]) {
     int result;
-    if (argc != 2) {
-        printf("Invalid arguments!\nUse \"%s [data file]\" to run\n", argv[0]);
+    if (argc != 3) {
+        printf("Invalid arguments!\n");
+        printf("Use \"%s preserve [data file]\" to run without random arrival times\n", argv[0]);
+        printf("Use \"%s random [data file]\" to run with random arrival times\n", argv[0]);
         return -1;
     } else {
-        printf("Running triage simulation using data file: %s\n", argv[1]);
-        result = triage(argv[1], OUTPUT_FILE, 1);
-        return result;
+        if (strcmp(argv[1], "preserve") == 0) {
+            printf("Running triage simulation without random arrival times using data file: %s\n", argv[2]);
+            result = triage(argv[2], OUTPUT_FILE, 0);
+            return result;
+        } else if (strcmp(argv[1], "random") == 0) {
+            printf("Running triage simulation with random arrival times using data file: %s\n", argv[2]);
+            result = triage(argv[2], OUTPUT_FILE, 1);
+            return result;
+        } else {
+            printf("Invalid arguments!\n");
+            printf("Use \"%s preserve [data file]\" to run without random arrival times\n", argv[0]);
+            printf("Use \"%s random [data file]\" to run with random arrival times\n", argv[0]);
+            return -1;
+        }
     }
 }

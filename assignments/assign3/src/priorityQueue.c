@@ -125,8 +125,8 @@ int priorityCompare(const void *first, const void *second)
     PriorityQueueNode *n1 = (PriorityQueueNode *) first;
     PriorityQueueNode *n2 = (PriorityQueueNode *) second;
 
-    double e1 = n1->priority + (n1->myQueue->tickCount - n1->creationTick) * n1->myQueue->agePriorityFactor;
-    double e2 = n2->priority + (n2->myQueue->tickCount - n2->creationTick) * n2->myQueue->agePriorityFactor;
+    double e1 = n1->priority + ((double) (n1->myQueue->tickCount - n1->creationTick)) * n1->myQueue->agePriorityFactor;
+    double e2 = n2->priority + ((double) (n2->myQueue->tickCount - n2->creationTick)) * n2->myQueue->agePriorityFactor;
 
     return e1 - e2;
 }

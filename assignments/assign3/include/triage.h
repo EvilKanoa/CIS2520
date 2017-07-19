@@ -11,6 +11,8 @@
 #include "PriorityQueueAPI.h"
 
 #define OUTPUT_FILE "report.txt"
+#define AGE_PRIORITY_SCALE 0.1
+#define TOTAL_TIME 50
 #define BUFFER_LENGTH 256
 
 /** Struct to contain patient data while simulating */
@@ -27,17 +29,17 @@ typedef struct PatiantData {
 /**Function to use a priority queue to run the triage program
  *@param inputFileName sample file path
  *@param outputFileName report file path
- *@param useClock 1 to generate a random arrival time, 0 otherwise
+ *@param randomArrival 1 to generate a random arrival time, 0 otherwise
  *@return 0 if the program run successfully, !=0 otherwise
  */
-int triage(char *inputFileName, char *outputFileName, int useClock);
+int triage(char *inputFileName, char *outputFileName, int randomArrival);
 
 /**Function read in a triage file to a priority queue
  *@param fileName sample file path
- *@param useClock 1 to generate a random arrival time, 0 otherwise
+ *@param randomArrival 1 to generate a random arrival time, 0 otherwise
  *@return the data from the sample file
  */
-PriorityQueue *readTriageFile(char *fileName, int useClock);
+PriorityQueue *readTriageFile(char *fileName, int randomArrival);
 
 /**Function to output a report of a triage queue
  *@param fileName report file path

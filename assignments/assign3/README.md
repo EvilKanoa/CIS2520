@@ -23,7 +23,7 @@ bob52e  1 HN
 ***********
 Compilation
 ***********
-Use `make` or `make program` to compile the main application. It will create an executable in the `bin/` directory called `program`. This executable can be ran with a single argument which points to an input data file.
+Use `make` or `make program` to compile the main application. It will create an executable in the `bin/` directory called `program`. This executable can be ran using it's name followed by either `preserve` (for non-addition mode of the program) or `random` (for random arrival time addition) then an argument which points to an input data file.
 
 Use `make test` to compile the tests for this program. It will create an executable in the `bin/` directory called `test` which can then be ran without any arguments to run the triage program on the sample data in the assets folder.
 
@@ -150,9 +150,9 @@ Depending on if the algorithm was run using randomly generated arrival times or 
 For both types, each row of the report will start with the same original client data. The format `patient-id, patient-symptom, patient-priority` will be used.
 
 ### Random Arrival Time Report ###
-For this style of simulation, the data file will start off with a single line defining the total time of the simulation in addition to the average time each client spends waiting.
+For this style of simulation, the data file will end with a single line defining the total time of the simulation in addition to the average time each client spends waiting.
 
-Each patient data line will be prepended by the patients time waiting. The line will end up look like this: `patient-id, patient-symptom, patient-priority, patient-wait-time`
+Each patient data line will be prepended by the patients time waiting. The line will end up look like this: `patient-id, patient-symptom, patient-priority, arrival-time, wait-time`
 
 The time for this simulation is based on minutes since the start of the simulation (you could pick any abritrary start time).
 

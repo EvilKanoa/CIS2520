@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "PriorityQueueAPI.h"
 #include "triage.h"
 
-int triage(char *inputFileName, char *outputFileName, int useClock)
+int triage(char *inputFileName, char *outputFileName, int randomArrival)
 {
-    PriorityQueue *queue = readTriageFile(inputFileName, useClock);
+    PriorityQueue *queue = readTriageFile(inputFileName, randomArrival);
     int result;
 
     if (queue == NULL) {
@@ -35,16 +36,21 @@ int triage(char *inputFileName, char *outputFileName, int useClock)
     return 0;
 }
 
-PriorityQueue *readTriageFile(char *fileName, int useClock)
+PriorityQueue *readTriageFile(char *fileName, int randomArrival)
 {
     FILE *fp = fopen(fileName, "r");
-    PriorityQueue *triageData = createPriorityQueue(0.5, 0, MAX_PRIORITY_QUEUE, destroyData, NULL);
+    PriorityQueue *triageData = createPriorityQueue(AGE_PRIORITY_SCALE, 0, MAX_PRIORITY_QUEUE, destroyData, NULL);
     char *input = malloc(sizeof(char) * BUFFER_LENGTH);
     char *temp;
     int length = 0;
 
     if (fp == NULL || triageData == NULL) {
         return NULL;
+    }
+
+    if (randomArrival == 1) {
+        /* seed the random generator */
+        srand(time(NULL));
     }
 
     while (fgets(input, BUFFER_LENGTH, fp) != NULL) {
@@ -66,9 +72,17 @@ PriorityQueue *readTriageFile(char *fileName, int useClock)
             sscanf(temp, "%d %c%c", &data->priority, &data->symptom[0], &data->symptom[1]);
 
             /* add to the queue */
+            if (randomArrival == 1) {
+                data->arrivalTime = (rand() % TOTAL_TIME) + 1;
+                triageData->tickCount = data->arrivalTime - TOTAL_TIME;
+            } else {
+                data->arrivalTime = -1;
+            }
             pushPriorityQueue(triageData, data, data->priority);
         }
     }
+
+    triageData->tickCount = TOTAL_TIME;
 
     free(input);
     fclose(fp);
@@ -80,14 +94,39 @@ int writeTriageReport(char *fileName, PriorityQueue *queue)
 {
     FILE *fp = fopen(fileName, "w");
     PatiantData *node;
+    int prevTime = 0;
+    int waitTime;
+    int count;
+    int totalWait = 0;
 
     if (fp == NULL || queue == NULL) {
         return -1;
     }
 
+    count = queue->heap->size;
+
     while (!isEmptyPriorityQueue(queue)) {
         node = popPriorityQueue(queue);
-        fprintf(fp, "%s, %s, %d\n", node->id, node->symptom, node->priority);
+        if (node->arrivalTime == -1) {
+            fprintf(fp, "%s, %s, %d\n", node->id, node->symptom, node->priority);
+        } else {
+            waitTime = prevTime - node->arrivalTime;
+            prevTime = node->arrivalTime + 1;
+            if (waitTime < 0) {
+                waitTime = 0;
+            }
+            totalWait += waitTime;
+            fprintf(fp, "%s, %s, %d, %d, %d\n", 
+                node->id,
+                node->symptom,
+                node->priority,
+                node->arrivalTime,
+                waitTime);
+            
+            if (isEmptyPriorityQueue(queue)) {
+                fprintf(fp, "Total Time: %d, Average Wait Time: %.2f\n", TOTAL_TIME, (double) totalWait / (double) count);
+            }
+        }
         destroyData(node);
     }
 
