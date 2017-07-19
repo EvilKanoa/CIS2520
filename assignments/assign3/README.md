@@ -2,7 +2,7 @@
 ```
 Kanoa Haley                             0956712
 CIS*2520                                Assignment 3
-khaley@mail.uoguelph.ca                 July 17, 2017
+khaley@mail.uoguelph.ca                 July 19, 2017
 ```
 ****************************************************
 
@@ -109,7 +109,66 @@ isBelow: O(1)
 *******
 Testing
 *******
-TODO: Create >=4 input data files to test all possibilities for my priority queue
+To test my algorithm effectively, I created the required four seperate sample data files each with a unique characteristic to target an aspect of the algorithm. Each data file (except for the fourth) contains 20 patients with the same IDs and symptoms, this is because these parameters of the simulation are entirely irrelevent to the algorithms success and are just forwarded through the program and only used again at the output.
+
+Some of the files contain trailing newlines and others do not contain the newlines, this is to model the expectation that it could be used either way.
+
+#### testSample1.txt ####
+This file was the base file, designed to appear as any real-world (or as real-world as we'll get) file would. It's meant to check the algoritms robustness against normal data.
+
+When the non-addition program is ran using this file, the report is as expected. Everything is ordered by priority.
+
+When the full program (with random arrival time addition) is ran, the report produced includes wait times and ordered based on original priority as well as arrival time. When using the program default total time of 50, the average wait time tends to be in the range of 4 to 7, this seems resonable considering the 20 patients that are simulated.
+
+Some notable results include seeing patients with a priority of 1 so close to the top, this occurs whenever a priority 1 patient arrives much earlier than the majority of the patients. For example, the following priority 1 patient was well above the majority of the others as a result of its arrival time being quite a bit above the average arrival time (especially for higher priority patients): `iv5, SK, 1, 7, 39`.
+
+#### testSample2.txt ####
+This file was designed with all patients having the same priority to test how well the aging algorithm worked when there wasn't a given difference in priority ever.
+
+When the non-addition program is ran using this file, the report is unordered since there exists no logical priority.
+
+When the full program is ran, the report shows that the patients are ordered in roughly their arrival time.
+
+Notably, the arrival time is not the exact ordering, which means that there is a fault somewhere in the algorithm.
+
+#### testSample3.txt ####
+This file was designed with all patients having one of two priorities to test the aging algorithm with priorities playing a role.
+
+As previously, the non-addition program performed as expected.
+
+The full program performed exactly as expected as well, except for the minor issue found for the previous file.
+
+This wasn't anything of note when testing this file.
+
+#### testSample4.txt ####
+This file was designed to test the program with a smaller set of patients than would normally be expected.
+
+The non-addition program behaved exactly as expected everytime, always outputting the following:
+```
+vv3s, NV, 5
+b40dlxoex, GI, 4
+xh2, TR, 3
+nh4d, HN, 2
+3n244uy, CV, 1
+```
+
+The full program also always behaved exactly as expected.
+
+### Testing Note ###
+To gather my conclusions, I ran the full program over each testSample file over 20 times and inspected the produced `report.txt`. The commands I used are listed below.
+```
+./bin/program preserve assets/testSample1.txt
+./bin/program random assets/testSample1.txt
+
+./bin/program preserve assets/testSample2.txt
+./bin/program random assets/testSample2.txt
+
+./bin/program preserve assets/testSample3.txt
+./bin/program random assets/testSample3.txt
+
+./bin/program preserve assets/testSample4.txt
+./bin/program random assets/testSample4.txt
+```
 
 ******
 Design
