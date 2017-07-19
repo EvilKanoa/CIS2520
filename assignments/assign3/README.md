@@ -51,9 +51,11 @@ createPriorityQueueNode: O(1)
 
 pushPriorityQueue: O(log n)
 - Performs allocation then uses insertHeapNode to add the new item.
+- This function makes use of the anti-starvation algorithm during the compare process.
 
 popPriorityQueue: O(n log n)
 - Uses the heap's getMinOrMax and deleteMinOrMax functions to grab the top item from the heap.
+- This function makes use of the anti-starvation algorithm during the compare process.
 
 peakPriorityQueue: O(1)
 - Would ideally use the heap's getMinOrMax function to retrieve the top item.

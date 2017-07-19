@@ -1,5 +1,5 @@
 Client List (Ordered from top to bottom by first served)
-	Client ID, Symptom
-	23, TR
-	sal45, EC
-	bob52e, HN
+
+23, TR
+sal45, EC
+bob52e, HN

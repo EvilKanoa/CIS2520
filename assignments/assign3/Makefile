@@ -4,8 +4,9 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
 SRC = heap.c \
-	  priorityQueue.c
-PROGRAM = src/triage.c
+	  priorityQueue.c \
+	  triage.c
+PROGRAM = src/assignment3.c
 TESTING = src/testing.c
 
 

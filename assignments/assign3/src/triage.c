@@ -3,7 +3,7 @@
  * @author Kanoa Haley - 0956712 - khaley@mail.uoguelph.ca
  * @date July 12, 2017
  * @brief File containing the implemention for the priority queue based triage
- *        application including its main function.
+ *        application.
  */
 
 #include <stdio.h>
@@ -11,37 +11,11 @@
 #include <string.h>
 
 #include "PriorityQueueAPI.h"
+#include "triage.h"
 
-#define OUTPUT_FILE "report.txt"
-#define BUFFER_LENGTH 256
-
-typedef struct PatiantData {
-    char *id;
-    int priority;
-    char *symptom;
-} PatiantData;
-
-int triage(char *inputFileName, char *outputFileName);
-PriorityQueue *readTriageFile(char *fileName);
-int writeTriageReport(char *fileName, PriorityQueue *queue);
-void destroyData(void *data);
-void stripNewline(char *str);
-
-int main(int argc, char *argv[]) {
-    int result;
-    if (argc != 2) {
-        printf("Invalid arguments!\nUse \"%s [data file]\" to run\n", argv[0]);
-        return -1;
-    } else {
-        printf("Running triage simulation using data file: %s\n", argv[1]);
-        result = triage(argv[1], OUTPUT_FILE);
-        return result;
-    }
-}
-
-int triage(char *inputFileName, char *outputFileName)
+int triage(char *inputFileName, char *outputFileName, int useClock)
 {
-    PriorityQueue *queue = readTriageFile(inputFileName);
+    PriorityQueue *queue = readTriageFile(inputFileName, useClock);
     int result;
 
     if (queue == NULL) {
@@ -49,19 +23,19 @@ int triage(char *inputFileName, char *outputFileName)
         return -2;
     }
 
-    result = writeTriageReport(OUTPUT_FILE, queue);
+    result = writeTriageReport(outputFileName, queue);
     destroyPriorityQueue(queue);
     if (result == 0) {
-        printf("Results have been saved to: %s\n", OUTPUT_FILE);
+        printf("Results have been saved to: %s\n", outputFileName);
     } else {
-        printf("Error while opening %s, exiting...\n", OUTPUT_FILE);
+        printf("Error while opening %s, exiting...\n", outputFileName);
         return -3;
     }
 
     return 0;
 }
 
-PriorityQueue *readTriageFile(char *fileName)
+PriorityQueue *readTriageFile(char *fileName, int useClock)
 {
     FILE *fp = fopen(fileName, "r");
     PriorityQueue *triageData = createPriorityQueue(0.5, 0, MAX_PRIORITY_QUEUE, destroyData, NULL);
