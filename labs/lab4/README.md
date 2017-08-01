@@ -9,6 +9,7 @@ khaley@mail.uoguelph.ca                 July 30, 2017
 *******************
 Program Description
 *******************
+This software implements a balanced binary tree
 
 ***********
 Compilation
@@ -25,4 +26,3 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
-

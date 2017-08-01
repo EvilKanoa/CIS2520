@@ -25,7 +25,57 @@ int main()
     TestingContext *context = newContext(PROGRAM_NAME);
     begin(context);
 
-    /* Testing code here */
+    /* Testing: createBalancedBinTree */
+    section(context, "createBalancedBinTree");
+
+
+    /* Testing: createBalancedBinNode */
+    section(context, "createBalancedBinNode");
+
+
+    /* Testing: destroyBalancedBinTree */
+    section(context, "destroyBalancedBinTree");
+
+
+    /* Testing: treeInsertNode */
+    section(context, "treeInsertNode");
+
+
+    /* Testing: treeDeleteNode */
+    section(context, "treeDeleteNode");
+
+
+    /* Testing: treeIsEmpty */
+    section(context, "treeIsEmpty");
+
+    
+    /* Testing: treeHasTwoChildren */
+    section(context, "treeHasTwoChildren");
+
+
+    /* Testing: treeFindNode */
+    section(context, "treeFindNode");
+
+
+    /* Testing: treeFindMin */
+    section(context, "treeFindMin");
+
+
+    /* Testing: treeFindMax */
+    section(context, "treeFindMax");
+
+
+    /* Testing: treeInOrderPrint */
+    section(context, "treeInOrderPrint");
+
+
+    /* Testing: treePreOrderPrint */
+    section(context, "treePreOrderPrint");
+
+
+    /* Testing: treePostOrderPrint */
+    section(context, "treePostOrderPrint");
+
 
     fails = context->failCount;
     done(context);
