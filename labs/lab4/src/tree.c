@@ -2,35 +2,129 @@
  * @file tree.c
  * @author Kanoa Haley - 0956712 - khaley@mail.uoguelph.ca
  * @date July 30, 2017
- * @brief File containing the implementation for a tree library
+ * @brief File containing the implementation for a balanced binary search tree library
  */
 
 #include "balancedTreeAPI.h"
 
-/**This function returns a pointer to a binary tree.  You must send pointers to the compare and destroy functions when you create the tree.
- *@param compareFP function pointer to allow for comparison between two generic data types
- *@param destroyFP function pointer to allow for pointer deletion. 
- *@param copyFP function pointer to a function that copies pointer data to a new pointer.
- *@return If successful, returns a pointer to a binary tree. Returns null if the memory allocation fails.
- **/
-Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*destroyFP) (void *toBeDeleted),void *(*copyFP)(void *toBeCopy));
+Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*destroyFP) (void *toBeDeleted),void *(*copyFP)(void *toBeCopy))
+{
+    Tree *tree;
 
-/**This function creates a tree node for a self-balancing binary tree.
- *@param data pointer to data that is to be added to a self-balancing binary tree.
- **/
-TreeNode *createBalancedBinNode(void *data);
+    if (compareFP == NULL || destroyFP == NULL || copyFP == NULL) {
+        return NULL;
+    }
 
-/**This function destroys a binary tree and all data that is in the tree
- *when destroy is called.
- *@param toBeDeleted pointer to binary tree created via createBalancedBinTree
- **/
-void destroyBalancedBinTree(Tree *toBeDeleted);
+    tree = malloc(sizeof(Tree));
 
-/**Function to insert a node into a self-balancing binary tree.
- *@param theTree pointer to a self-balancing binary tree
- *@param toBeInserted pointer to generic data that is to be inserted into the self-balancing binary tree
- **/
-void treeInsertNode(Tree *theTree, void *toBeInserted);
+    tree->root = NULL;
+    tree->compareFP = compareFP;
+    tree->destroyFP = destroyFP;
+    tree->copyFP = copyFP;
+
+    return tree;
+}
+
+TreeNode *createBalancedBinNode(void *data)
+{
+    TreeNode *node;
+
+    if (data == NULL) {
+        return NULL;
+    }
+
+    node = malloc(sizeof(TreeNode));
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 0;
+    node->data = data;
+
+    return node;
+}
+
+void destroyBalancedBinTree(Tree *toBeDeleted)
+{
+    if (toBeDeleted == NULL) {
+        return;
+    }
+
+    destroyBalancedBinTreeNodeTree(toBeDeleted, toBeDeleted->root);
+    free(toBeDeleted);
+}
+
+void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted)
+{
+    if (toBeDeleted == NULL) {
+        return;
+    }
+
+    destroyBalancedBinTreeNodeTree(theTree, toBeDeleted->left);
+    destroyBalancedBinTreeNodeTree(theTree, toBeDeleted->right);
+
+    theTree->destroyFP(toBeDeleted->data);
+    free(toBeDeleted);
+}
+
+void treeInsertNode(Tree *theTree, void *toBeInserted)
+{
+    TreeNode *newNode, *node;
+
+    if (theTree == NULL || toBeInserted == NULL) {
+        return;
+    }
+
+    newNode = createBalancedBinNode(toBeInserted);
+    node = theTree->root;
+    if (node == NULL) {
+        theTree->root = newNode;
+        return;
+    } else {
+        balancedBinTreeRecursiveInsert(theTree, theTree->root, newNode);
+    }
+
+}
+
+TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode *newNode)
+{
+    int compare, diff;
+
+    if (theTree == NULL || node == NULL) {
+        return newNode;
+    }
+
+    compare = theTree->compareFP(newNode, node);
+    if (compare > 0) {
+        /* insert right */
+        node->right = balancedBinTreeRecursiveInsert(theTree, node->right, newNode);
+    } else if (compare < 0) {
+        /* insert left */
+        node->left = balancedBinTreeRecursiveInsert(theTree, node->left, newNode);
+    } else {
+        /* equals keys, don't insert */
+        return node;
+    }
+
+    node->height = maxHeight(node) + 1;
+
+    /* determine node unbalanced case: right right, right left, left left, or left right */
+    diff = heightDiff(node);
+    if (diff > 1) {
+        if (theTree->compareFP(node, node->left) > 0) {
+            /* left right */
+        } else {
+            /* left left */
+        }
+    } else if (diff < -1) {
+        if (theTree->compareFP(node, node->right) > 0) {
+            /* right right */
+        } else {
+            /* right left */
+        }
+    } else {
+        return node;
+    }
+
+}
 
 /**Function to delete a node from a self-balancing binary tree.
  *@param theTree pointer to a self-balancing binary tree
@@ -104,3 +198,20 @@ void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
  *@param printNodeFP pointer to a function to print void pointer data.
  **/
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
+
+int height(TreeNode *node)
+{
+    return node == NULL ? 0 : node->height;
+}
+
+int maxHeight(TreeNode *node)
+{
+    int h1 = height(node->left);
+    int h2 = height(node->right);
+    return h1 > h2 ? h1 : h2;
+}
+
+int heightDiff(TreeNode *node)
+{
+    return node == NULL ? 0 : height(node->left) - height(node->right);
+}

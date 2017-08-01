@@ -11,9 +11,6 @@ typedef struct BalancedBinTreeNode TreeNode;
 /**typedef for struct name*/
 typedef struct BalancedBinTree Tree;
 
-
-
-
 /*complete the struct definitions.  You can change the existing parts if you wish.
 */
 struct BalancedBinTree {
@@ -38,8 +35,41 @@ struct BalancedBinTreeNode{
 
 /*add function prototypes as necessary*/
 
+/**This function destroys a binary tree and all data that is in the tree
+ *wbelow the given node recursively when destroy is called.
+ *@param theTree pointer to a self-balancing binary tree
+ *@param toBeDeleted pointer to binary tree node created via createBalancedBinTreeNode
+ **/
+void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);  
+
+/**This function inserts a given node into an AVL tree recursively while rotating
+ * the tree to preserve the AVL property.
+ *@param theTree pointer to a self-balancing binary tree
+ *@param node pointer to a self-balancing binary tree's root node
+ *@param newNode new data to insert
+ */
+TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode *newNode);
 
 
 
+/* Utility functions */
+
+/**This function returns the height of a given tree node.
+ *@param node a node of an AVL tree
+ *@return the height of the node in the tree (null nodes have a height of 0)
+ */
+int height(TreeNode *node);
+
+/**This function returns the maximum height of a nodes children.
+ *@param node node in an AVL tree
+ *@return the maximum height of the two nodes
+ */
+int maxHeight(TreeNode *node);
+
+/**This function returns the difference in height between a nodes two children.
+ *@param node a node of an AVL tree
+ *@return difference in height between node->left and node->right.
+ */
+int heightDiff(TreeNode *node);
 
 #endif

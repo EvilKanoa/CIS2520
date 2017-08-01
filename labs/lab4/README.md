@@ -9,7 +9,7 @@ khaley@mail.uoguelph.ca                 July 30, 2017
 *******************
 Program Description
 *******************
-This software implements a balanced binary tree
+This software implements a balanced binary search tree using the AVL tree design. It allows lookup, insertion, and delation all with complexities of O(log n). It uses the height of a node to aid in rebalancing the tree correctly.
 
 ***********
 Compilation
