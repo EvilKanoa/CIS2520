@@ -26,3 +26,4 @@ Use `make clean` to remove all built binary files and remove unnecessary files f
 ************************************
 Known Limitations, Issues and Errors
 ************************************
+There are no current limitations within this AVL backed balanced binary search tree library.
