@@ -84,7 +84,7 @@ int main()
     treeInsertNode(tree, p25);
     test(context, "should insert as root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p25);
     treeInsertNode(tree, p27);
-    tprint(context, "Tree should now be (testing right left): \n   20\n  /  \\\n10   27\n    /  \\\n   25   30");
+    tprint(context, "Tree should now be: \n   20\n  /  \\\n10   27\n    /  \\\n   25   30");
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p27);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p25);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p30);
@@ -94,7 +94,7 @@ int main()
     treeInsertNode(tree, p30);
     treeInsertNode(tree, p40);
     treeInsertNode(tree, p35);
-    tprint(context, "Tree should now be (testing left right): \n   20\n  /  \\\n10   35\n    /  \\\n   30   40");
+    tprint(context, "Tree should now be: \n   20\n  /  \\\n10   35\n    /  \\\n   30   40");
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p35);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p30);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p40);
@@ -104,7 +104,7 @@ int main()
     treeInsertNode(tree, p30);
     treeInsertNode(tree, p40);
     treeInsertNode(tree, p50);
-    tprint(context, "Tree should now be (testing right right): \n   20\n  /  \\\n10   40\n    /  \\\n   30   50");
+    tprint(context, "Tree should now be: \n   20\n  /  \\\n10   40\n    /  \\\n   30   50");
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p40);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p30);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p50);
@@ -114,7 +114,7 @@ int main()
     treeInsertNode(tree, p30);
     treeInsertNode(tree, p35);
     treeInsertNode(tree, p33);
-    tprint(context, "Tree should now be (testing left left): \n   20\n  /  \\\n10   33\n    /  \\\n   30   35");
+    tprint(context, "Tree should now be: \n   20\n  /  \\\n10   33\n    /  \\\n   30   35");
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p33);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p30);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p35);
