@@ -126,78 +126,168 @@ TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode
 
 }
 
+/**This function rotates a nodes children to the right. A diagram to represent this can
+ * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * T1, T2, T3 and T4 are subtrees.
+ *        z                                      y 
+ *       / \                                   /   \
+ *      y   T4      Right Rotate (z)          x      z
+ *     / \          - - - - - - - - ->      /  \    /  \ 
+ *    x   T3                               T1  T2  T3  T4
+ *   / \
+ * T1   T2
+ *@param node the z node to rotate right
+ *@return the y node (aka, the new parent node)
+ */
+TreeNode *balancedBinTreeRotateRight(TreeNode *node);
+
+/**This function rotates a nodes children to the left. A diagram to represent this can
+ * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * T1, T2, T3 and T4 are subtrees.
+ *    z                                y
+ *  /  \                             /   \ 
+ * T1   y      Left Rotate(z)       z      x
+ *      /  \   - - - - - - - ->    / \    / \
+ *    T2   x                     T1  T2 T3  T4
+ *        / \
+ *      T3  T4
+ *@param node the z node to rotate left
+ *@return the y node (aka, the new parent node)
+ */
+TreeNode *balancedBinTreeRotateLeft(TreeNode *node);
+
 /**Function to delete a node from a self-balancing binary tree.
  *@param theTree pointer to a self-balancing binary tree
  *@param toBeDeleted pointer to generic data that is to be deleted from the self-balancing binary tree
  **/
 void treeDeleteNode(Tree *theTree, void *toBeDeleted);
 
-/**Function to determine if a binary tree is empty.
- *@param theTree pointer to a self-balancing binary tree
- *@return If tree is empty, return 1. Otherwise, return 0.
- **/
-int treeIsEmpty(Tree *theTree);
+int treeIsEmpty(Tree *theTree)
+{
+    return (theTree->root == NULL) ? 1 : 0;
+}
 
-/**Function to determine if a binary tree node has two children.
- *@param root pointer to a self-balancing binary tree's root
- *@return If tree is empty, or does not exist, return 1. Otherwise, return 0.
- **/
-int treeHasTwoChildren(TreeNode *root);
+int treeHasTwoChildren(TreeNode *root)
+{
+    return (root->left != NULL && root->right != NULL) ? 0 : 1;
+}
 
-/**Function to return a given value in the tree, dependant on the compare function pointer parameters.
- *Compares nodes, until compare function returns zero, or the tree is exhausted.
- *@param theTree pointer to a self-balancing binary tree's root
- *@return pointer to the data found. If tree is empty or data is not found, return NULL.
- **/
-void *treeFindNode(Tree *theTree, void *data);
+void *treeFindNode(Tree *theTree, void *data)
+{
+    int compare;
+    TreeNode *node;
 
-/**Function to return the smallest value of a tree, dependant on the compare function pointer parameters.
- *@param theTree pointer to a self-balancing binary tree's root
- *@return pointer to the min found. If tree is empty, return NULL.
- **/
-void *treeFindMin(Tree *theTree);
+    if (theTree == NULL || data == NULL) {
+        return NULL;
+    }
 
-/**Function to return the largest value of a tree, dependant on the compare function pointer parameters.
- *@param theTree pointer to a self-balancing binary tree's root
- *@return pointer to the maximum value  found. If tree is empty, return NULL.
- **/
-void *treeFindMax(Tree *theTree);
+    node = theTree->root;
+    while (node != NULL) {
+        compare = theTree->compareFP(data, node->data);
+        if (compare < 0) {
+            node = node->left;
+        } else if (compare > 0) {
+            node = node->right;
+        } else {
+            return node->data;
+        }
+    }
 
-/**function to print a tree in-order. EG 
- *              A
- *            /    \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: D->B->F->A->G->C->E
- *@param theTree pointer to a self-balancing binary tree
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
+    return NULL;
+}
 
-/**Function to print a tree pre-order. EG 
- *              A
- *            /   \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: A->B->D->F->C->G->E
- *@param theTree pointer to a self-balancing binary tree
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
+void *treeFindMin(Tree *theTree)
+{
+    TreeNode *node;
 
-/**Function to print a tree in post-order. EG 
- *              A
- *            /   \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: D->F->B->G->C->E->A
- *@param theTree pointer to a self-balancing binary tree's root
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
+    if (theTree == NULL || theTree->root == NULL) {
+        return NULL;
+    }
+
+    node = theTree->root;
+    while (node->left != NULL) {
+        node = node->left;
+    }
+
+    return node->data;
+}
+
+void *treeFindMax(Tree *theTree)
+{
+    TreeNode *node;
+
+    if (theTree == NULL || theTree->root == NULL) {
+        return NULL;
+    }
+
+    node = theTree->root;
+    while (node->right != NULL) {
+        node = node->right;
+    }
+
+    return node->data;
+}
+
+void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
+{
+    if (theTree == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    treeInOrderPrintRecursive(theTree->root, printNodeFP);
+}
+
+
+void treeInOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data))
+{
+    if (root == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    treePreOrderPrintRecursive(root->left, printNodeFP);
+    printNodeFP(root->data);
+    treePreOrderPrintRecursive(root->right, printNodeFP);
+}
+
+void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
+{
+    if (theTree == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    treePreOrderPrintRecursive(theTree->root, printNodeFP);
+}
+
+void treePreOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data))
+{
+    if (root == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    printNodeFP(root->data);
+    treePreOrderPrintRecursive(root->left, printNodeFP);
+    treePreOrderPrintRecursive(root->right, printNodeFP);
+}
+
+void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
+{
+    if (theTree == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    treePostOrderPrintRecursive(theTree->root, printNodeFP);
+}
+
+void treePostOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data))
+{
+    if (root == NULL || printNodeFP == NULL) {
+        return;
+    }
+
+    treePreOrderPrintRecursive(root->left, printNodeFP);
+    treePreOrderPrintRecursive(root->right, printNodeFP);
+    printNodeFP(root->data);
+}
 
 int height(TreeNode *node)
 {

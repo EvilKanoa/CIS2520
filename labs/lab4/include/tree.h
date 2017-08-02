@@ -50,9 +50,75 @@ void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);
  */
 TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode *newNode);
 
+/**This function rotates a nodes children to the right. A diagram to represent this can
+ * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * T1, T2, T3 and T4 are subtrees.
+ *        z                                      y 
+ *       / \                                   /   \
+ *      y   T4      Right Rotate (z)          x      z
+ *     / \          - - - - - - - - ->      /  \    /  \ 
+ *    x   T3                               T1  T2  T3  T4
+ *   / \
+ * T1   T2
+ *@param node the z node to rotate right
+ *@return the y node (aka, the new parent node)
+ */
+TreeNode *balancedBinTreeRotateRight(TreeNode *node);
 
+/**This function rotates a nodes children to the left. A diagram to represent this can
+ * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+ * T1, T2, T3 and T4 are subtrees.
+ *    z                                y
+ *  /  \                             /   \ 
+ * T1   y      Left Rotate(z)       z      x
+ *      /  \   - - - - - - - ->    / \    / \
+ *    T2   x                     T1  T2 T3  T4
+ *        / \
+ *      T3  T4
+ *@param node the z node to rotate left
+ *@return the y node (aka, the new parent node)
+ */
+TreeNode *balancedBinTreeRotateLeft(TreeNode *node);
 
+/**function to print a tree in-order starting from a root node. EG 
+ *              A
+ *            /    \
+ *          B       C
+ *         / \     / \
+ *        D   F   G   E
+ *would print nodes thusly: D->B->F->A->G->C->E
+ *@param root pointer to a self-balancing binary tree root node
+ *@param printNodeFP pointer to a function to print void pointer data.
+ **/
+void treeInOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data));
+
+/**Function to print a tree pre-order starting from a root node. EG 
+ *              A
+ *            /   \
+ *          B       C
+ *         / \     / \
+ *        D   F   G   E
+ *would print nodes thusly: A->B->D->F->C->G->E
+ *@param root pointer to a self-balancing binary tree root node
+ *@param printNodeFP pointer to a function to print void pointer data.
+ **/
+void treePreOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data));
+
+/**Function to print a tree in post-order starting from a root node. EG 
+ *              A
+ *            /   \
+ *          B       C
+ *         / \     / \
+ *        D   F   G   E
+ *would print nodes thusly: D->F->B->G->C->E->A
+ *@param root pointer to a self-balancing binary tree root node
+ *@param printNodeFP pointer to a function to print void pointer data.
+ **/
+void treePostOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data));
+
+/* ----------------- */
 /* Utility functions */
+/* ----------------- */
 
 /**This function returns the height of a given tree node.
  *@param node a node of an AVL tree
