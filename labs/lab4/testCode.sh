@@ -1,2 +1,2 @@
-make test
-./bin/test
+make test && ./bin/test
+

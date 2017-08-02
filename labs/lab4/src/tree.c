@@ -11,7 +11,7 @@ Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*
 {
     Tree *tree;
 
-    if (compareFP == NULL || destroyFP == NULL || copyFP == NULL) {
+    if (compareFP == NULL || destroyFP == NULL) {
         return NULL;
     }
 
@@ -67,38 +67,37 @@ void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted)
 
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
-    TreeNode *newNode, *node;
+    TreeNode *node;
 
     if (theTree == NULL || toBeInserted == NULL) {
         return;
     }
 
-    newNode = createBalancedBinNode(toBeInserted);
     node = theTree->root;
     if (node == NULL) {
-        theTree->root = newNode;
+        theTree->root = createBalancedBinNode(toBeInserted);
         return;
     } else {
-        balancedBinTreeRecursiveInsert(theTree, theTree->root, newNode);
+        theTree->root = balancedBinTreeRecursiveInsert(theTree, theTree->root, toBeInserted);
     }
 
 }
 
-TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode *newNode)
+TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, void *data)
 {
     int compare, diff;
 
-    if (theTree == NULL || node == NULL) {
-        return newNode;
+    if (theTree == NULL || node == NULL || data == NULL) {
+        return createBalancedBinNode(data);
     }
 
-    compare = theTree->compareFP(newNode, node);
+    compare = theTree->compareFP(data, node->data);
     if (compare > 0) {
         /* insert right */
-        node->right = balancedBinTreeRecursiveInsert(theTree, node->right, newNode);
+        node->right = balancedBinTreeRecursiveInsert(theTree, node->right, data);
     } else if (compare < 0) {
         /* insert left */
-        node->left = balancedBinTreeRecursiveInsert(theTree, node->left, newNode);
+        node->left = balancedBinTreeRecursiveInsert(theTree, node->left, data);
     } else {
         /* equals keys, don't insert */
         return node;
@@ -109,52 +108,63 @@ TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode
     /* determine node unbalanced case: right right, right left, left left, or left right */
     diff = heightDiff(node);
     if (diff > 1) {
-        if (theTree->compareFP(node, node->left) > 0) {
-            /* left right */
+        if (theTree->compareFP(data, node->left->data) > 0) {
+            node->left = balancedBinTreeRotateLeft(node->left);
+            return balancedBinTreeRotateRight(node);
         } else {
-            /* left left */
+            return balancedBinTreeRotateRight(node);
         }
     } else if (diff < -1) {
-        if (theTree->compareFP(node, node->right) > 0) {
-            /* right right */
+        if (theTree->compareFP(data, node->right->data) > 0) {
+            return balancedBinTreeRotateLeft(node);
         } else {
-            /* right left */
+            node->right = balancedBinTreeRotateRight(node->right);
+            return balancedBinTreeRotateLeft(node);
         }
-    } else {
+    }
+
+    return node;
+}
+
+TreeNode *balancedBinTreeRotateRight(TreeNode *node)
+{
+    TreeNode *y = node == NULL ? NULL : node->left;
+
+    if (y == NULL) {
         return node;
     }
 
+    /* move T3 to z's left */
+    node->left = y->right;
+    /* switch z into y's right */
+    y->right = node;
+
+    /* correct heights */   
+    node->height = maxHeight(node);
+    y->height = maxHeight(y);
+
+    return y;
 }
 
-/**This function rotates a nodes children to the right. A diagram to represent this can
- * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
- * T1, T2, T3 and T4 are subtrees.
- *        z                                      y 
- *       / \                                   /   \
- *      y   T4      Right Rotate (z)          x      z
- *     / \          - - - - - - - - ->      /  \    /  \ 
- *    x   T3                               T1  T2  T3  T4
- *   / \
- * T1   T2
- *@param node the z node to rotate right
- *@return the y node (aka, the new parent node)
- */
-TreeNode *balancedBinTreeRotateRight(TreeNode *node);
+TreeNode *balancedBinTreeRotateLeft(TreeNode *node)
+{
+    TreeNode *y = node == NULL ? NULL : node->right;
 
-/**This function rotates a nodes children to the left. A diagram to represent this can
- * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
- * T1, T2, T3 and T4 are subtrees.
- *    z                                y
- *  /  \                             /   \ 
- * T1   y      Left Rotate(z)       z      x
- *      /  \   - - - - - - - ->    / \    / \
- *    T2   x                     T1  T2 T3  T4
- *        / \
- *      T3  T4
- *@param node the z node to rotate left
- *@return the y node (aka, the new parent node)
- */
-TreeNode *balancedBinTreeRotateLeft(TreeNode *node);
+    if (y == NULL) {
+        return node;
+    }
+
+    /* move T2 to z's right */
+    node->right = y->left;
+    /* switch z into y's left */
+    y->left = node;
+
+    /* correct heights */   
+    node->height = maxHeight(node);
+    y->height = maxHeight(y);
+
+    return y;
+}
 
 /**Function to delete a node from a self-balancing binary tree.
  *@param theTree pointer to a self-balancing binary tree
@@ -169,7 +179,7 @@ int treeIsEmpty(Tree *theTree)
 
 int treeHasTwoChildren(TreeNode *root)
 {
-    return (root->left != NULL && root->right != NULL) ? 0 : 1;
+    return (root != NULL && root->left != NULL && root->right != NULL) ? 0 : 1;
 }
 
 void *treeFindNode(Tree *theTree, void *data)
@@ -244,9 +254,9 @@ void treeInOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data))
         return;
     }
 
-    treePreOrderPrintRecursive(root->left, printNodeFP);
+    treeInOrderPrintRecursive(root->left, printNodeFP);
     printNodeFP(root->data);
-    treePreOrderPrintRecursive(root->right, printNodeFP);
+    treeInOrderPrintRecursive(root->right, printNodeFP);
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
@@ -284,14 +294,14 @@ void treePostOrderPrintRecursive(TreeNode *root, void (*printNodeFP) (void *data
         return;
     }
 
-    treePreOrderPrintRecursive(root->left, printNodeFP);
-    treePreOrderPrintRecursive(root->right, printNodeFP);
+    treePostOrderPrintRecursive(root->left, printNodeFP);
+    treePostOrderPrintRecursive(root->right, printNodeFP);
     printNodeFP(root->data);
 }
 
 int height(TreeNode *node)
 {
-    return node == NULL ? 0 : node->height;
+    return node == NULL ? -1 : node->height;
 }
 
 int maxHeight(TreeNode *node)

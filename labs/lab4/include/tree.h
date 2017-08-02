@@ -46,9 +46,9 @@ void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);
  * the tree to preserve the AVL property.
  *@param theTree pointer to a self-balancing binary tree
  *@param node pointer to a self-balancing binary tree's root node
- *@param newNode new data to insert
+ *@param data new data to insert
  */
-TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, TreeNode *newNode);
+TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, void *data);
 
 /**This function rotates a nodes children to the right. A diagram to represent this can
  * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
