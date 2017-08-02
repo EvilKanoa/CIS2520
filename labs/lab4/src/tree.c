@@ -140,8 +140,8 @@ TreeNode *balancedBinTreeRotateRight(TreeNode *node)
     y->right = node;
 
     /* correct heights */   
-    node->height = maxHeight(node);
-    y->height = maxHeight(y);
+    node->height = maxHeight(node) + 1;
+    y->height = maxHeight(y) + 1;
 
     return y;
 }
@@ -160,8 +160,8 @@ TreeNode *balancedBinTreeRotateLeft(TreeNode *node)
     y->left = node;
 
     /* correct heights */   
-    node->height = maxHeight(node);
-    y->height = maxHeight(y);
+    node->height = maxHeight(node) + 1;
+    y->height = maxHeight(y) + 1;
 
     return y;
 }
