@@ -126,6 +126,68 @@ TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, void *da
     return node;
 }
 
+void treeDeleteNode(Tree *theTree, void *toBeDeleted)
+{
+    if (theTree == NULL || toBeDeleted == NULL) {
+        return;
+    }
+
+    theTree->root = balancedBinTreeRecursiveDelete(theTree, theTree->root, toBeDeleted);
+}
+
+TreeNode *balancedBinTreeRecursiveDelete(Tree *theTree, TreeNode *node, void *data)
+{
+    TreeNode *child, *temp;
+    int compare, diff;
+
+    if (node == NULL) {
+        return NULL;
+    }
+
+    compare = theTree->compareFP(data, node->data);
+    if (compare > 0) {
+        node->right = balancedBinTreeRecursiveDelete(theTree, node->right, data);
+    } else if (compare < 0) {
+        node->left = balancedBinTreeRecursiveDelete(theTree, node->left, data);
+    } else {
+        if (node->left == NULL && node->right == NULL) {
+            theTree->destroyFP(node->data);
+            free(node);
+            return NULL;
+        } else if (node->left == NULL || node->right == NULL) {
+            child = node->left == NULL ? node->right : node->left;
+            theTree->destroyFP(node->data);
+            node->data = theTree->copyFP(child->data);
+            theTree->destroyFP(child->data);
+            free(child);
+        } else {
+            temp = node->right;
+            while (temp->left != NULL) {
+                temp = temp->left;
+            }
+            node->data = theTree->copyFP(temp->data);
+            node->right = balancedBinTreeRecursiveDelete(theTree, node->right, temp->data);
+        }
+    }
+
+    node->height = maxHeight(node) + 1;
+
+    diff = heightDiff(node);
+    if (diff > 1) {
+        if (heightDiff(node->left) < 0) {
+            node->left = balancedBinTreeRotateLeft(node->left);
+        }
+        return balancedBinTreeRotateRight(node);
+    } else if (diff < -1) {
+        if (heightDiff(node->right) > 0) {
+            node->right = balancedBinTreeRotateRight(node->right);
+        }
+        return balancedBinTreeRotateLeft(node);
+    }
+
+    return node;
+}
+
 TreeNode *balancedBinTreeRotateRight(TreeNode *node)
 {
     TreeNode *y = node == NULL ? NULL : node->left;
@@ -165,12 +227,6 @@ TreeNode *balancedBinTreeRotateLeft(TreeNode *node)
 
     return y;
 }
-
-/**Function to delete a node from a self-balancing binary tree.
- *@param theTree pointer to a self-balancing binary tree
- *@param toBeDeleted pointer to generic data that is to be deleted from the self-balancing binary tree
- **/
-void treeDeleteNode(Tree *theTree, void *toBeDeleted);
 
 int treeIsEmpty(Tree *theTree)
 {

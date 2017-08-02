@@ -50,6 +50,14 @@ void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);
  */
 TreeNode *balancedBinTreeRecursiveInsert(Tree *theTree, TreeNode *node, void *data);
 
+/**This function deletes a given node from an AVL tree recursively while rotating
+ * the tree to preserve the AVL property.
+ *@param theTree pointer to a self-balancing binary tree
+ *@param node pointer to a self-balancing binary tree's root node
+ *@param data data to delete
+ */
+TreeNode *balancedBinTreeRecursiveDelete(Tree *theTree, TreeNode *node, void *data);
+
 /**This function rotates a nodes children to the right. A diagram to represent this can
  * be found at http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
  * T1, T2, T3 and T4 are subtrees.

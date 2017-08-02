@@ -88,6 +88,7 @@ int main()
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p27);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p25);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p30);
+
     tree = resetTree(context, tree);
     treeInsertNode(tree, p10);
     treeInsertNode(tree, p20);
@@ -98,6 +99,7 @@ int main()
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p35);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p30);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p40);
+
     tree = resetTree(context, tree);
     treeInsertNode(tree, p10);
     treeInsertNode(tree, p20);
@@ -108,6 +110,7 @@ int main()
     test(context, "should insert as root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p40);
     test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p30);
     test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p50);
+
     tree = resetTree(context, tree);
     treeInsertNode(tree, p10);
     treeInsertNode(tree, p20);
@@ -122,6 +125,63 @@ int main()
 
     /* Testing: treeDeleteNode */
     section(context, "treeDeleteNode");
+    tree = resetTree(context, tree);
+    test(context, "should not print any deletes when deleted with NULL tree and NULL data", 1);
+    treeDeleteNode(NULL, NULL);
+    test(context, "should not print any deletes when deleted with NULL data", 1);
+    treeDeleteNode(tree, NULL);
+    test(context, "should not print any deletes when deleted with NULL tree", 1);
+    treeDeleteNode(NULL, p10);
+    test(context, "should not print any deletes when deleted with non existent data", 1);
+    treeDeleteNode(tree, p10);
+
+    treeInsertNode(tree, p10);
+    treeDeleteNode(tree, p10);
+    test(context, "should have deleted when data is root and printed 10", 1);
+
+    tree = resetTree(context, tree);
+    treeInsertNode(tree, p10);
+    treeInsertNode(tree, p20);
+    treeInsertNode(tree, p30);
+    treeInsertNode(tree, p40);
+    treeInsertNode(tree, p35);
+    treeInsertNode(tree, p33);
+    treeDeleteNode(tree, p10);
+    test(context, "should have printed delete 10", 1);
+    tprint(context, "Tree should now be: \n   30\n  /  \\\n20   35\n    /  \\\n   33   40");
+    test(context, "should have correct root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p35);
+    test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p33);
+    test(context, "should have correct root->right->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->right != NULL && tree->root->right->right->data == p40);
+
+    tree = resetTree(context, tree);
+    treeInsertNode(tree, p10);
+    treeInsertNode(tree, p20);
+    treeInsertNode(tree, p30);
+    treeInsertNode(tree, p40);
+    treeInsertNode(tree, p35);
+    treeInsertNode(tree, p33);
+    treeDeleteNode(tree, p10);
+    treeDeleteNode(tree, p20);
+    test(context, "should have printed delete 10 and 20", 1);
+    tprint(context, "Tree should now be: \n  35\n /  \\\n30  40\n \\\n  33");
+    test(context, "should have correct root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p40);
+    test(context, "should have correct root->left node", tree != NULL && tree->root != NULL && tree->root->left != NULL && tree->root->left->data == p30);
+    test(context, "should have correct root->left->right node", tree != NULL && tree->root != NULL && tree->root->left != NULL && tree->root->left->right != NULL && tree->root->left->right->data == p33);
+
+    tree = resetTree(context, tree);
+    treeInsertNode(tree, p10);
+    treeInsertNode(tree, p20);
+    treeInsertNode(tree, p30);
+    treeInsertNode(tree, p40);
+    treeInsertNode(tree, p35);
+    treeInsertNode(tree, p33);
+    treeDeleteNode(tree, p10);
+    treeDeleteNode(tree, p35);
+    test(context, "should have printed delete 10 and 35", 1);
+    tprint(context, "Tree should now be: \n  30\n /  \\\n30  40\n    /\n   33");
+    test(context, "should have correct root->right node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->data == p40);
+    test(context, "should have correct root->left node", tree != NULL && tree->root != NULL && tree->root->left != NULL && tree->root->left->data == p20);
+    test(context, "should have correct root->right->left node", tree != NULL && tree->root != NULL && tree->root->right != NULL && tree->root->right->left != NULL && tree->root->right->left->data == p33);
 
 
     /* Testing: treeIsEmpty */
@@ -147,6 +207,18 @@ int main()
 
     /* Testing: treeFindNode */
     section(context, "treeFindNode");
+    tree = resetTree(context, tree);
+    test(context, "should return NULL when tree and data are NULL", treeFindNode(NULL, NULL) == NULL);
+    test(context, "should return NULL when tree is NULL", treeFindNode(NULL, p10) == NULL);
+    test(context, "should return NULL when data is NULL", treeFindNode(tree, NULL) == NULL);
+    test(context, "should not find data when it is isn't in the tree", treeFindNode(tree, p10) == NULL);
+    treeInsertNode(tree, p10);
+    test(context, "should correctly find data when data is root", treeFindNode(tree, p10) == p10);
+    treeInsertNode(tree, p20);
+    treeInsertNode(tree, p30);
+    treeInsertNode(tree, p35);
+    treeInsertNode(tree, p33);
+    test(context, "should correctly find data when data is in a filled tree", treeFindNode(tree, p35) == p35);
 
 
     /* Testing: treeFindMin */
