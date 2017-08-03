@@ -8,6 +8,7 @@
  */
 
 #include <stdio.h>
+#include "gamesCsvModel.h"
 
 int main(int argc, const char *argv[])
 {
