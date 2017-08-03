@@ -3,13 +3,12 @@ CC          =	gcc
 CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
-SRC = tree.c \
-	  KTest.c
-TESTING = src/testing.c
+SRC = tree.c
+PROGRAM = src/posSystem.c
 
 # this is the target for building the testing binary
-test: $(addprefix src/,$(SRC)) $(TESTING)
-	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) $(TESTING) -o bin/test
+program: $(addprefix src/,$(SRC)) $(PROGRAM)
+	$(CC) $(CFLAGS) -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) $(PROGRAM) -o bin/program
 
 # run cppcheck
 cppcheck:
