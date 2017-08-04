@@ -12,7 +12,13 @@
 
 #include "balancedTreeAPI.h"
 
-/* Boolean values for ease of use */
+/** Number of bytes to read in each line for loading from a CSV file */
+#define INPUT_BUFFER 4096
+/** The header of the CSV file to skip on load */
+#define CSV_HEADER "Product ID,Product Name,Publisher,Genre,Taxable,price,Quantity"
+/** The delimter used in the CSV file */
+#define CSV_DELIM ","
+/** Boolean values for ease of use */
 #ifndef false
 #define false 0
 #endif
@@ -31,10 +37,9 @@ typedef struct GameKey {
 typedef struct GamesCsvModel {
     Tree *tree;
     char *fileName;
-    int count;
 } GamesCsvModel;
 
-/* A single line from a games CSV file */
+/** A single line from a games CSV file */
 typedef struct GameModel {
     GameKey key;
     char *productId;
@@ -71,6 +76,11 @@ GameModel *createGameModel(char *productId, char *name, char *publisher, char *g
  *@return newly allocated key for searching
  */
 GameKey *createGameKey(char *productId);
+
+/**This function frees a game key from memory.
+ *@param key the key to free
+ */
+void destroyGameKey(GameKey *key);
 
 /**This function loads a gamesCsvModel from a CSV file.
  *@param fileName the csv file with game data
@@ -140,5 +150,16 @@ void destroyGameModel(void *modelPtr);
  *@return a new cloned gameModel
  */
 void *copyGameModel(void *modelPtr);
+
+/**This function prints a game model to stdout using a comma seperated list of info.
+ *@param modelPtr the model to print
+ */
+void printGameModel(void *modelPtr);
+
+/**This function creates a new copy of the string src.
+ *@param src the source string
+ *@return a direct clone of src
+ */
+char *copyString(char *src);
 
 #endif

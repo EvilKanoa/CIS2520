@@ -12,6 +12,10 @@
 
 int main(int argc, const char *argv[])
 {
-    printf("Hello, World!\n");
+    GamesCsvModel *model;
+    printf("Hello, World! Loading...\n");
+    model = loadGamesCsv("assets/Games.csv");
+    printf("Model loaded, printing...\n");
+    treeInOrderPrint(model->tree, printGameModel);
     return 0;
 }

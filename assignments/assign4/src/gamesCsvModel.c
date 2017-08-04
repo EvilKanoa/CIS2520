@@ -25,7 +25,6 @@ GamesCsvModel *createGamesCsv(char *fileName)
         return NULL;
     }
 
-    model->count = 0;
     model->fileName = fileName;
 
     return model;
@@ -41,10 +40,10 @@ GameModel *createGameModel(char *productId, char *name, char *publisher, char *g
 
     model = malloc(sizeof(GameModel));
     model->key = *createGameKey(productId);
-    model->productId = productId;
-    model->name = name;
-    model->publisher = publisher;
-    model->genre = genre;
+    model->productId = copyString(productId);
+    model->name = copyString(name);
+    model->publisher = copyString(publisher);
+    model->genre = copyString(genre);
     model->taxable = taxable;
     model->price = price;
     model->quantity = quantity;
@@ -55,28 +54,64 @@ GameModel *createGameModel(char *productId, char *name, char *publisher, char *g
 GameKey *createGameKey(char *productId)
 {
     GameKey *key;
-    int length;
 
     if (productId == NULL) {
         return NULL;
     }
 
     key = malloc(sizeof(GameKey));
-    length = strlen(productId);
-    key->productId = malloc((sizeof(char) * length) + 1);
-    strncpy(key->productId, productId, length);
-    key->productId[strlen(productId)] = 0;
+    key->productId = copyString(productId);
 
     return key;
 }
 
-/**This function loads a gamesCsvModel from a CSV file.
- *@param fileName the csv file with game data
- *@return a newly allocated and filled gamesCsvModel
- */
+void destroyGameKey(GameKey *key)
+{
+    if (key == NULL) {
+        return;
+    }
+
+    free(key->productId);
+    free(key);
+}
+
 GamesCsvModel *loadGamesCsv(char *fileName)
 {
-    return NULL;
+    FILE *fp = fileName == NULL ? NULL : fopen(fileName, "r");
+    GamesCsvModel *model;
+    char buffer[INPUT_BUFFER];
+
+    char *productId, *name, *publisher, *genre, *taxable, *price, *quantity;
+
+    if (fp == NULL) {
+        return NULL;
+    }
+
+    model = createGamesCsv(fileName);
+
+    while (fgets(buffer, INPUT_BUFFER, fp) != NULL) {
+        if (strncmp(CSV_HEADER, buffer, strlen(CSV_HEADER)) == 0) {
+            continue;
+        }
+
+        productId = strtok(buffer, CSV_DELIM);
+        name = strtok(NULL, CSV_DELIM);
+        publisher = strtok(NULL, CSV_DELIM);
+        genre = strtok(NULL, CSV_DELIM);
+        taxable = strtok(NULL, CSV_DELIM);
+        price = strtok(NULL, CSV_DELIM);
+        quantity = strtok(NULL, CSV_DELIM);
+        if (productId == NULL || name == NULL || publisher == NULL || genre == NULL || taxable == NULL || price == NULL || quantity == NULL) {
+            continue;
+        }
+        if (price != NULL && strlen(price) > 0) {
+            price = price + 1;
+        }
+
+        addGameToModel(model, productId, name, publisher, genre, (char) atoi(taxable), (float) atof(price), atoi(quantity));
+    }
+
+    return model;
 }
 
 /**This functions saves a gamesCsvModel to a csv file as specified within the model.
@@ -88,58 +123,71 @@ bool saveGamesCsv(GamesCsvModel *model)
     return false;
 }
 
-/**This function adds a new game to a gamesCsvModel.
- *@param model the model to add the game to.
- *@param productId Product ID of the game
- *@param name Name of the game
- *@param publisher Publisher of the game
- *@param genre Genre of the game
- *@param taxable Whether to tax the game
- *@param price The price of the game in dollars
- *@param quantity The number of games in stock
- */
 void addGameToModel(GamesCsvModel *model, char *productId, char *name, char *publisher, char *genre, bool taxable, float price, int quantity)
 {
-    return;
+    GameModel *game;
+
+    if (model == NULL || productId == NULL || strlen(productId) == 0) {
+        return;
+    }
+
+    if (containsGameFromModel(model, productId, 1)) {
+        lookupGameFromModel(model, productId)->quantity += quantity  ;
+    } else {
+        game = createGameModel(productId, name, publisher, genre, taxable, price, quantity);
+        treeInsertNode(model->tree, game);
+    }
 }
 
-/**This function removes a number of games from the inventory of a gamesCsvModel.
- *@param model the inventory model
- *@param productId the product to remove
- *@param count the number to remove
- */
 void removeGameFromModel(GamesCsvModel *model, char *productId, int count)
 {
-    return;
+    GameModel *game;
+
+    if (model == NULL || productId == NULL || strlen(productId) == 0 || count < 1) {
+        return;
+    }
+
+    game = lookupGameFromModel(model, productId);
+    if (game == NULL) {
+        return;
+    } else if (game->quantity <= count) {
+        treeDeleteNode(model->tree, game);
+    } else {
+        game->quantity -= count;
+    }
 }
 
-/**This function retrieves a gameModel from a gamesCsvModel based on a product id.
- *@param model the data to look for the gameModel in
- *@param productId the product id to search for
- *@return a gameModel if found or NULL if it does not exist
- */
 GameModel *lookupGameFromModel(GamesCsvModel *model, char *productId)
 {
-    return NULL;
+    GameKey *key;
+    GameModel *game;
+
+    if (model == NULL || productId == NULL || strlen(productId) == 0) {
+        return NULL;
+    }
+
+    key = createGameKey(productId);
+    game = treeFindNode(model->tree, key);
+    destroyGameKey(key);
+
+    return game;
 }
 
-/**This function checks if a gamesCsvModel contains a gameModel based on a product id with enough quantity.
- *@param model the data to look in
- *@param productId the product id to look for
- *@param count the minimum number for quantity
- */
 bool containsGameFromModel(GamesCsvModel *model, char *productId, int count)
 {
-    return false;
+    return numGameFromModel(model, productId) >= count;
 }
 
-/**This function retrieves the quantity of games in a gamesCsvModel
- *@param model the data to look in
- *@param productId the product id to look for
- */
 int numGameFromModel(GamesCsvModel *model, char *productId)
 {
-    return 0;
+    GameModel *game;
+
+    if (model == NULL || productId == NULL || strlen(productId) == 0) {
+        return false;
+    }
+
+    game = lookupGameFromModel(model, productId);
+    return game == NULL ? 0 : game->quantity;
 }
 
 int gameKeyCompare(void *key1, void *key2)
@@ -181,4 +229,29 @@ void *copyGameModel(void *modelPtr)
     model = (GameModel *) modelPtr;
 
     return createGameModel(model->productId, model->name, model->publisher, model->genre, model->taxable, model->price, model->quantity);
+}
+
+void printGameModel(void *modelPtr)
+{
+    GameModel *game = (GameModel *) modelPtr;
+    if (modelPtr != NULL && game != NULL) {
+        printf("%s, %s, %s, %s, %s, $%.2f, %i\n", game->productId, game->name, game->publisher, game->genre, game->taxable ? "Taxable" : "Non-taxable", game->price, game->quantity);
+    }
+}
+
+char *copyString(char *src)
+{
+    char *str;
+    unsigned long length;
+
+    if (src == NULL) {
+        return NULL;
+    }
+
+    length = strlen(src);
+    str = malloc(sizeof(char) * (length + 1));
+    strncpy(str, src, length);
+    str[length] = 0;
+
+    return str;
 }
