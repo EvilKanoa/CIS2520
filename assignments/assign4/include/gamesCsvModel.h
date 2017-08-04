@@ -99,6 +99,12 @@ GamesCsvModel *loadGamesCsv(char *fileName);
  */
 bool saveGamesCsv(GamesCsvModel *model);
 
+/**This function recursively prints the subtree at node to fp.
+ *@param fp the file to print to
+ *@param node the subtree to start printing from
+ */
+bool gameInOrderPrint(FILE *fp, TreeNode *node);
+
 /**This function adds a new game to a gamesCsvModel.
  *@param model the model to add the game to.
  *@param productId Product ID of the game
@@ -166,5 +172,12 @@ void printGameModel(void *modelPtr);
  *@return a direct clone of src
  */
 char *copyString(char *src);
+
+/** This is a utility function to allow the use of stdlib's strtok with empty tokens.
+ *@param str initial input string to parse
+ *@param delim the delimiter to use
+ *@return the next token in the string
+ */
+char *strtokEmpty(char *str, char const *delim);
 
 #endif

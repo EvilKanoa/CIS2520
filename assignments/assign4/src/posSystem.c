@@ -17,5 +17,6 @@ int main(int argc, const char *argv[])
     model = loadGamesCsv("assets/Games.csv");
     printf("Model loaded, printing...\n");
     treeInOrderPrint(model->tree, printGameModel);
-    return 0;
+    printf("Resaving to file...\n");
+    return saveGamesCsv(model) ? 0 : 1;
 }
