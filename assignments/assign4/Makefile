@@ -13,7 +13,7 @@ program: $(addprefix src/,$(SRC)) $(PROGRAM)
 
 # run cppcheck
 cppcheck:
-	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
+	cppcheck --enable=all --language=c --std=c89 --inconclusive --suppress=missingInclude src/*.c -i ./include
 
 doxy: Doxyfile
 	doxygen

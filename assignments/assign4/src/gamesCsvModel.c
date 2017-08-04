@@ -25,9 +25,20 @@ GamesCsvModel *createGamesCsv(char *fileName)
         return NULL;
     }
 
-    model->fileName = fileName;
+    model->fileName = copyString(fileName);
 
     return model;
+}
+
+void destroyGamesCsv(GamesCsvModel *model)
+{
+    if (model == NULL) {
+        return;
+    }
+
+    destroyBalancedBinTree(model->tree);
+    free(model->fileName);
+    free(model);
 }
 
 GameModel *createGameModel(char *productId, char *name, char *publisher, char *genre, bool taxable, float price, int quantity)
@@ -80,6 +91,7 @@ GamesCsvModel *loadGamesCsv(char *fileName)
     FILE *fp = fileName == NULL ? NULL : fopen(fileName, "r");
     GamesCsvModel *model;
     char buffer[INPUT_BUFFER];
+    float priceF;
 
     char *productId, *name, *publisher, *genre, *taxable, *price, *quantity;
 
@@ -105,10 +117,12 @@ GamesCsvModel *loadGamesCsv(char *fileName)
             continue;
         }
         if (price != NULL && strlen(price) > 0) {
-            price = price + 1;
+            priceF = (float) atof(price + 1);
+        } else {
+            priceF = 0;
         }
 
-        addGameToModel(model, productId, name, publisher, genre, (char) atoi(taxable), (float) atof(price), atoi(quantity));
+        addGameToModel(model, productId, name, publisher, genre, (char) atoi(taxable), priceF, atoi(quantity));
     }
 
     return model;
@@ -125,8 +139,6 @@ bool saveGamesCsv(GamesCsvModel *model)
 
 void addGameToModel(GamesCsvModel *model, char *productId, char *name, char *publisher, char *genre, bool taxable, float price, int quantity)
 {
-    GameModel *game;
-
     if (model == NULL || productId == NULL || strlen(productId) == 0) {
         return;
     }
@@ -134,8 +146,7 @@ void addGameToModel(GamesCsvModel *model, char *productId, char *name, char *pub
     if (containsGameFromModel(model, productId, 1)) {
         lookupGameFromModel(model, productId)->quantity += quantity  ;
     } else {
-        game = createGameModel(productId, name, publisher, genre, taxable, price, quantity);
-        treeInsertNode(model->tree, game);
+        treeInsertNode(model->tree, createGameModel(productId, name, publisher, genre, taxable, price, quantity));
     }
 }
 

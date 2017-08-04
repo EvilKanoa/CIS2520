@@ -57,6 +57,11 @@ typedef struct GameModel {
  */
 GamesCsvModel *createGamesCsv(char *fileName);
 
+/**This function frees a csv baed gamesCsvModel from memory.
+ *@param model the model to free
+ */
+void destroyGamesCsv(GamesCsvModel *model);
+
 /**This function allocates a new gameModel with the correct information as given.
  * Used internally.
  *@param productId Product ID of the game
