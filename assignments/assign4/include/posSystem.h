@@ -15,7 +15,7 @@
 /** The default inventory file */
 #define INVENTORY_FILE "assets/Games.csv"
 /** The buffer size for the search string */
-#define SEARCH_BUFFER 2048
+#define VIEW_INPUT_BUFFER 2048
 
 /**
  * This struct stores the correct application state.
@@ -24,7 +24,9 @@
 typedef struct State {
     GamesCsvModel *model;
     char *search;
+    char *buffer;
     int view;
+    bool clear;
 } State;
 
 /**This function creates a new application state.

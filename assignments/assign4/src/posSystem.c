@@ -22,16 +22,7 @@ int main()
         return 1;
     }
 
-    while (state->view != EXIT_VIEW) {
-        switch (state->view) {
-            case MAIN_VIEW:
-                state->view = displayMain(state);
-                break;
-            case SEARCH_VIEW:
-                state->view = displaySearch(state);
-                break;
-        }
-    }
+    while (nextView(state) != EXIT_VIEW);
 
     displayExit(state);
     saveSuccess = saveGamesCsv(state->model, INVENTORY_FILE) ? 0 : 1;
@@ -44,8 +35,10 @@ State *createState()
 {
     State *state = malloc(sizeof(State));
     state->model = createGamesCsv();
-    state->search = malloc(sizeof(char) * SEARCH_BUFFER);
+    state->search = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
+    state->buffer = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
     state->view = MAIN_VIEW;
+    state->clear = true;
     return state;
 }
 
@@ -57,5 +50,6 @@ void destroyState(State *state)
 
     destroyGamesCsv(state->model);
     free(state->search);
+    free(state->buffer);
     free(state);
 }
