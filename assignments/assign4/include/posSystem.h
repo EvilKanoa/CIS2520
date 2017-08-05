@@ -22,7 +22,8 @@
  * Note: The state IS mutatable.
  */
 typedef struct State {
-    GamesCsvModel *model;
+    GamesCsvModel *inventory;
+    GamesCsvModel *invoice;
     char *search;
     char *buffer;
     int view;

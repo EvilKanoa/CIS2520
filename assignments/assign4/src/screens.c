@@ -95,8 +95,9 @@ View displayExit(State *state)
 
 View displayInventory(State *state)
 {
+    clearScreen();
     printf("--- Current Inventory ---\n\n");
-    treeInOrderPrint(state->model->tree, printInventoryItem);
+    treeInOrderPrint(state->inventory->tree, printInventoryItem);
     state->clear = false;
 
     return MAIN_VIEW;

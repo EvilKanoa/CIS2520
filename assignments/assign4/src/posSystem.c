@@ -17,7 +17,7 @@ int main()
     int saveSuccess;
 
     state = createState();
-    if (!loadGamesCsv(state->model, INVENTORY_FILE)) {
+    if (!loadGamesCsv(state->inventory, INVENTORY_FILE)) {
         destroyState(state);
         return 1;
     }
@@ -25,7 +25,7 @@ int main()
     while (nextView(state) != EXIT_VIEW);
 
     displayExit(state);
-    saveSuccess = saveGamesCsv(state->model, INVENTORY_FILE) ? 0 : 1;
+    saveSuccess = saveGamesCsv(state->inventory, INVENTORY_FILE) ? 0 : 1;
 
     destroyState(state);
     return saveSuccess;
@@ -34,7 +34,8 @@ int main()
 State *createState()
 {
     State *state = malloc(sizeof(State));
-    state->model = createGamesCsv();
+    state->inventory = createGamesCsv();
+    state->invoice = createGamesCsv();
     state->search = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
     state->buffer = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
     state->view = MAIN_VIEW;
@@ -48,7 +49,8 @@ void destroyState(State *state)
         return;
     }
 
-    destroyGamesCsv(state->model);
+    destroyGamesCsv(state->inventory);
+    destroyGamesCsv(state->invoice);
     free(state->search);
     free(state->buffer);
     free(state);
