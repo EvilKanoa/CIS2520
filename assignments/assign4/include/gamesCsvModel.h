@@ -23,7 +23,7 @@
 #define false 0
 #endif
 #ifndef true
-#define true !true
+#define true !false
 #endif
 
 typedef char bool;
@@ -36,7 +36,6 @@ typedef struct GameKey {
 /** The struct containing all the data from a CSV file */
 typedef struct GamesCsvModel {
     Tree *tree;
-    char *fileName;
 } GamesCsvModel;
 
 /** A single line from a games CSV file */
@@ -52,10 +51,9 @@ typedef struct GameModel {
 } GameModel;
 
 /**This function allocates a new gamesCsv model for use.
- *@param fileName where to save this model when saveGamesCsv() is called
  *@return a newly allocated empty structure
  */
-GamesCsvModel *createGamesCsv(char *fileName);
+GamesCsvModel *createGamesCsv();
 
 /**This function frees a csv baed gamesCsvModel from memory.
  *@param model the model to free
@@ -87,17 +85,19 @@ GameKey *createGameKey(char *productId);
  */
 void destroyGameKey(GameKey *key);
 
-/**This function loads a gamesCsvModel from a CSV file.
+/**This function loads games from a CSV file into an existing model.
+ *@param model the model to load the games into
  *@param fileName the csv file with game data
- *@return a newly allocated and filled gamesCsvModel
+ *@return whether the games were loading successfully
  */
-GamesCsvModel *loadGamesCsv(char *fileName);
+bool loadGamesCsv(GamesCsvModel *model, char *fileName);
 
 /**This functions saves a gamesCsvModel to a csv file as specified within the model.
  *@param model the data to save
+ *@param fileName the file to save the model into
  *@return whether saving was successful
  */
-bool saveGamesCsv(GamesCsvModel *model);
+bool saveGamesCsv(GamesCsvModel *model, char *fileName);
 
 /**This function recursively prints the subtree at node to fp.
  *@param fp the file to print to

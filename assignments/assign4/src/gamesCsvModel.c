@@ -26,8 +26,6 @@ GamesCsvModel *createGamesCsv(char *fileName)
         return NULL;
     }
 
-    model->fileName = copyString(fileName);
-
     return model;
 }
 
@@ -38,7 +36,6 @@ void destroyGamesCsv(GamesCsvModel *model)
     }
 
     destroyBalancedBinTree(model->tree);
-    free(model->fileName);
     free(model);
 }
 
@@ -88,20 +85,17 @@ void destroyGameKey(GameKey *key)
     free(key);
 }
 
-GamesCsvModel *loadGamesCsv(char *fileName)
+bool loadGamesCsv(GamesCsvModel *model, char *fileName)
 {
     FILE *fp = fileName == NULL ? NULL : fopen(fileName, "r");
-    GamesCsvModel *model;
     char buffer[INPUT_BUFFER];
     float priceF;
 
     char *productId, *name, *publisher, *genre, *taxable, *price, *quantity;
 
-    if (fp == NULL) {
-        return NULL;
+    if (fp == NULL || model == NULL) {
+        return false;
     }
-
-    model = createGamesCsv(fileName);
 
     while (fgets(buffer, INPUT_BUFFER, fp) != NULL) {
         if (strncmp(CSV_HEADER, buffer, strlen(CSV_HEADER)) == 0) {
@@ -136,14 +130,13 @@ GamesCsvModel *loadGamesCsv(char *fileName)
     }
 
     fclose(fp);
-
-    return model;
+    return true;
 }
 
-bool saveGamesCsv(GamesCsvModel *model)
+bool saveGamesCsv(GamesCsvModel *model, char *fileName)
 {
     bool success;
-    FILE *fp = model == NULL ? NULL : fopen(model->fileName, "w");
+    FILE *fp = model == NULL ? NULL : fopen(fileName, "w");
 
     if (fp == NULL) {
         return false;
