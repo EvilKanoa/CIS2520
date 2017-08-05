@@ -88,6 +88,7 @@ View displaySearch(State *state)
 
 View displayExit(State *state)
 {
+    clearScreen();
     printf("Saving and exiting POS system...\n");
 
     return EXIT_VIEW;
@@ -111,19 +112,77 @@ View displayRemove(State *state)
 
 View displayAdd(State *state)
 {
-    printf("add\n");
+    GameModel *item;
+    char *input;
+    int quantity;
+
+    clearScreen();
+    printf("--- Add to Invoice ---\n");
+
+    do {
+        printf("Item's product ID: ");
+        input = getStringInput(state);
+
+        item = lookupGameFromModel(state->inventory, input);
+        if (item == NULL) {
+            printf("Unable to find an item by that ID!\n");
+            printf("Enter 'x' to exit to the main menu or try again.\n");
+        }
+    } while (item == NULL && strcmp(input, "x") != 0);
+
+    if (item == NULL) {
+        state->clear = true;
+        return MAIN_VIEW;
+    }
+
+    printf("\n");
+    printf("Game: %s (%s)\n", item->name, item->productId);
+    printf("Quantity: %d\n", item->quantity);
+
+    do {
+        printf("Purchase quantity (0 - %d): ", item->quantity);
+        quantity = getIntInput(state);
+
+        if (quantity > item->quantity) {
+            printf("Not enough items in inventory\n");
+        }
+    } while (quantity < 0 || quantity > item->quantity);
+
+    if (quantity == 0) {
+       state->clear = true;
+       return MAIN_VIEW;
+    }
+
+    addGameToModel(state->invoice, item->productId, item->name, item->publisher,
+        item->genre, item->taxable, item->price, quantity);
+    item->quantity -= quantity;
+
+    printf("Added %d %s of %s to invoice.\n", quantity,
+        quantity > 1 ? "copies" : "copy", item->name);
+
+    state->clear = false;
+
     return MAIN_VIEW;
 }
 
 View displayInvoice(State *state)
 {
-    printf("invoice\n");
+    clearScreen();
+    printf("--- Invoice ---\n\n");
+    treeInOrderPrint(state->invoice->tree, printInventoryItem);
+
+    destroyGamesCsv(state->invoice);
+    state->invoice = createGamesCsv();
+    state->clear = false;
+
     return MAIN_VIEW;
 }
 
 void clearScreen()
 {
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
+        \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
+        \n\n\n\n\n\n\n\n\n\n\n\n\n");
 }
 
 int getIntInput(State *state)

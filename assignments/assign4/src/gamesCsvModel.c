@@ -174,12 +174,12 @@ bool gameInOrderPrint(FILE *fp, TreeNode *node)
 void addGameToModel(GamesCsvModel *model, char *productId, char *name, 
     char *publisher, char *genre, bool taxable, float price, int quantity)
 {
-    if (model == NULL || productId == NULL || strlen(productId) == 0) {
+    if (model == NULL || productId == NULL || strlen(productId) == 0 || quantity < 1) {
         return;
     }
 
     if (containsGameFromModel(model, productId, 1)) {
-        lookupGameFromModel(model, productId)->quantity += quantity  ;
+        lookupGameFromModel(model, productId)->quantity += quantity;
     } else {
         treeInsertNode(model->tree, createGameModel(productId, name, publisher, 
             genre, taxable, price, quantity));
