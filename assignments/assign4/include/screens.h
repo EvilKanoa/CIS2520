@@ -87,4 +87,9 @@ int getIntInput(State *state);
  */
 char *getStringInput(State *state);
 
+/**Function used to print a single item formatted towards an inventory print.
+ *@param modelPtr a pointer to a GameModel to be printed
+ */
+void printInventoryItem(void *modelPtr);
+
 #endif

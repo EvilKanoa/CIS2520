@@ -95,7 +95,10 @@ View displayExit(State *state)
 
 View displayInventory(State *state)
 {
-    printf("inventory\n");
+    printf("--- Current Inventory ---\n\n");
+    treeInOrderPrint(state->model->tree, printInventoryItem);
+    state->clear = false;
+
     return MAIN_VIEW;
 }
 
@@ -145,4 +148,23 @@ char *getStringInput(State *state)
     }
 
     return state->buffer;
+}
+
+void printInventoryItem(void *modelPtr)
+{
+    GameModel *model;
+
+    if (modelPtr == NULL) {
+        return;
+    }
+
+    model = (GameModel *) modelPtr;
+    printf("Name: %s\n", model->name);
+    printf("Product ID: %s\n", model->productId);
+    printf("Publisher(s): %s\n", model->publisher);
+    printf("Genre(s): %s\n", model->genre);
+    printf("%s\n", model->taxable ? "Taxed" : "No Tax");
+    printf("Price: $%.2f\n", model->price);
+    printf("Quantity Available: %d\n", model->quantity);
+    printf("\n");
 }
