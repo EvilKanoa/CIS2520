@@ -89,7 +89,7 @@ void destroyGameKey(GameKey *key);
 /**This function loads games from a CSV file into an existing model.
  *@param model the model to load the games into
  *@param fileName the csv file with game data
- *@return whether the games were loading successfully
+ *@return whether the games were loaded successfully
  */
 bool loadGamesCsv(GamesCsvModel *model, char *fileName);
 

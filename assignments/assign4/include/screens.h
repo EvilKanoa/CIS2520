@@ -19,6 +19,7 @@
 #define REMOVE_VIEW 5
 #define ADD_VIEW 6
 #define INVOICE_VIEW 7
+#define LOAD_VIEW 8
 typedef int View;
 
 #include "posSystem.h"
@@ -70,6 +71,12 @@ View displayAdd(State *state);
  *@return the next view to display (not used for exits)
  */
 View displayInvoice(State *state);
+
+/**UI function to display and interact to load another inventory file.
+ *@param state the current state of the POS system
+ *@return the next view to display (not used for exits)
+ */
+View displayLoad(State *state);
 
 /**Function to print newlines to gime the impression of a cleared screen.
  */

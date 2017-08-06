@@ -35,6 +35,9 @@ View nextView(State *state)
         case INVOICE_VIEW:
             state->view = displayInvoice(state);
             break;
+        case LOAD_VIEW:
+            state->view = displayLoad(state);
+            break;
         default:
             state->view = EXIT_VIEW;
     }
@@ -53,12 +56,13 @@ View displayMain(State *state)
     printf("3. Remove a Product\n");
     printf("4. Add Product to Invoice\n");
     printf("5. Print Customer Invoice\n");
-    printf("6. Exit\n");
+    printf("6. Load Inventory File to Current\n");
+    printf("7. Exit\n");
 
     do {
-        printf("Enter an option (1-6): ");
+        printf("Enter an option (1-7): ");
         choice = getIntInput(state);
-    } while (choice < 1 || choice > 6);
+    } while (choice < 1 || choice > 7);
 
     state->clear = false;
 
@@ -74,6 +78,8 @@ View displayMain(State *state)
         case 5:
             return INVOICE_VIEW;
         case 6:
+            return LOAD_VIEW;
+        case 7:
             return EXIT_VIEW;
     }
 
@@ -231,9 +237,28 @@ View displayInvoice(State *state)
 
     deleteList(taxed);
     deleteList(nontaxed);
-    // destroyGamesCsv(state->invoice);
-    // state->invoice = createGamesCsv();
+    destroyGamesCsv(state->invoice);
+    state->invoice = createGamesCsv();
     state->clear = true;
+
+    return MAIN_VIEW;
+}
+
+View displayLoad(State *state)
+{
+    char *input;
+
+    printf("--- Load New Inventory File ---\n");
+    printf("\nEnter the file name you wish to load: ");
+    input = getStringInput(state);
+
+    if (loadGamesCsv(state->inventory, input)) {
+        printf("%s successfully loaded into current inventory!\n", input);
+    } else {
+        printf("Failed to load %s.\n", input);
+    }
+
+    state->clear = false;
 
     return MAIN_VIEW;
 }
