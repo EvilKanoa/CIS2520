@@ -4,12 +4,14 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 
 # list of source files to be included in compilation
 SRC = gamesCsvModel.c \
-	  screens.c
+	  screens.c \
+	  tree.c \
+	  linkedlist.c
 PROGRAM = src/posSystem.c
 
 # this is the target for building the testing binary
 program: $(addprefix src/,$(SRC)) $(PROGRAM)
-	$(CC) $(CFLAGS) -Llib/ -llinkedlist -ltree -lncurses -lm -Iinclude $(addprefix src/,$(SRC)) $(PROGRAM) -o bin/program
+	$(CC) $(CFLAGS) -lm -Iinclude $(addprefix src/,$(SRC)) $(PROGRAM) -o bin/program
 
 # run cppcheck
 cppcheck:

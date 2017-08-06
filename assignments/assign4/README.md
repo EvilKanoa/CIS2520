@@ -11,7 +11,7 @@ Program Description
 *******************
 A barebones point of sale (POS) system to be used for a video game inventory. Allows the user to view their inventory and create customer invoices which update the inventory. Provides the ability to search and delete from the inventory.
 
-The addition I chose to implement was loading another inventory file into the current program, and hence file. I added it as another option on the main menu that simply pulls all the inventory from any file the user specifies into the running application and causes the main inventory file to be updated on exit. I also "implemented" the library addition in that I wanted to use library files for my already finished ADTs, but I did not pursue that addition to its fullest extent and rather added it as something I thought would improve my program. Because of that I would not consider that my addition worth grading.
+The addition I chose to implement was loading another inventory file into the current program, and hence file. I added it as another option on the main menu that simply pulls all the inventory from any file the user specifies into the running application and causes the main inventory file to be updated on exit.
 
 ***********
 Compilation

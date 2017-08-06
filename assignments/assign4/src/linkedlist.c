@@ -33,10 +33,11 @@ Node *initializeNode(void *data)
 
 void insertFront(List *list, void *toBeAdded)
 {
+    Node *newNode;
     if (list == NULL) {
         return;
     }
-    Node *newNode = initializeNode(toBeAdded);
+    newNode = initializeNode(toBeAdded);
     newNode->next = list->head;
     if (list->head != NULL) {
         list->head->previous = newNode;
@@ -49,10 +50,11 @@ void insertFront(List *list, void *toBeAdded)
 
 void insertBack(List *list, void *toBeAdded)
 {
+    Node *newNode;
     if (list == NULL) {
         return;
     }
-    Node *newNode = initializeNode(toBeAdded);
+    newNode = initializeNode(toBeAdded);
     newNode->previous = list->tail;
     if (list->tail != NULL) {
         list->tail->next = newNode;
@@ -65,13 +67,14 @@ void insertBack(List *list, void *toBeAdded)
 
 void deleteList(List *list)
 {
+    Node *node, *tmpNode;
     if (list == NULL) {
         return;
     }
-    Node *node = list->head;
+    node = list->head;
     while (node != NULL) {
         list->deleteData(node->data);
-        Node *tmpNode = node;
+        tmpNode = node;
         node = node->next;
         free(tmpNode);
     }
@@ -80,17 +83,18 @@ void deleteList(List *list)
 
 void insertSorted(List *list, void *toBeAdded)
 {
+    Node *node, *new;
     if (list == NULL) {
         return;
     }
-    Node *node = list->head;
+    node = list->head;
     if (node == NULL) {
         insertFront(list, toBeAdded);
     } else {
         while (node != NULL && list->compare(toBeAdded, node->data) >= 0) {
             node = node->next;
         }
-        Node *new = initializeNode(toBeAdded);
+        new = initializeNode(toBeAdded);
         if (node == NULL) {
             new->previous = list->tail;
             list->tail->next = new;
@@ -110,10 +114,11 @@ void insertSorted(List *list, void *toBeAdded)
 
 int deleteDataFromList(List *list, void *toBeDeleted)
 {
+    Node *node;
     if (list == NULL) {
         return EXIT_FAILURE;
     }
-    Node *node = list->head;
+    node = list->head;
     if (node == NULL) {
         return EXIT_FAILURE;
     }
@@ -153,10 +158,11 @@ void *getFromBack(List *list)
 
 void printForward(List *list)
 {
+    Node *node;
     if (list == NULL) {
         return;
     }
-    Node *node = list->head;
+    node = list->head;
     while (node != NULL) {
         list->printData(node->data);
         node = node->next;
@@ -165,10 +171,11 @@ void printForward(List *list)
 
 void printBackwards(List *list)
 {
+    Node *node;
     if (list == NULL) {
         return;
     }
-    Node *node = list->tail;
+    node = list->tail;
     while (node != NULL) {
         list->printData(node->data);
         node = node->previous;
