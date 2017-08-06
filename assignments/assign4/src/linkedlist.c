@@ -132,10 +132,14 @@ int deleteDataFromList(List *list, void *toBeDeleted)
     } else {
         if (node->previous == NULL) {
             list->head = node->next;
-            list->head->previous = NULL;
+            if (list->head != NULL) {
+                list->head->previous = NULL;
+            }
         } else if (node->next == NULL) {
             list->tail = node->previous;
-            list->tail->next = NULL;
+            if (list->tail != NULL) {
+                list->tail->next = NULL;
+            }
         } else {
             node->previous->next = node->next;
             node->next->previous = node->previous;
