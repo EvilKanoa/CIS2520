@@ -82,7 +82,21 @@ View displayMain(State *state)
 
 View displaySearch(State *state)
 {
-    printf("search\n");
+    char *input;
+    List *search;
+
+    printf("--- Search Inventory ---\n");
+    printf("Enter a search term (searches by name): ");
+
+    input = getStringInput(state);
+    search = searchByName(state->inventory, input);
+
+    search->printData = printInventoryItem;
+    printf("\n\n--- Results ---\n");
+    printForward(search);
+
+    state->clear = false;
+
     return MAIN_VIEW;
 }
 
@@ -97,7 +111,7 @@ View displayExit(State *state)
 View displayInventory(State *state)
 {
     clearScreen();
-    printf("--- Current Inventory ---\n\n");
+    printf("--- Current Inventory ---\n");
     treeInOrderPrint(state->inventory->tree, printInventoryItem);
     state->clear = false;
 
@@ -106,7 +120,32 @@ View displayInventory(State *state)
 
 View displayRemove(State *state)
 {
-    printf("remove\n");
+    GameModel *item;
+    char *input;
+
+    printf("--- Remove All from Inventory ---\n");
+
+    do {
+        printf("Item's product ID: ");
+        input = getStringInput(state);
+
+        item = lookupGameFromModel(state->inventory, input);
+        if (item == NULL) {
+            printf("Unable to find an item by that ID!\n");
+            printf("Enter 'x' to exit to the main menu or try again.\n");
+        }
+    } while (item == NULL && strcmp(input, "x") != 0);
+
+    if (item == NULL) {
+        state->clear = true;
+        return MAIN_VIEW;
+    }
+
+    clearScreen();
+    removeGameFromModel(state->inventory, item->productId, item->quantity);
+    printf("%d %s of %s removed from inventory.\n", item->quantity, 
+        item->quantity > 1 ? "(all) copies" : "(only) copy", item->name);
+
     return MAIN_VIEW;
 }
 
@@ -116,7 +155,6 @@ View displayAdd(State *state)
     char *input;
     int quantity;
 
-    clearScreen();
     printf("--- Add to Invoice ---\n");
 
     do {
@@ -157,6 +195,7 @@ View displayAdd(State *state)
         item->genre, item->taxable, item->price, quantity);
     item->quantity -= quantity;
 
+    clearScreen();
     printf("Added %d %s of %s to invoice.\n", quantity,
         quantity > 1 ? "copies" : "copy", item->name);
 
@@ -167,8 +206,9 @@ View displayAdd(State *state)
 
 View displayInvoice(State *state)
 {
+    /* TODO: Make this an invoice */
     clearScreen();
-    printf("--- Invoice ---\n\n");
+    printf("--- Customer Invoice ---\n");
     treeInOrderPrint(state->invoice->tree, printInventoryItem);
 
     destroyGamesCsv(state->invoice);

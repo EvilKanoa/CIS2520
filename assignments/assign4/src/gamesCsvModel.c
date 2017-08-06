@@ -237,15 +237,62 @@ int numGameFromModel(GamesCsvModel *model, char *productId)
     return game == NULL ? 0 : game->quantity;
 }
 
+List *searchByName(GamesCsvModel *model, char *search)
+{
+    List *list;
+
+    if (model == NULL || search == NULL) {
+        return NULL;
+    }
+
+    list = initializeList(NULL, deleteNothing, gameModelNameCompare);
+    recursiveSearch(list, model->tree->root, search);
+
+    return list;
+}
+
+void recursiveSearch(List *list, TreeNode *root, char *search)
+{
+    GameModel *model;
+
+    if (root == NULL || search == NULL) {
+        return;
+    }
+
+    recursiveSearch(list, root->left, search);
+
+    model = (GameModel *) root->data;
+    if (strcasestr(model->name, search) != NULL) {
+        insertSorted(list, model);
+    }
+
+    recursiveSearch(list, root->right, search);
+}
+
 int gameKeyCompare(void *key1, void *key2)
 {
-    if (key1 == NULL) {
+    if (key1 == NULL && key2 == NULL) {
+        return 0;
+    } else if (key1 == NULL) {
         return -1;
     } else if (key2 == NULL) {
         return 1;
     } else {
         return strcmp((*((GameKey *) key1)).productId, 
             (*((GameKey *) key2)).productId);
+    }
+}
+
+int gameModelNameCompare(const void *key1, const void *key2)
+{
+    if (key1 == NULL && key2 == NULL) {
+        return 0;
+    } else if (key1 == NULL) {
+        return -1;
+    } else if (key2 == NULL) {
+        return 1;
+    } else {
+        return strcmp(((GameModel *) key1)->name, ((GameModel *) key2)->name);
     }
 }
 
@@ -331,4 +378,9 @@ char *strtokEmpty(char *str, char const *delim)
     }
 
     return result;
+}
+
+void deleteNothing(void *toBeDeleted)
+{
+    return;
 }

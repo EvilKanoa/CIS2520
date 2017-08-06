@@ -36,7 +36,6 @@ State *createState()
     State *state = malloc(sizeof(State));
     state->inventory = createGamesCsv();
     state->invoice = createGamesCsv();
-    state->search = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
     state->buffer = malloc(sizeof(char) * VIEW_INPUT_BUFFER);
     state->view = MAIN_VIEW;
     state->clear = true;
@@ -51,7 +50,6 @@ void destroyState(State *state)
 
     destroyGamesCsv(state->inventory);
     destroyGamesCsv(state->invoice);
-    free(state->search);
     free(state->buffer);
     free(state);
 }

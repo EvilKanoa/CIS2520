@@ -24,7 +24,6 @@
 typedef struct State {
     GamesCsvModel *inventory;
     GamesCsvModel *invoice;
-    char *search;
     char *buffer;
     int view;
     bool clear;

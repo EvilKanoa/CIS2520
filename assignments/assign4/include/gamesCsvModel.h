@@ -11,6 +11,7 @@
 #define _GAMES_MODEL_
 
 #include "balancedTreeAPI.h"
+#include "LinkedListAPI.h"
 
 /** Number of bytes to read in each line for loading from a CSV file */
 #define INPUT_BUFFER 4096
@@ -144,12 +145,33 @@ bool containsGameFromModel(GamesCsvModel *model, char *productId, int count);
  */
 int numGameFromModel(GamesCsvModel *model, char *productId);
 
+/**This function searches the current tree using a specific search term.
+ *@param model the data to search
+ *@param search the string to search for
+ *@return list of all items containing the search term
+ */
+List *searchByName(GamesCsvModel *model, char *search);
+
+/**This function is used by searchByName to recursively search a tree.
+ *@param list the list to append items to
+ *@param root the subtree to search down from
+ *@param search the string to search for
+ */
+void recursiveSearch(List *list, TreeNode *root, char *search);
+
 /**This function is for use in a tree to compare two seperate gameKeys.
  *@param key1 a pointer to a GameKey (or a GameModel)
  *@param key2 a pointer to a GameKey (or a GameModel)
- *@return how much 'more' key1 is than key two
+ *@return how much 'more' key1 is than key2
  */
 int gameKeyCompare(void *key1, void *key2);
+
+/**This function is for use in a linkedlist to sort by name.
+ *@param key1 a pointer to a GameModel
+ *@param key2 a pointer to a GameModel
+ *@return how much 'more' key1 is than key2
+ */
+int gameModelNameCompare(const void *key1, const void *key2);
 
 /**This function frees the memory around a gameModel.
  *@param modelPtr a gameModel to free
@@ -173,11 +195,16 @@ void printGameModel(void *modelPtr);
  */
 char *copyString(char *src);
 
-/** This is a utility function to allow the use of stdlib's strtok with empty tokens.
+/**This is a utility function to allow the use of stdlib's strtok with empty tokens.
  *@param str initial input string to parse
  *@param delim the delimiter to use
  *@return the next token in the string
  */
 char *strtokEmpty(char *str, char const *delim);
+
+/**This functin is used by the queue since it mustn't deleted the data.
+ *@param toBeDeleted a GameModel pointer to do nothing with
+ */
+void deleteNothing(void *toBeDeleted);
 
 #endif

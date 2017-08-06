@@ -5,7 +5,8 @@ CFLAGS      =	-Wall -ansi -pedantic -g
 # list of source files to be included in compilation
 SRC = tree.c \
 	  gamesCsvModel.c \
-	  screens.c
+	  screens.c \
+	  linkedlist.c
 PROGRAM = src/posSystem.c
 
 # this is the target for building the testing binary
