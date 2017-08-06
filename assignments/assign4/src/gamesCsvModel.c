@@ -7,6 +7,9 @@
  *        structure from/to disk.
  */
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "gamesCsvModel.h"
 
 GamesCsvModel *createGamesCsv(char *fileName)
