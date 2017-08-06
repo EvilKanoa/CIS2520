@@ -46,7 +46,7 @@ View displayMain(State *state)
 {
     int choice;
 
-    printf("\n\n--- POS SYSTEM ---\n");
+    printf("\n--- POS SYSTEM ---\n");
     printf("--- Main  Menu ---\n");
     printf("1. Search Products\n");
     printf("2. Display All Products\n");
@@ -194,7 +194,7 @@ View displayAdd(State *state)
 
     addGameToModel(state->invoice, item->productId, item->name, item->publisher,
         item->genre, item->taxable, item->price, quantity);
-    item->quantity -= quantity;
+    removeGameFromModel(state->inventory, item->productId, quantity);
 
     clearScreen();
     printf("Added %d %s of %s to invoice.\n", quantity,
@@ -209,30 +209,30 @@ View displayInvoice(State *state)
 {
     List *taxed = getTaxed(state->invoice);
     List *nontaxed = getNontaxed(state->invoice);
+    float taxTotal = calculateGamesListTotal(taxed) * 1.13;
+    float nontaxTotal = calculateGamesListTotal(nontaxed);
 
     clearScreen();
     printf("--- Customer Invoice ---\n");
     printf("\nTaxed Items\n-----------\n");
-    printf("Name, Price, Quantity, Subtotal, Total\n");
     taxed->printData = printInvoiceItem;
     printForward(taxed);
+    printf("\nTaxed Subtotal:\t%.2f\n", taxTotal);
 
-    printf("\nNon-Taxed Items\n-----------\n");
-    printf("Name, Price, Quantity, Total\n");
+    printf("\nNon-Taxed Items\n---------------\n");
     nontaxed->printData = printInvoiceItem;
     printForward(nontaxed);
+    printf("\nNon-Taxed Subtotal:\t%.2f\n", nontaxTotal);
 
-    printf("Subtotal:\t%.2f\n", 1.1);
-    printf("Tax:\t%.2f\n", 1.1);
-    printf("Total:\t%.2f\n", 1.1);
+    printf("\nTotal:\t%.2f\n", taxTotal + nontaxTotal);
 
     printf("\nPress enter to clear.\n");
     getchar();
 
-    destroyGamesCsv(state->invoice);
     deleteList(taxed);
     deleteList(nontaxed);
-    state->invoice = createGamesCsv();
+    // destroyGamesCsv(state->invoice);
+    // state->invoice = createGamesCsv();
     state->clear = true;
 
     return MAIN_VIEW;
@@ -299,11 +299,33 @@ void printInvoiceItem(void *modelPtr)
     model = (GameModel *) modelPtr;
 
     if (model->taxable) {
-        printf("%s, %.2f, %d, %.2f, %.2f\n", model->name, model->price,
-            model->quantity, model->price * model->quantity,
+        printf("\nName:\t\t%s\nPrice:\t\t%.2f\nQuantity:\t%d\nSubtotal:\t%.2f\nTax:\t\t%.2f\nTotal:\t\t%.2f\n", 
+            model->name, model->price, model->quantity, 
+            model->price * model->quantity,
+            model->price * model->quantity * 0.13,
             model->price * model->quantity * 1.13);
     } else {
-        printf("%s, %.2f, %d, %.2f\n", model->name, model->price,
-            model->quantity, model->price * model->quantity);
+        printf("\nName:\t\t%s\nPrice:\t\t%.2f\nQuantity:\t%d\nTotal:\t\t%.2f\n", 
+            model->name, model->price, model->quantity, 
+            model->price * model->quantity);
     }
+}
+
+float calculateGamesListTotal(List *list)
+{
+    Node *node;
+    GameModel *model;
+    float total = 0;
+
+    if (list == NULL) {
+        return total;
+    }
+
+    node = list->head;
+    while (node != NULL) {
+        model = (GameModel *) node;
+        total += (model->price * model->quantity);
+    }
+
+    return total;
 }

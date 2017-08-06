@@ -97,4 +97,10 @@ void printInventoryItem(void *modelPtr);
  */
 void printInvoiceItem(void *modelPtr);
 
+/**Function to calculate the total price of a list of games.
+ *@param list the games to sum up at their given quantities
+ *@return the total of their prices times their quantities
+ */
+float calculateGamesListTotal(List *list);
+
 #endif
