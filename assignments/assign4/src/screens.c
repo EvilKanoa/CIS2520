@@ -95,6 +95,7 @@ View displaySearch(State *state)
     printf("\n\n--- Results ---\n");
     printForward(search);
 
+    deleteList(search);
     state->clear = false;
 
     return MAIN_VIEW;
@@ -209,7 +210,19 @@ View displayInvoice(State *state)
     /* TODO: Make this an invoice */
     clearScreen();
     printf("--- Customer Invoice ---\n");
-    treeInOrderPrint(state->invoice->tree, printInventoryItem);
+    printf("Taxed Items\n-----------\n");
+    printf("Name, Price, Quantity, Subtotal, Total\n");
+
+
+    printf("Non-Taxed Items\n-----------\n");
+    printf("Name, Price, Quantity, Total\n");
+
+    printf("Subtotal:\t%.2f\n");
+    printf("Tax:\t%.2f\n");
+    printf("Total:\t%.2f\n");
+
+    printf("\nPress any button to clear.\n");
+    getchar();
 
     destroyGamesCsv(state->invoice);
     state->invoice = createGamesCsv();
@@ -220,7 +233,7 @@ View displayInvoice(State *state)
 
 void clearScreen()
 {
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
         \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
         \n\n\n\n\n\n\n\n\n\n\n\n\n");
 }
@@ -239,7 +252,6 @@ char *getStringInput(State *state)
 
     if (state->buffer == NULL) {
         state->buffer = "";
-        return NULL;
     }
 
     length = strlen(state->buffer);
@@ -267,4 +279,24 @@ void printInventoryItem(void *modelPtr)
     printf("Price: $%.2f\n", model->price);
     printf("Quantity Available: %d\n", model->quantity);
     printf("\n");
+}
+
+void printInvoiceItem(void *modelPtr)
+{
+    GameModel *model;
+
+    if (modelPtr == NULL) {
+        return;
+    }
+
+    model = (GameModel *) modelPtr;
+
+    if (model->taxable) {
+        printf("%s, %.2f, %d, %.2f, %.2f", model->name, model->price,
+            model->quantity, model->price * model->quantity,
+            model->price * model->quantity * 1.13);
+    } else {
+        printf("%s, %.2f, %d, %.2f", model->name, model->price,
+            model->quantity, model->price * model->quantity);
+    }
 }

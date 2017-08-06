@@ -40,7 +40,7 @@ struct BalancedBinTreeNode{
  *@param theTree pointer to a self-balancing binary tree
  *@param toBeDeleted pointer to binary tree node created via createBalancedBinTreeNode
  **/
-void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);  
+void destroyBalancedBinTreeNodeTree(Tree *theTree, TreeNode *toBeDeleted);
 
 /**This function inserts a given node into an AVL tree recursively while rotating
  * the tree to preserve the AVL property.

@@ -92,4 +92,9 @@ char *getStringInput(State *state);
  */
 void printInventoryItem(void *modelPtr);
 
+/**Function to print a single item formmated towards an invoice print.
+ *@param modelPtr a pointer to a GameModel to be printed
+ */
+void printInvoiceItem(void *modelPtr);
+
 #endif
