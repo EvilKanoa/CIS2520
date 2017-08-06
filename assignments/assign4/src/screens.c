@@ -349,6 +349,7 @@ float calculateGamesListTotal(List *list)
     while (node != NULL) {
         model = (GameModel *) node->data;
         total += (model->price * model->quantity);
+        node = node->next;
     }
 
     return total;
