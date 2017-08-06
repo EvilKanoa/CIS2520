@@ -150,8 +150,7 @@ View displayRemove(State *state)
 
     clearScreen();
     removeGameFromModel(state->inventory, item->productId, item->quantity);
-    printf("%d %s of %s removed from inventory.\n", item->quantity, 
-        item->quantity > 1 ? "(all) copies" : "(only) copy", item->name);
+    printf("Removed from inventory.\n");
 
     return MAIN_VIEW;
 }
@@ -348,7 +347,7 @@ float calculateGamesListTotal(List *list)
 
     node = list->head;
     while (node != NULL) {
-        model = (GameModel *) node;
+        model = (GameModel *) node->data;
         total += (model->price * model->quantity);
     }
 
