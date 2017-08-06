@@ -269,6 +269,53 @@ void recursiveSearch(List *list, TreeNode *root, char *search)
     recursiveSearch(list, root->right, search);
 }
 
+List *gamesCsvToList(GamesCsvModel *model)
+{
+    return searchByName(model, "");
+}
+
+List *getTaxed(GamesCsvModel *model)
+{
+    List *list = gamesCsvToList(model);
+    Node *node, *prev;
+
+    if (list == NULL) {
+        return NULL;
+    }
+
+    node = list->head;
+    while (node != NULL) {
+        prev = node;
+        node = node->next;
+        if (!((GameModel *) prev->data)->taxable) {
+            deleteDataFromList(list, prev->data);
+        }
+    }
+
+    return list;
+}
+
+List *getNontaxed(GamesCsvModel *model)
+{
+    List *list = gamesCsvToList(model);
+    Node *node, *prev;
+
+    if (list == NULL) {
+        return NULL;
+    }
+
+    node = list->head;
+    while (node != NULL) {
+        prev = node;
+        node = node->next;
+        if (((GameModel *) prev->data)->taxable) {
+            deleteDataFromList(list, prev->data);
+        }
+    }
+
+    return list;
+}
+
 int gameKeyCompare(void *key1, void *key2)
 {
     if (key1 == NULL && key2 == NULL) {

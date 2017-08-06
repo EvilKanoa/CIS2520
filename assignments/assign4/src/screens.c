@@ -207,26 +207,33 @@ View displayAdd(State *state)
 
 View displayInvoice(State *state)
 {
-    /* TODO: Make this an invoice */
+    List *taxed = getTaxed(state->invoice);
+    List *nontaxed = getNontaxed(state->invoice);
+
     clearScreen();
     printf("--- Customer Invoice ---\n");
-    printf("Taxed Items\n-----------\n");
+    printf("\nTaxed Items\n-----------\n");
     printf("Name, Price, Quantity, Subtotal, Total\n");
+    taxed->printData = printInvoiceItem;
+    printForward(taxed);
 
-
-    printf("Non-Taxed Items\n-----------\n");
+    printf("\nNon-Taxed Items\n-----------\n");
     printf("Name, Price, Quantity, Total\n");
+    nontaxed->printData = printInvoiceItem;
+    printForward(nontaxed);
 
-    printf("Subtotal:\t%.2f\n");
-    printf("Tax:\t%.2f\n");
-    printf("Total:\t%.2f\n");
+    printf("Subtotal:\t%.2f\n", 1.1);
+    printf("Tax:\t%.2f\n", 1.1);
+    printf("Total:\t%.2f\n", 1.1);
 
-    printf("\nPress any button to clear.\n");
+    printf("\nPress enter to clear.\n");
     getchar();
 
     destroyGamesCsv(state->invoice);
+    deleteList(taxed);
+    deleteList(nontaxed);
     state->invoice = createGamesCsv();
-    state->clear = false;
+    state->clear = true;
 
     return MAIN_VIEW;
 }
@@ -292,11 +299,11 @@ void printInvoiceItem(void *modelPtr)
     model = (GameModel *) modelPtr;
 
     if (model->taxable) {
-        printf("%s, %.2f, %d, %.2f, %.2f", model->name, model->price,
+        printf("%s, %.2f, %d, %.2f, %.2f\n", model->name, model->price,
             model->quantity, model->price * model->quantity,
             model->price * model->quantity * 1.13);
     } else {
-        printf("%s, %.2f, %d, %.2f", model->name, model->price,
+        printf("%s, %.2f, %d, %.2f\n", model->name, model->price,
             model->quantity, model->price * model->quantity);
     }
 }

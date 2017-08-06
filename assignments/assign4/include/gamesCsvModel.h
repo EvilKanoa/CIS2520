@@ -159,6 +159,24 @@ List *searchByName(GamesCsvModel *model, char *search);
  */
 void recursiveSearch(List *list, TreeNode *root, char *search);
 
+/**This function converts all the data in a gamesCsvModel to a list.
+ *@param model the model to use the data from.
+ *@return a list of all items
+ */
+List *gamesCsvToList(GamesCsvModel *model);
+
+/**This function returns all the game models in the gamesCsvModel that are taxed.
+ *@param model the model to use the data from.
+ *@return a list of all taxed items
+ */
+List *getTaxed(GamesCsvModel *model);
+
+/**This function returns all the game models in the gamesCsvModel that are untaxed.
+ *@param model the model to use the data from.
+ *@return a list of all untaxed items
+ */
+List *getNontaxed(GamesCsvModel *model);
+
 /**This function is for use in a tree to compare two seperate gameKeys.
  *@param key1 a pointer to a GameKey (or a GameModel)
  *@param key2 a pointer to a GameKey (or a GameModel)
