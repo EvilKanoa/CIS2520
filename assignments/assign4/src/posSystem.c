@@ -19,6 +19,8 @@ int main()
     state = createState();
     if (!loadGamesCsv(state->inventory, INVENTORY_FILE)) {
         destroyState(state);
+        printf("Unable to load inventory file, please ensure it exists: %s\n", 
+            INVENTORY_FILE);
         return 1;
     }
 
