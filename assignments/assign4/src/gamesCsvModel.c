@@ -52,7 +52,7 @@ GameModel *createGameModel(char *productId, char *name, char *publisher,
     }
 
     model = malloc(sizeof(GameModel));
-    model->key = *createGameKey(productId);
+    model->key.productId = copyString(productId);
     model->productId = copyString(productId);
     model->name = copyString(name);
     model->publisher = copyString(publisher);
