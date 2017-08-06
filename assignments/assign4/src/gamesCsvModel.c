@@ -265,7 +265,7 @@ void recursiveSearch(List *list, TreeNode *root, char *search)
     recursiveSearch(list, root->left, search);
 
     model = (GameModel *) root->data;
-    if (strcasestr(model->name, search) != NULL) {
+    if (strstr(model->name, search) != NULL) {
         insertSorted(list, model);
     }
 
