@@ -5,6 +5,8 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{graphicx}
+\usepackage{array}
+\usepackage{hhline}
 
 \titleformat{\section}
 {\normalfont\Large\bfseries}{Unit~\thesection}{1em}{}
@@ -15,7 +17,7 @@
 \begin{center}
 	{\Large CIS*2520 Mock Exam (Summer 2017)} \\
 	\smallskip
-	All questions are available on Courselink via \url{https://courselink.uoguelph.ca/d2l/le/content/470592/Home}.
+	All questions are used from Courselink via \url{https://courselink.uoguelph.ca/d2l/le/content/470592/Home}.
 \end{center}
 
 \medskip
@@ -161,7 +163,7 @@
 	\vspace{6cm}
 	\item Give the in-order traversal and the pre-order traversal of the tree shown below.
 		\begin{center}
-		\includegraphics[scale=0.5]{tree}
+			\includegraphics[scale=0.5]{alphatree}
 		\end{center}
 	\vspace{2cm}
 	\item Write the pseudocode or \(C\) code for a compare operator. A compare operator must return three distinct values, one for when the first parameter is larger, one for when the second parameter is larger, and one for when the two parameters are equal. The convention is to use 1, 0, and -1 for the three values. Zero for equal values, 1 for the first string being larger, -1 for the second.
@@ -174,7 +176,208 @@
 \medskip
 \section{Heaps and Priority Queues}
 
+\begin{enumerate}
+	\item Develop a formula to calculate the position of a parent node in an array-implementation of a heap. The only input information to the formula is the position of the current node.
+	\vspace{3cm}
+	\item Create the \(C\) struct for a binary-tree based heap. Your struct should have members for the heap, the last added element, the next position, and function pointers to manipulate void* data.
+	\vspace{4cm}
+	\item Heaps do not have to be a min/max binary tree. Many variations of heaps are possible. Use internet resources to learn about one of the following different types of heaps: skew heaps, binomial heap, or leftist heap. Write the pseudocode for insert and delete operations for the type of heap you chose.
+	\vspace{6cm}
+	\item The complexity of insert and delete for a binary heap is \(O(log(N))\). Why is that? Create a written explanation, chart, or diagram that explains why \(log(N)\) is the complexity for those operations.
+	\vspace{6cm}
+	\item Consider the implementation of a priority queue using an array, a linked list, and a heap. For each implementation, provide the pseudocode for the insert and removeMax operation. What is the complexity of those operations in each case?
+		\begin{enumerate}[label=\alph*.]
+			\item Array Implementation
+			\vspace{6cm}
+			\item Linked List Implementation
+			\vspace{6cm}
+			\item Heap Implementation
+			\vspace{6cm}
+		\end{enumerate}
+	\item Use the Internet to find an additional approach to avoiding starvation in a priority queue, other than the two mentioned in the notes. Describe this third approach.
+	\vspace{3cm}
+	\item Assume you have a computer that can execute 1 billion instructions per second. How long (in seconds / minutes / days / months / years) would that computer take to execute an algorithm of the complexity give for each of the number of data items shown in the table below. \\
+		\begin{center}
+			\renewcommand{\arraystretch}{1.25}
+			\begin{tabular} { | l | l | l | l |}
+				\hline
+				Algorithm order & 10,000 data items & 1 million data items & 1 billion data items \\
+				\hhline{|=|=|=|=|}
+				\(O(\log N)\) & & & \\ \hline
+				\(O(N)\) & & & \\ \hline
+				\(O(N \log N)\) & & & \\ \hline
+				\(O(N^{2})\) & & & \\ \hline
+				\(O(2^{N})\) & & & \\ \hline
+			\end{tabular}
+		\end{center}
+	\vspace{2mm}
+	\item Create a table showing the count of the primitive operations for the algorithm for adding a node to the end of a singly linked list. The algorithm is given in the Linked List materials for this course. What is the big O complexity for that algorithm?
+	\vspace{4cm}
+	\item Consider the following three algorithms for determining whether anyone in a room of people has the same first name as a target person. What is the worst case scenario for these algorithms? For each algorithm, how many questions will be asked in the worst case? What is the Big O complexity class for each algorithm?
+		\begin{enumerate}[label=\arabic*.]
+			\item The target person says their name. All the people with the same name stand up.
+			\vspace{2cm}
+			\item The target person approaches each person in the room to ask them their name. If the person approached has the same name as the target person, the search is successful and stops.
+			\vspace{2cm}
+			\item The target person asks one person about their name. If person one does not have the same name, the target person asks person one to ask the next person (person two). Person two responds to person one, who tells the target person the answer. If that name doesn’t match, the target person asks person one to tell person two to ask person three. Person three responds to person two who responds to person one who tells the target person. This algorithm continues until the last person has been asked.
+			\vspace{2cm}
+		\end{enumerate}
+	\newpage
+	\item Consider the following four functions:
+		\begin{itemize}
+			\item function 1: \(O(2^N )\)
+			\item function 2: \(O(N^{5 / 3})\)
+			\item function 3: \(O(N \log N)\)
+			\item function 4: \(O(N ^ {\log N})\)
+		\end{itemize}
+		List the four functions in order of increasing computational complexity:
+		\begin{enumerate}[label=\arabic*.]
+			\item \rule{4cm}{0.1mm}
+			\item \rule{4cm}{0.1mm}
+			\item \rule{4cm}{0.1mm}
+			\item \rule{4cm}{0.1mm}
+		\end{enumerate}
+	\item Create a table showing the count of primitive operations for a bubble sort. What is the worst case big O complexity class for a bubble sort?
+	\vspace{4cm}
+ 
+\end{enumerate}
+
 \medskip
 \section{Balanced Trees and Sorting}
+
+\begin{enumerate}
+	\item Using a tree graph, create a binary search tree (BST) by inserting the numbers between 1 and 9 into the tree, in order. What do you notice about the tree? 
+		\vspace{5cm} \\
+		Using another tree graph, insert the same numbers in the following order 5 3 7 4 2 8 6 9 1. What do you notice about the tree this time?
+	\vspace{5cm}
+	\item The AVL tree shown in this figure is unbalanced. It needs a right rotation on node 38 to complete the balancing step. 
+		\begin{center}
+			\includegraphics[scale=0.75]{avltree}
+		\end{center}
+		List the steps required to complete the rotation.
+	\vspace{3cm}
+	\item Write \(C\) code showing the struct you would implement for a fully abstracted b-tree. 
+		\vspace{4cm} \\
+		Write the \(C\) code for the insert function for the b-tree.
+	\vspace{4cm}
+	\item Describe the key similarities and differences between red-black trees and AVL trees.
+	\vspace{4cm}
+	\item What is the maximum height of an AVL tree with 9 nodes? Assume that an AVL tree with one node is height 1. Can you find a formula for the maximum height of an AVL tree with N nodes?
+	\vspace{4cm}
+	\item Design an augmented AVL tree which can quickly compute the number of nodes in any tree or subtree. Discuss changes to the struct for the AVL tree as well as necessary changes to any of the algorithms for the ADT.
+	\vspace{12cm}
+	\item Which of the following statements is true about Insertion Sort?
+		\begin{enumerate}[label=\alph*.]
+			\item It is a comparison Sort.
+			\item It is an adaptive Sort.
+			\item It has an \(O(n \log n)\) complexity for the best case.
+			\item It has an \(O(n^2 )\) complexity for the worst case.
+			\item It performs more comparisons than Selection Sort.
+			\item It is always outperformed by divide and conquer sorts.
+			\item It requires \(O(1)\) extra memory.
+			\item It is an in-place sort.
+		\end{enumerate}
+	\newpage
+	\item Which of the following scenarios might be a good situation in which to use insertion sort?
+		\begin{enumerate}[label=\alph*.]
+			\item When only alphabetical sort is required.
+			\item When you are sorting more than 20 items.
+			\item When you are sorting fewer than 20 items.
+			\item When you have very little extra memory space.
+			\item When you need an extremely fast sort.
+			\item When the comparison operator is computationally expensive.
+			\item When the list must be sorted as the data is generated, one item at a time.
+			\item When only large numbers will be sorted.
+		\end{enumerate}
+	\item Which part of the algorithm for insertion sort causes the average case running time?
+		\begin{enumerate}[label=\alph*.]
+			\item The assignment of different values into the temporary variable.
+			\item The loop that goes through the array one element at a time.
+			\item The nested loops that each go through the array one element at a time.
+			\item The multiple places where the boolean variable finished is assigned a value.
+		\end{enumerate}
+	\item Which of the following statements are true about Selection Sort?
+		\begin{enumerate}[label=\alph*.]
+			\item It is \(O(n^2 )\) for the average case.
+			\item It is an adaptive sort.
+			\item It requires fewer swaps than many algorithms.
+			\item It generally performs worse than insertion sort.
+			\item It is sometimes faster than a divide and conquer algorithm.
+			\item It is not an in-place sorting algorithm.
+			\item It is similar to a heapsort.
+			\item It can be written to be a stable sort.
+		\end{enumerate}
+	\item Which of the following scenarios might be a good situation in which to use selection sort?
+		\begin{enumerate}[label=\alph*.]
+			\item When you are sorting 20 items or fewer.
+			\item When you are sorting more than 20 items.
+			\item When you know that your data will be partially sorted.
+			\item When the algorithm for swapping data values is computationally expensive.
+			\item When the data to be sorted is in a linked list.
+			\item When you must minimize the amount of auxiliary memory used.
+			\item When you are sorting a set of complex data structures.
+			\item When your data must be sorted twice, such as by last name and then age.
+		\end{enumerate}
+	\item Selection sort has the same computational cost for worst, average and best cases. Which statement below best describes why this is so?
+		\begin{enumerate}[label=\alph*.]
+			\item Because comparisons are only made outside the inner loop.
+			\item Because the number of times through the loops is not influenced by the values in the array.
+			\item Because the sort must go through the array of values the same number of times no matter what the data is.
+			\item Because it swaps the values rather than storing one value in a temporary location.
+		\end{enumerate}
+	\newpage
+	\item Which of the following statements are true about Shell Sort?
+		\begin{enumerate}[label=\alph*.]
+			\item The solution is recursive.
+			\item Shell sort is an unstable sort.
+			\item Shell sort is an in-place sort.
+			\item Shell sort is always more efficient than Merge Sort.
+			\item The time complexity of Shell sort is dependent on the increment sequence of the gaps.
+		\end{enumerate}
+	\item Which of the following statements are true about Merge Sort?
+		\begin{enumerate}[label=\alph*.]
+			\item The solution can use recursion
+			\item The worst case complexity is \(O(n \log n)\).
+			\item It is not a stable sort.
+			\item It is adaptive.
+			\item It is similar to a binary tree sort.
+			\item It works well when sorting structures that do not permit random access (linked lists).
+			\item It is difficult to write a parallel version.
+			\item Is worse than quicksort (running time, number of comparisons, memory used, and number of writes).
+		\end{enumerate}
+	\item Merge sort has a running time of \(O(n \log n)\) for worst and average cases. Which of the following statements adds correct details to the description of merge sort's running time?
+		\begin{enumerate}[label=\alph*.]
+			\item The number of comparisons merge sort makes is \(O(n \log 2)\).
+			\item Merge sort requires 2n auxiliary space.
+			\item Merge sort makes O(n) recursive calls.
+			\item Merge sort can be written as a non-recursive sort.
+		\end{enumerate}
+	\item Which of the following scenarios might be a good situation in which to use a merge sort?
+		\begin{enumerate}[label=\alph*.]
+			\item When your sorting must be stable.
+			\item When you know the data will be partially sorted.
+			\item When you need to use the sort on data that is on a tape drive.
+			\item When you need the sort to have the same running time, no matter what the data is.
+			\item When you have a lot of data to sort.
+		\end{enumerate}
+	\item Which of the following statements are true about Quick Sort?
+		\begin{enumerate}[label=\alph*.]
+			\item It is a stable sort.
+			\item It can be implemented as in in-place sort.
+			\item It can be implemented recursively.
+			\item It is \(O(n \log n)\) for the average case.
+			\item The worst case running time is the same as the average case.
+			\item It is an adaptive sort.
+		\end{enumerate}
+	\item Which of the following scenarios might be good situation in which to use quick sort?
+		\begin{enumerate}[label=\alph*.]
+			\item When you know that your data is going to be partially sorted.
+			\item When the order of duplicate keys in your data does not matter.
+			\item When you must guarantee no more than \(n \log n\) running time.
+			\item When the amount of memory available is limited.
+			\item When the amount of data to be sorted is large.
+			\item When all the data to be sorted must be encrypted.
+		\end{enumerate}
+\end{enumerate}
 
 \end{document}
